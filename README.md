@@ -13,7 +13,7 @@ npm start
 Pages are in the "pages" folder  
 * Tier List = Landing/index.js
   - Grades are given by averaging all combined scores
-  - Tiers are determined by total score 1-5 and seperated linearly
+  - Tiers are determined by total average score 1-5 and seperated linearly
   - Scores are shown below with number of users who reviewed
 * Recent Reviews = Reviews/index.js
   - Shows 50 most recent reviews
