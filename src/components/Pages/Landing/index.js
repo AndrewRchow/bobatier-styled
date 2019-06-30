@@ -157,7 +157,7 @@ class Landing extends React.Component {
             <ul>
               {Object.entries(tierList).map(([tier, list]) => (
                 <li key={tier} style={tiersStyle}>
-                  <button className={`btn btn-default`} style={buttonStyle}>{tier}</button> &nbsp; &nbsp;
+                  <button className={`btn btn-default ${classes.tierLabel}`} style={buttonStyle}>{tier}</button>
   
                 {
                     list.map((shop, index) => (

@@ -145,15 +145,15 @@ class Reviews extends React.Component {
                             No Recent Reviews.
             </div>
                         :
-                        <ul>
+                        <div>
                             {sortedReviews.map((review, index) => (
-                                <li key={index}>
+                                <div key={index}>
                                     <div className={`${classes.review} ${classes.reviewWell}`}>
                                         <h4>{review.shop} - {review.username}</h4>
                                         <div className={`row`}>
                                             <div className={`col-sm-6`}>
                                                 <div className={`row`}>
-                                                    <div className={`col-sm-3`}>
+                                                    <div className={`col-6 col-lg-3`}>
                                                         <p>Score 1</p>
                                                         <StarRatings
                                                             rating={parseFloat(review.score1)}
@@ -166,7 +166,7 @@ class Reviews extends React.Component {
                                                             isSelectable="false"
                                                         />
                                                     </div>
-                                                    <div className={`col-sm-3`}>
+                                                    <div className={`col-6 col-lg-3`}>
                                                         <p>Score 2</p>
                                                         <StarRatings
                                                             rating={parseFloat(review.score2)}
@@ -179,7 +179,7 @@ class Reviews extends React.Component {
                                                             isSelectable="false"
                                                         />
                                                     </div>
-                                                    <div className={`col-sm-3`}>
+                                                    <div className={`col-6 col-lg-3`}>
                                                         <p>Score 3</p>
                                                         <StarRatings
                                                             rating={parseFloat(review.score3)}
@@ -192,7 +192,7 @@ class Reviews extends React.Component {
                                                             isSelectable="false"
                                                         />
                                                     </div>
-                                                    <div className={`col-sm-3`}>
+                                                    <div className={`col-6 col-lg-3`}>
                                                         <p>Score 4</p>
                                                         <StarRatings
                                                             rating={parseFloat(review.score4)}
@@ -209,7 +209,7 @@ class Reviews extends React.Component {
                                             </div>
                                             <div className={`col-sm-6`}>
                                                 <div className={`row`}>
-                                                    <div className={`col-sm-3`}>
+                                                    <div className={`col-6 col-lg-3`}>
                                                         <p>Score 5</p>
                                                         <StarRatings
                                                             rating={parseFloat(review.score5)}
@@ -222,7 +222,7 @@ class Reviews extends React.Component {
                                                             isSelectable="false"
                                                         />
                                                     </div>
-                                                    <div className={`col-sm-3`}>
+                                                    <div className={`col-6 col-lg-3`}>
                                                         <p>Score 6</p>
                                                         <StarRatings
                                                             rating={parseFloat(review.score6)}
@@ -235,7 +235,7 @@ class Reviews extends React.Component {
                                                             isSelectable="false"
                                                         />
                                                     </div>
-                                                    <div className={`col-sm-3`}>
+                                                    <div className={`col-6 col-lg-3`}>
                                                         <p>Score 7</p>
                                                         <StarRatings
                                                             rating={parseFloat(review.score7)}
@@ -248,7 +248,7 @@ class Reviews extends React.Component {
                                                             isSelectable="false"
                                                         />
                                                     </div>
-                                                    <div className={`col-sm-3`}>
+                                                    <div className={`col-6 col-lg-3`}>
                                                         <p>Score 8</p>
                                                         <StarRatings
                                                             rating={parseFloat(review.score8)}
@@ -302,9 +302,9 @@ class Reviews extends React.Component {
                                                 :
                                                 <div></div>
                                     }
-                                </li>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     }
                 </div>
                 <Modal show={this.state.modalIsOpen}
