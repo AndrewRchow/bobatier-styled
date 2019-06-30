@@ -47,10 +47,10 @@ class HomePage extends React.Component {
     return (
       <div className={classes.Content}>
         <div className={`row" ${classes.Wrapper}`}>
-          <div className={`col-sm-6" ${classes.left} ${classes.well}`}>
+          <div className={`col-12 col-sm-6" ${classes.left} ${classes.well}`}>
             <NewReview formValues={this.state.formValues} />
           </div>
-          <div className={`col-sm-6" ${classes.right}`}>
+          <div className={`col-12 col-sm-6" ${classes.right}`}>
             <MyReviews editReview={this.editFormValues} />
           </div>
         </div>
