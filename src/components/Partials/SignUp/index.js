@@ -47,7 +47,7 @@ class SignUpFormBase extends Component {
             })
             .then(() => {
                 this.setState({ ...INITIAL_STATE });
-                this.props.history.push(ROUTES.HOME);
+                this.props.history.push(process.env.PUBLIC_URL + ROUTES.HOME);
             })
             .catch(error => {
                 this.setState({ error });
@@ -115,7 +115,7 @@ class SignUpFormBase extends Component {
 
 const SignUpLink = () => (
     <p>
-        Don 't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
+        Don 't have an account? <Link to={process.env.PUBLIC_URL + ROUTES.SIGN_UP}>Sign Up</Link>
     </p>
 );
 
