@@ -264,6 +264,11 @@ class Reviews extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div className={`row`}>
+                                            <div className={`col-sm-12`}>
+                                                <p>{review.note}</p>
+                                            </div>
+                                        </div>
                                         <div>
                                             <i> {new Date(review.dateTime).toLocaleDateString("en-US", dateOptions)}</i>
                                         </div>
