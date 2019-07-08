@@ -137,7 +137,7 @@ class Reviews extends React.Component {
     render() {
         const { sortedReviews, currentTime } = this.state;
         const authUser = this.context.username;
-        console.log(authUser);
+        console.log(sortedReviews);
 
         return (
             <div>
@@ -155,7 +155,10 @@ class Reviews extends React.Component {
                                         <Link to={{ pathname: process.env.PUBLIC_URL + ROUTES.SHOPS, state: { shop: review.shop } }}>
                                             {review.shop}
                                         </Link>
-                                        <h4>{review.username}</h4>
+                                        <br/>
+                                        <Link to={{ pathname: process.env.PUBLIC_URL + ROUTES.USERS, state: { userid: review.uid, username: review.username } }}>
+                                            {review.username}
+                                        </Link>
                                         <div className={`row`}>
                                             <div className={`col-sm-6`}>
                                                 <div className={`row`}>

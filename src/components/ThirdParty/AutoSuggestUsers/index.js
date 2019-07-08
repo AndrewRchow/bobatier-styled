@@ -4,7 +4,7 @@ import { withFirebase } from '../../Firebase';
 import theme from './theme.css';
 // import classes from '*.module.css';
 
-let bobaShops = [
+let users = [
 ];
 
 // Teach Autosuggest how to calculate suggestions for any given input value.
@@ -12,20 +12,20 @@ const getSuggestions = value => {
   const inputValue = value.trim().toLowerCase();
   const inputLength = inputValue.length;
 
-  return inputLength === 0 ? [] : bobaShops.filter(shop =>
-    shop.name.toLowerCase().slice(0, inputLength) === inputValue
+  return inputLength === 0 ? [] : users.filter(user =>
+    user.username.toLowerCase().slice(0, inputLength) === inputValue
   );
 };
 
 // When suggestion is clicked, Autosuggest needs to populate the input
 // based on the clicked suggestion. Teach Autosuggest how to calculate the
 // input value for every given suggestion.
-const getSuggestionValue = suggestion => suggestion.name;
+const getSuggestionValue = suggestion => suggestion.username;
 
 // Use your imagination to render suggestions.
 const renderSuggestion = suggestion => (
   <div>
-    {suggestion.name}
+    {suggestion.username}
   </div>
 );
 
@@ -39,32 +39,32 @@ class AutoSuggestUsers extends React.Component {
     // Suggestions also need to be provided to the Autosuggest,
     // and they are initially empty because the Autosuggest is closed.
     this.state = {
-      value: this.props.bobaShop,
+      value: this.props.user,
       suggestions: []
     };
   }
 
   componentDidMount() {
-    this.props.firebase.bobaShops().on('value', snapshot => {
-      const bobaShopsObject = snapshot.val();
-      if (bobaShopsObject) {
-        const bobaShopsList = Object.keys(bobaShopsObject).map(key => ({
-          name: key,
+    this.props.firebase.users().on('value', snapshot => {
+      const usersObject = snapshot.val();
+      if (usersObject) {
+        const usersList = Object.keys(usersObject).map(key => ({
+          userid: key,
+          ...usersObject[key],
         }))
-        bobaShops = bobaShopsList;
+        users = usersList;
       }
     });
   }
 
   componentWillReceiveProps(props) {
-    this.setState({ value: props.bobaShop });
+    this.setState({ value: props.user });
   }
 
   onChange = (event, { newValue }) => {
     this.setState({
       value: newValue
     });
-    console.log("New input value:", newValue);
     this.props.getInputData(newValue);
 
   };
@@ -77,6 +77,10 @@ class AutoSuggestUsers extends React.Component {
     });
   };
 
+  onSuggestionSelected = (event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }) => {
+    this.props.getSelectedData(suggestion);
+  }
+
   // Autosuggest will call this function every time you need to clear suggestions.
   onSuggestionsClearRequested = () => {
     this.setState({
@@ -85,7 +89,7 @@ class AutoSuggestUsers extends React.Component {
   };
 
   componentWillUnmount() {
-    this.props.firebase.bobaShops().off();
+    this.props.firebase.users().off();
   }
 
 
@@ -94,7 +98,7 @@ class AutoSuggestUsers extends React.Component {
 
     // Autosuggest will pass through all these props to the input.
     const inputProps = {
-      placeholder: 'Enter shop name',
+      placeholder: 'Enter user name',
       value,
       onChange: this.onChange
     };
@@ -106,6 +110,7 @@ class AutoSuggestUsers extends React.Component {
         suggestions={suggestions}
         onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
         onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+        onSuggestionSelected={this.onSuggestionSelected}
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderSuggestion}
         inputProps={inputProps}

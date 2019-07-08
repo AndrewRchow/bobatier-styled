@@ -1,6 +1,8 @@
 import React from 'react';
 import { withFirebase } from '../../Firebase';
 import classes from './shops.module.css'
+import { Link } from 'react-router-dom';
+import * as ROUTES from '../../../constants/routes';
 
 import AutoSuggestShops from '../../ThirdParty/AutoSuggestShops/index';
 import StarRatings from 'react-star-ratings';
@@ -18,7 +20,7 @@ class Shops extends React.Component {
         this.state = {
             shop: '',
             shopReviews: [],
-            numberOfReviews:0
+            numberOfReviews: 0
         }
 
         this.getAutosuggestInput = this.getAutosuggestInput.bind(this);
@@ -26,7 +28,7 @@ class Shops extends React.Component {
     }
 
     componentDidMount() {
-        if(this.props.location.state){
+        if (this.props.location.state) {
             const shop = this.props.location.state.shop;
             this.getShopReviews(shop);
         }
@@ -54,16 +56,25 @@ class Shops extends React.Component {
                     shopReviews: shopReviewsList,
                     numberOfReviews: shopReviewsList.length
                 });
-            } 
+            } else{
+                this.setState({
+                    shopReviews: [],
+                    numberOfReviews: 0
+                })
+            }
         });
+    }
+
+    componentWillUnmount() {
+        this.props.firebase.bobaShopUserReviews().off();
     }
 
     render() {
         const { shop, shopReviews, numberOfReviews } = this.state;
-
+        console.log(shopReviews);
         return (
             <div>
-                <h5>select</h5>
+                <h5>Shop</h5>
                 <AutoSuggestShops
                     getInputData={this.getAutosuggestInput}
                     getSelectedData={this.getAutoSuggestSelected}
@@ -82,7 +93,9 @@ class Shops extends React.Component {
                                 {shopReviews.map(review => (
                                     <li key={review.userid} className={`${classes.well}`}>
                                         <div>
-                                            <h5>{review.username}</h5>
+                                        <Link to={{ pathname: process.env.PUBLIC_URL + ROUTES.USERS, state: { userid: review.userid, username: review.username } }}>
+                                            {review.username}
+                                        </Link>
                                             <div className={`row`}>
                                                 <div className={`col-sm-3`}>
                                                     <p>Score 1</p>
