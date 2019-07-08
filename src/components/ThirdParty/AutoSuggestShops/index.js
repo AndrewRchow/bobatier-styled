@@ -29,7 +29,7 @@ const renderSuggestion = suggestion => (
   </div>
 );
 
-class AutoSuggestBobaShops extends React.Component {
+class AutoSuggestShops extends React.Component {
   constructor(props) {
     super(props);
 
@@ -64,7 +64,6 @@ class AutoSuggestBobaShops extends React.Component {
     this.setState({
       value: newValue
     });
-    console.log("New input value:", newValue);
     this.props.getInputData(newValue);
 
   };
@@ -76,6 +75,11 @@ class AutoSuggestBobaShops extends React.Component {
       suggestions: getSuggestions(value)
     });
   };
+
+  onSuggestionSelected = (event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }) => {
+    this.props.getSelectedData(suggestionValue);
+  }
+
 
   // Autosuggest will call this function every time you need to clear suggestions.
   onSuggestionsClearRequested = () => {
@@ -105,6 +109,7 @@ class AutoSuggestBobaShops extends React.Component {
       <Autosuggest
         suggestions={suggestions}
         onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+        onSuggestionSelected={this.onSuggestionSelected}
         onSuggestionsClearRequested={this.onSuggestionsClearRequested}
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderSuggestion}
@@ -115,4 +120,4 @@ class AutoSuggestBobaShops extends React.Component {
   }
 }
 
-export default withFirebase(AutoSuggestBobaShops);
+export default withFirebase(AutoSuggestShops);

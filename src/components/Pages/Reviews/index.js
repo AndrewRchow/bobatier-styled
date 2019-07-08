@@ -1,9 +1,11 @@
 import React from 'react';
-import StarRatings from 'react-star-ratings';
-
 import { withFirebase } from '../../Firebase';
 import { withAuthorization, AuthUserContext } from '../../Session';
 import classes from './review.module.css';
+import { Link } from 'react-router-dom';
+import * as ROUTES from '../../../constants/routes';
+
+import StarRatings from 'react-star-ratings';
 import Modal from './reviewModal';
 
 const dateOptions = { weekday: 'long', hour: 'numeric', minute: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
@@ -149,7 +151,11 @@ class Reviews extends React.Component {
                             {sortedReviews.map((review, index) => (
                                 <div key={index}>
                                     <div className={`${classes.review} ${classes.reviewWell}`}>
-                                        <h4>{review.shop} - {review.username}</h4>
+
+                                        <Link to={{ pathname: process.env.PUBLIC_URL + ROUTES.SHOPS, state: { shop: review.shop } }}>
+                                            {review.shop}
+                                        </Link>
+                                        <h4>{review.username}</h4>
                                         <div className={`row`}>
                                             <div className={`col-sm-6`}>
                                                 <div className={`row`}>

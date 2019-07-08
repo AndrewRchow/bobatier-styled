@@ -1,10 +1,12 @@
 import React from 'react';
 import classes from './home.module.css';
-
 import { withAuthorization, AuthUserContext } from '../../Session';
 import { withFirebase } from '../../Firebase';
+import { Link } from 'react-router-dom';
+import * as ROUTES from '../../../constants/routes';
+
 import StarRatings from 'react-star-ratings';
-import AutoSuggestBobaShops from '../../ThirdParty/AutoSuggest/index';
+import AutoSuggestShops from '../../ThirdParty/AutoSuggestShops/index';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -149,6 +151,8 @@ class NewReviewBase extends React.Component {
   getAutosuggestInput(value) {
     this.setState({ bobaShop: value })
   }
+  getAutoSuggestSelected(value) {
+  }
 
   notify = () => toast("Review added");
 
@@ -208,7 +212,10 @@ class NewReviewBase extends React.Component {
         <form onSubmit={this.onSubmit} className={classes.submitForm}>
 
           <h5>Shop Name</h5>
-          <AutoSuggestBobaShops getInputData={this.getAutosuggestInput} bobaShop={bobaShop} />
+          <AutoSuggestShops
+            getInputData={this.getAutosuggestInput}
+            getSelectedData={this.getAutoSuggestSelected}
+            bobaShop={bobaShop} />
           {/* <div className={`row`}></div> */}
           <div>{ratingInputs}</div>
           <div>
@@ -296,7 +303,9 @@ class MyReviewsBase extends React.Component {
             {myReviews.map(review => (
               <li key={review.bobaShop} className={`${classes.well}`}>
                 <div>
-                  <h5>{review.bobaShop}</h5>
+                  <Link to={{ pathname: process.env.PUBLIC_URL + ROUTES.SHOPS, state: { shop: review.bobaShop } }}>
+                    {review.bobaShop}
+                  </Link>
                   <div className={`row`}>
                     <div className={`col-sm-3`}>
                       <p>Score 1</p>
