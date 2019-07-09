@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/bobatier-styled/precache-manifest.f56f64a534bbf4ed8a62195f5e3058b7.js"
+  "/bobatier-styled/precache-manifest.59d5587c481894db0c33e3ae42d79505.js"
 );
 
 workbox.clientsClaim();
