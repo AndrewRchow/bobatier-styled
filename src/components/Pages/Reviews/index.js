@@ -162,8 +162,8 @@ class Reviews extends React.Component {
                                         <div className={`row`}>
                                             <div className={`col-sm-6`}>
                                                 <div className={`row`}>
-                                                    <div className={`col-6 col-lg-3`}>
-                                                        <p>Score 1</p>
+                                                    <div className={`col-3 col-lg-3`}>
+                                                        <p>Drink quality</p>
                                                         <StarRatings
                                                             rating={parseFloat(review.score1)}
                                                             starRatedColor="#0099ff"
@@ -175,8 +175,8 @@ class Reviews extends React.Component {
                                                             isSelectable="false"
                                                         />
                                                     </div>
-                                                    <div className={`col-6 col-lg-3`}>
-                                                        <p>Score 2</p>
+                                                    <div className={`col-3 col-lg-3`}>
+                                                        <p>Boba sweetness</p>
                                                         <StarRatings
                                                             rating={parseFloat(review.score2)}
                                                             starRatedColor="#0099ff"
@@ -188,8 +188,8 @@ class Reviews extends React.Component {
                                                             isSelectable="false"
                                                         />
                                                     </div>
-                                                    <div className={`col-6 col-lg-3`}>
-                                                        <p>Score 3</p>
+                                                    <div className={`col-3 col-lg-3`}>
+                                                        <p>Boba chewiness</p>
                                                         <StarRatings
                                                             rating={parseFloat(review.score3)}
                                                             starRatedColor="#0099ff"
@@ -201,8 +201,8 @@ class Reviews extends React.Component {
                                                             isSelectable="false"
                                                         />
                                                     </div>
-                                                    <div className={`col-6 col-lg-3`}>
-                                                        <p>Score 4</p>
+                                                    <div className={`col-3 col-lg-3`}>
+                                                        <p>Customization</p>
                                                         <StarRatings
                                                             rating={parseFloat(review.score4)}
                                                             starRatedColor="#0099ff"
@@ -218,8 +218,8 @@ class Reviews extends React.Component {
                                             </div>
                                             <div className={`col-sm-6`}>
                                                 <div className={`row`}>
-                                                    <div className={`col-6 col-lg-3`}>
-                                                        <p>Score 5</p>
+                                                    <div className={`col-3 col-lg-3`}>
+                                                        <p>Drink variety</p>
                                                         <StarRatings
                                                             rating={parseFloat(review.score5)}
                                                             starRatedColor="#0099ff"
@@ -231,8 +231,8 @@ class Reviews extends React.Component {
                                                             isSelectable="false"
                                                         />
                                                     </div>
-                                                    <div className={`col-6 col-lg-3`}>
-                                                        <p>Score 6</p>
+                                                    <div className={`col-3 col-lg-3`}>
+                                                        <p>Consistency</p>
                                                         <StarRatings
                                                             rating={parseFloat(review.score6)}
                                                             starRatedColor="#0099ff"
@@ -244,8 +244,8 @@ class Reviews extends React.Component {
                                                             isSelectable="false"
                                                         />
                                                     </div>
-                                                    <div className={`col-6 col-lg-3`}>
-                                                        <p>Score 7</p>
+                                                    <div className={`col-3 col-lg-3`}>
+                                                        <p>Price</p>
                                                         <StarRatings
                                                             rating={parseFloat(review.score7)}
                                                             starRatedColor="#0099ff"
@@ -257,8 +257,8 @@ class Reviews extends React.Component {
                                                             isSelectable="false"
                                                         />
                                                     </div>
-                                                    <div className={`col-6 col-lg-3`}>
-                                                        <p>Score 8</p>
+                                                    <div className={`col-3 col-lg-3`}>
+                                                        <p>Overall</p>
                                                         <StarRatings
                                                             rating={parseFloat(review.score8)}
                                                             starRatedColor="#0099ff"

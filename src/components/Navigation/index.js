@@ -60,6 +60,11 @@ class NavigationAuth extends React.Component {
   barsClick = () => {
     this.setState({ barsOpen: !this.state.barsOpen })
   }
+  linkClick = () => {
+    if (this.state.barsOpen) {
+      this.setState({ barsOpen: !this.state.barsOpen })
+    }
+  }
 
   render() {
     let barsOpen = this.state.barsOpen;
@@ -71,7 +76,7 @@ class NavigationAuth extends React.Component {
     return (
       <div className={`${(barsOpen ? classes.responsive : "")} ${classes.navbar}`}>
         {this.props.menuItems.map(([menuItem, route]) =>
-          <Link key={menuItem} to={route} onClick={this.barsClick}
+          <Link key={menuItem} to={route} onClick={this.linkClick}
             className={window.location.pathname === route ? classes.active : ""}>
             {menuItem}
           </Link>
