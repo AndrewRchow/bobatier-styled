@@ -46,3 +46,7 @@
     background-color:grey;
     color:white;
 }
+
+.scoreLine{
+    padding-right:0px !important;
+}

@@ -4,3 +4,7 @@
   color: black;
   border: 1px solid #ccc;
 }
+
+ul{
+  padding-left:0px;
+}

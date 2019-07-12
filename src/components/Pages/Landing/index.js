@@ -30,10 +30,6 @@ class Landing extends React.Component {
     this.getAllReviewList();
   }
 
-  // componentDidMount() {
-  //   this.getAllReviewList();
-  // }
-
   getAllReviewList() {
     this.props.firebase.bobaShopReviews().on('value', snapshot => {
       const reviewsObject = snapshot.val();
@@ -134,7 +130,6 @@ class Landing extends React.Component {
   }
 
   render() {
-    const { grades } = this.state;
     const { tierList } = this.state;
 
     const divStyle = {
@@ -156,50 +151,34 @@ class Landing extends React.Component {
         <div className={`row`}>
           <div className={`col-sm-12`}>
             <h5>Tier List</h5>
-            <ul>
-              {Object.entries(tierList).map(([tier, list]) => (
-                <li key={tier} style={tiersStyle}>
-                  <button className={`btn btn-default ${classes.tierLabel}`} style={buttonStyle}>{tier}</button>
-
-                  {
-                    list.map((shop, index) => (
-                      <div key={index} style={divStyle}>
-
-                        <Link to={{ pathname: process.env.PUBLIC_URL + ROUTES.SHOPS, state: { shop: shop } }}>
-                          {shop}
-                        </Link>
-
-                        , {' '}
-                      </div>
-                    ))
-                  }
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
-        <div className={`row`}>
-          <div className={`col-sm-12`}>
-            <h5>Scores</h5>
-            <ul>
-              {Object.keys(grades).map((shop, i) => (
-                <li key={i}>
-                  <span>
-                    <Link to={{ pathname: process.env.PUBLIC_URL + ROUTES.SHOPS, state: { shop: grades[shop].shopName } }}>
-                      {grades[shop].shopName}
+        <div>
+          {Object.entries(tierList).map(([tier, list]) => (
+            <div key={tier} style={tiersStyle} className={`row`}>
+              <div className={`col-1 col-xs-2`}>
+                <button className={`btn btn-default ${classes.tierLabel}`} style={buttonStyle}>{tier}</button>
+              </div>
+              <div className={`col-11 col-xs-10`}>
+              {
+                list.map((shop, index) => (
+                  <div key={index} style={divStyle}>
+
+                    <Link to={{ pathname: process.env.PUBLIC_URL + ROUTES.SHOPS, state: { shop: shop } }}>
+                      {shop}
                     </Link>
-                    - {' '}
-                    <FontAwesomeIcon icon={faStar} size="sm" />
-                    {Math.round(grades[shop].finalScore * 100) / 100} - {' '}
-                    <FontAwesomeIcon icon={faUsers} size="sm" />
-                    {grades[shop].reviewCount}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
+
+                    , {' '}
+                  </div>
+                ))
+              }
+              </div>
+            
+            </div>
+          ))}
         </div>
-      </div>
+
+      </div >
 
     )
   }

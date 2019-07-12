@@ -139,6 +139,11 @@ class Reviews extends React.Component {
         const authUser = this.context.username;
         console.log(sortedReviews);
 
+
+        const inlineStyle = {
+            // display: 'inline',
+        };
+
         return (
             <div>
                 <div className={`container ${classes.recentReviews}`}>
@@ -162,34 +167,34 @@ class Reviews extends React.Component {
                                         <div className={`row`}>
 
 
-                                            <div className={`col-4 col-lg-3`}>
-                                                <p>Drink quality</p>
+                                            <div className={`col-6 col-lg-3 ${classes.scoreLine}`}>
+                                                <p style={inlineStyle}>Drink quality</p>
                                                 <StarRatings
                                                     rating={parseFloat(review.score1)}
                                                     starRatedColor="#0099ff"
                                                     starHoverColor="#66ccff"
                                                     numberOfStars={5}
                                                     name="score1"
-                                                    starDimension="12px"
+                                                    starDimension="10px"
                                                     starSpacing="2px"
                                                     isSelectable="false"
                                                 />
                                             </div>
-                                            <div className={`col-4 col-lg-3`}>
-                                                <p>Boba sweetness</p>
+                                            <div className={`col-6 col-lg-3 ${classes.scoreLine}`}>
+                                                <p style={inlineStyle}>Boba sweetness</p>
                                                 <StarRatings
                                                     rating={parseFloat(review.score2)}
                                                     starRatedColor="#0099ff"
                                                     starHoverColor="#66ccff"
                                                     numberOfStars={5}
                                                     name="score2"
-                                                    starDimension="12px"
+                                                    starDimension="10px"
                                                     starSpacing="2px"
                                                     isSelectable="false"
                                                 />
                                             </div>
-                                            <div className={`col-4 col-lg-3`}>
-                                                <p>Boba chewiness</p>
+                                            <div className={`col-6 col-lg-3 ${classes.scoreLine}`}>
+                                                <p style={inlineStyle}>Boba chewiness</p>
                                                 <StarRatings
                                                     rating={parseFloat(review.score3)}
                                                     starRatedColor="#0099ff"
@@ -201,8 +206,8 @@ class Reviews extends React.Component {
                                                     isSelectable="false"
                                                 />
                                             </div>
-                                            <div className={`col-4 col-lg-3`}>
-                                                <p>Customization</p>
+                                            <div className={`col-6 col-lg-3 ${classes.scoreLine}`}>
+                                                <p style={inlineStyle}>Customization</p>
                                                 <StarRatings
                                                     rating={parseFloat(review.score4)}
                                                     starRatedColor="#0099ff"
@@ -214,8 +219,8 @@ class Reviews extends React.Component {
                                                     isSelectable="false"
                                                 />
                                             </div>
-                                            <div className={`col-4 col-lg-3`}>
-                                                <p>Drink variety</p>
+                                            <div className={`col-6 col-lg-3`}>
+                                                <p style={inlineStyle}>Drink variety</p>
                                                 <StarRatings
                                                     rating={parseFloat(review.score5)}
                                                     starRatedColor="#0099ff"
@@ -227,8 +232,8 @@ class Reviews extends React.Component {
                                                     isSelectable="false"
                                                 />
                                             </div>
-                                            <div className={`col-4 col-lg-3`}>
-                                                <p>Consistency</p>
+                                            <div className={`col-6 col-lg-3`}>
+                                                <p style={inlineStyle}>Consistency</p>
                                                 <StarRatings
                                                     rating={parseFloat(review.score6)}
                                                     starRatedColor="#0099ff"
@@ -240,8 +245,8 @@ class Reviews extends React.Component {
                                                     isSelectable="false"
                                                 />
                                             </div>
-                                            <div className={`col-4 col-lg-3`}>
-                                                <p>Price</p>
+                                            <div className={`col-6 col-lg-3`}>
+                                                <p style={inlineStyle}>Price</p>
                                                 <StarRatings
                                                     rating={parseFloat(review.score7)}
                                                     starRatedColor="#0099ff"
@@ -253,8 +258,8 @@ class Reviews extends React.Component {
                                                     isSelectable="false"
                                                 />
                                             </div>
-                                            <div className={`col-4 col-lg-3`}>
-                                                <p>Overall</p>
+                                            <div className={`col-6 col-lg-3`}>
+                                                <p style={inlineStyle}>Overall</p>
                                                 <StarRatings
                                                     rating={parseFloat(review.score8)}
                                                     starRatedColor="#0099ff"
