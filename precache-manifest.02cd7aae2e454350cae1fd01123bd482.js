@@ -20,7 +20,7 @@ self.__precacheManifest = [
     "url": "/bobatier-styled/static/css/1.96798fad.chunk.css"
   },
   {
-    "revision": "a81b79ce7b4229417efc2f2b5fb7f0ee",
+    "revision": "08a64191b3ca4cfe3dedd50277656820",
     "url": "/bobatier-styled/index.html"
   }
 ];
