@@ -72,31 +72,26 @@ class Shops extends React.Component {
     }
 
     gradeReviews() {
-        console.log('hi');
-
-        console.log(this.state.shopReviews);
         let count = 0;
         let finalScore = 0;
         let score1Total = 0; let score2Total = 0; let score3Total = 0; let score4Total = 0;
         let score5Total = 0; let score6Total = 0; let score7Total = 0; let score8Total = 0;
         for (let review in this.state.shopReviews) {
-            console.log(review.score1);
-            score1Total += review.score1;
-            score2Total += review.score2;
-            score3Total += review.score3;
-            score4Total += review.score4;
-            score5Total += review.score5;
-            score6Total += review.score6;
-            score7Total += review.score7;
-            score8Total += review.score8;
+            let userReview = this.state.shopReviews[review];
+            score1Total += userReview.score1;
+            score2Total += userReview.score2;
+            score3Total += userReview.score3;
+            score4Total += userReview.score4;
+            score5Total += userReview.score5;
+            score6Total += userReview.score6;
+            score7Total += userReview.score7;
+            score8Total += userReview.score8;
             count++;
         }
-        console.log(score1Total);
-        console.log(count);
 
         finalScore = (parseFloat(score1Total) + parseFloat(score2Total) + parseFloat(score3Total) + parseFloat(score4Total) +
             parseFloat(score5Total) + parseFloat(score6Total) + parseFloat(score7Total) + parseFloat(score8Total)) / (count * 8);
-
+        finalScore = Math.round(finalScore * 100) / 100
         this.setState({
             shopAverageScore: finalScore
         })
@@ -125,7 +120,7 @@ class Shops extends React.Component {
                         :
                         <div>
                             <h5>
-                                {shop} -
+                                {shop} - {' '}
                             <FontAwesomeIcon icon={faUsers} size="1x" />{numberOfReviews} {' '}
                                 <FontAwesomeIcon icon={faStar} size="1x" /> {shopAverageScore}
 
