@@ -8,6 +8,7 @@ import AutoSuggestShops from '../../ThirdParty/AutoSuggestShops/index';
 import StarRatings from 'react-star-ratings';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
 import { faUsers } from '@fortawesome/free-solid-svg-icons'
 
 
@@ -20,6 +21,7 @@ class Shops extends React.Component {
         this.state = {
             shop: '',
             shopReviews: [],
+            shopAverageScore: 1,
             numberOfReviews: 0
         }
 
@@ -55,14 +57,49 @@ class Shops extends React.Component {
                 this.setState({
                     shopReviews: shopReviewsList,
                     numberOfReviews: shopReviewsList.length
+                }, () =>{
+                    this.gradeReviews();
                 });
-            } else{
+
+
+            } else {
                 this.setState({
                     shopReviews: [],
                     numberOfReviews: 0
                 })
             }
-        });
+        })
+    }
+
+    gradeReviews() {
+        console.log('hi');
+
+        console.log(this.state.shopReviews);
+        let count = 0;
+        let finalScore = 0;
+        let score1Total = 0; let score2Total = 0; let score3Total = 0; let score4Total = 0;
+        let score5Total = 0; let score6Total = 0; let score7Total = 0; let score8Total = 0;
+        for (let review in this.state.shopReviews) {
+            console.log(review.score1);
+            score1Total += review.score1;
+            score2Total += review.score2;
+            score3Total += review.score3;
+            score4Total += review.score4;
+            score5Total += review.score5;
+            score6Total += review.score6;
+            score7Total += review.score7;
+            score8Total += review.score8;
+            count++;
+        }
+        console.log(score1Total);
+        console.log(count);
+
+        finalScore = (parseFloat(score1Total) + parseFloat(score2Total) + parseFloat(score3Total) + parseFloat(score4Total) +
+            parseFloat(score5Total) + parseFloat(score6Total) + parseFloat(score7Total) + parseFloat(score8Total)) / (count * 8);
+
+        this.setState({
+            shopAverageScore: finalScore
+        })
     }
 
     componentWillUnmount() {
@@ -70,8 +107,7 @@ class Shops extends React.Component {
     }
 
     render() {
-        const { shop, shopReviews, numberOfReviews } = this.state;
-        console.log(shopReviews);
+        const { shop, shopReviews, shopAverageScore, numberOfReviews } = this.state;
         return (
             <div>
                 <h5>Shop</h5>
@@ -88,14 +124,19 @@ class Shops extends React.Component {
                         </div>
                         :
                         <div>
-                            <h5>{shop} -  <FontAwesomeIcon icon={faUsers} size="1x" />{numberOfReviews}</h5>
+                            <h5>
+                                {shop} -
+                            <FontAwesomeIcon icon={faUsers} size="1x" />{numberOfReviews} {' '}
+                                <FontAwesomeIcon icon={faStar} size="1x" /> {shopAverageScore}
+
+                            </h5>
                             <ul>
                                 {shopReviews.map(review => (
                                     <li key={review.userid} className={`${classes.well}`}>
                                         <div>
-                                        <Link to={{ pathname: process.env.PUBLIC_URL + ROUTES.USERS, state: { userid: review.userid, username: review.username } }}>
-                                            {review.username}
-                                        </Link>
+                                            <Link to={{ pathname: process.env.PUBLIC_URL + ROUTES.USERS, state: { userid: review.userid, username: review.username } }}>
+                                                {review.username}
+                                            </Link>
                                             <div className={`row`}>
                                                 <div className={`col-sm-3`}>
                                                     <p>Score 1</p>

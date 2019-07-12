@@ -155,123 +155,119 @@ class Reviews extends React.Component {
                                         <Link to={{ pathname: process.env.PUBLIC_URL + ROUTES.SHOPS, state: { shop: review.shop } }}>
                                             {review.shop}
                                         </Link>
-                                        <br/>
+                                        <br />
                                         <Link to={{ pathname: process.env.PUBLIC_URL + ROUTES.USERS, state: { userid: review.uid, username: review.username } }}>
                                             {review.username}
                                         </Link>
                                         <div className={`row`}>
-                                            <div className={`col-sm-6`}>
-                                                <div className={`row`}>
-                                                    <div className={`col-3 col-lg-3`}>
-                                                        <p>Drink quality</p>
-                                                        <StarRatings
-                                                            rating={parseFloat(review.score1)}
-                                                            starRatedColor="#0099ff"
-                                                            starHoverColor="#66ccff"
-                                                            numberOfStars={5}
-                                                            name="score1"
-                                                            starDimension="12px"
-                                                            starSpacing="2px"
-                                                            isSelectable="false"
-                                                        />
-                                                    </div>
-                                                    <div className={`col-3 col-lg-3`}>
-                                                        <p>Boba sweetness</p>
-                                                        <StarRatings
-                                                            rating={parseFloat(review.score2)}
-                                                            starRatedColor="#0099ff"
-                                                            starHoverColor="#66ccff"
-                                                            numberOfStars={5}
-                                                            name="score2"
-                                                            starDimension="12px"
-                                                            starSpacing="2px"
-                                                            isSelectable="false"
-                                                        />
-                                                    </div>
-                                                    <div className={`col-3 col-lg-3`}>
-                                                        <p>Boba chewiness</p>
-                                                        <StarRatings
-                                                            rating={parseFloat(review.score3)}
-                                                            starRatedColor="#0099ff"
-                                                            starHoverColor="#66ccff"
-                                                            numberOfStars={5}
-                                                            name="score3"
-                                                            starDimension="12px"
-                                                            starSpacing="2px"
-                                                            isSelectable="false"
-                                                        />
-                                                    </div>
-                                                    <div className={`col-3 col-lg-3`}>
-                                                        <p>Customization</p>
-                                                        <StarRatings
-                                                            rating={parseFloat(review.score4)}
-                                                            starRatedColor="#0099ff"
-                                                            starHoverColor="#66ccff"
-                                                            numberOfStars={5}
-                                                            name="score4"
-                                                            starDimension="12px"
-                                                            starSpacing="2px"
-                                                            isSelectable="false"
-                                                        />
-                                                    </div>
-                                                </div>
+
+
+                                            <div className={`col-4 col-lg-3`}>
+                                                <p>Drink quality</p>
+                                                <StarRatings
+                                                    rating={parseFloat(review.score1)}
+                                                    starRatedColor="#0099ff"
+                                                    starHoverColor="#66ccff"
+                                                    numberOfStars={5}
+                                                    name="score1"
+                                                    starDimension="12px"
+                                                    starSpacing="2px"
+                                                    isSelectable="false"
+                                                />
                                             </div>
-                                            <div className={`col-sm-6`}>
-                                                <div className={`row`}>
-                                                    <div className={`col-3 col-lg-3`}>
-                                                        <p>Drink variety</p>
-                                                        <StarRatings
-                                                            rating={parseFloat(review.score5)}
-                                                            starRatedColor="#0099ff"
-                                                            starHoverColor="#66ccff"
-                                                            numberOfStars={5}
-                                                            name="score5"
-                                                            starDimension="12px"
-                                                            starSpacing="2px"
-                                                            isSelectable="false"
-                                                        />
-                                                    </div>
-                                                    <div className={`col-3 col-lg-3`}>
-                                                        <p>Consistency</p>
-                                                        <StarRatings
-                                                            rating={parseFloat(review.score6)}
-                                                            starRatedColor="#0099ff"
-                                                            starHoverColor="#66ccff"
-                                                            numberOfStars={5}
-                                                            name="score6"
-                                                            starDimension="12px"
-                                                            starSpacing="2px"
-                                                            isSelectable="false"
-                                                        />
-                                                    </div>
-                                                    <div className={`col-3 col-lg-3`}>
-                                                        <p>Price</p>
-                                                        <StarRatings
-                                                            rating={parseFloat(review.score7)}
-                                                            starRatedColor="#0099ff"
-                                                            starHoverColor="#66ccff"
-                                                            numberOfStars={5}
-                                                            name="score7"
-                                                            starDimension="12px"
-                                                            starSpacing="2px"
-                                                            isSelectable="false"
-                                                        />
-                                                    </div>
-                                                    <div className={`col-3 col-lg-3`}>
-                                                        <p>Overall</p>
-                                                        <StarRatings
-                                                            rating={parseFloat(review.score8)}
-                                                            starRatedColor="#0099ff"
-                                                            starHoverColor="#66ccff"
-                                                            numberOfStars={5}
-                                                            name="score8"
-                                                            starDimension="12px"
-                                                            starSpacing="2px"
-                                                            isSelectable="false"
-                                                        />
-                                                    </div>
-                                                </div>
+                                            <div className={`col-4 col-lg-3`}>
+                                                <p>Boba sweetness</p>
+                                                <StarRatings
+                                                    rating={parseFloat(review.score2)}
+                                                    starRatedColor="#0099ff"
+                                                    starHoverColor="#66ccff"
+                                                    numberOfStars={5}
+                                                    name="score2"
+                                                    starDimension="12px"
+                                                    starSpacing="2px"
+                                                    isSelectable="false"
+                                                />
                                             </div>
+                                            <div className={`col-4 col-lg-3`}>
+                                                <p>Boba chewiness</p>
+                                                <StarRatings
+                                                    rating={parseFloat(review.score3)}
+                                                    starRatedColor="#0099ff"
+                                                    starHoverColor="#66ccff"
+                                                    numberOfStars={5}
+                                                    name="score3"
+                                                    starDimension="12px"
+                                                    starSpacing="2px"
+                                                    isSelectable="false"
+                                                />
+                                            </div>
+                                            <div className={`col-4 col-lg-3`}>
+                                                <p>Customization</p>
+                                                <StarRatings
+                                                    rating={parseFloat(review.score4)}
+                                                    starRatedColor="#0099ff"
+                                                    starHoverColor="#66ccff"
+                                                    numberOfStars={5}
+                                                    name="score4"
+                                                    starDimension="12px"
+                                                    starSpacing="2px"
+                                                    isSelectable="false"
+                                                />
+                                            </div>
+                                            <div className={`col-4 col-lg-3`}>
+                                                <p>Drink variety</p>
+                                                <StarRatings
+                                                    rating={parseFloat(review.score5)}
+                                                    starRatedColor="#0099ff"
+                                                    starHoverColor="#66ccff"
+                                                    numberOfStars={5}
+                                                    name="score5"
+                                                    starDimension="12px"
+                                                    starSpacing="2px"
+                                                    isSelectable="false"
+                                                />
+                                            </div>
+                                            <div className={`col-4 col-lg-3`}>
+                                                <p>Consistency</p>
+                                                <StarRatings
+                                                    rating={parseFloat(review.score6)}
+                                                    starRatedColor="#0099ff"
+                                                    starHoverColor="#66ccff"
+                                                    numberOfStars={5}
+                                                    name="score6"
+                                                    starDimension="12px"
+                                                    starSpacing="2px"
+                                                    isSelectable="false"
+                                                />
+                                            </div>
+                                            <div className={`col-4 col-lg-3`}>
+                                                <p>Price</p>
+                                                <StarRatings
+                                                    rating={parseFloat(review.score7)}
+                                                    starRatedColor="#0099ff"
+                                                    starHoverColor="#66ccff"
+                                                    numberOfStars={5}
+                                                    name="score7"
+                                                    starDimension="12px"
+                                                    starSpacing="2px"
+                                                    isSelectable="false"
+                                                />
+                                            </div>
+                                            <div className={`col-4 col-lg-3`}>
+                                                <p>Overall</p>
+                                                <StarRatings
+                                                    rating={parseFloat(review.score8)}
+                                                    starRatedColor="#0099ff"
+                                                    starHoverColor="#66ccff"
+                                                    numberOfStars={5}
+                                                    name="score8"
+                                                    starDimension="12px"
+                                                    starSpacing="2px"
+                                                    isSelectable="false"
+                                                />
+                                            </div>
+
+
                                         </div>
                                         <div className={`row`}>
                                             <div className={`col-sm-12`}>
