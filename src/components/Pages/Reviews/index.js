@@ -157,11 +157,11 @@ class Reviews extends React.Component {
                                 <div key={index}>
                                     <div className={`${classes.review} ${classes.reviewWell}`}>
 
-                                        <Link to={{ pathname: process.env.PUBLIC_URL + ROUTES.SHOPS, state: { shop: review.shop } }}>
+                                        <Link to={{ pathname: ROUTES.SHOPS, state: { shop: review.shop } }}>
                                             {review.shop}
                                         </Link>
                                         <br />
-                                        <Link to={{ pathname: process.env.PUBLIC_URL + ROUTES.USERS, state: { userid: review.uid, username: review.username } }}>
+                                        <Link to={{ pathname: ROUTES.USERS, state: { userid: review.uid, username: review.username } }}>
                                             {review.username}
                                         </Link>
                                         <div className={`row`}>

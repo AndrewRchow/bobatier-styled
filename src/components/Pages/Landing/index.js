@@ -164,7 +164,7 @@ class Landing extends React.Component {
                 list.map((shop, index) => (
                   <div key={index} style={divStyle}>
 
-                    <Link to={{ pathname: process.env.PUBLIC_URL + ROUTES.SHOPS, state: { shop: shop } }}>
+                    <Link to={{ pathname: ROUTES.SHOPS, state: { shop: shop } }}>
                       {shop}
                     </Link>
 

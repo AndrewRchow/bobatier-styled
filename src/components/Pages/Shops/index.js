@@ -129,7 +129,7 @@ class Shops extends React.Component {
                                 {shopReviews.map(review => (
                                     <li key={review.userid} className={`${classes.well}`}>
                                         <div>
-                                            <Link to={{ pathname: process.env.PUBLIC_URL + ROUTES.USERS, state: { userid: review.userid, username: review.username } }}>
+                                            <Link to={{ pathname: ROUTES.USERS, state: { userid: review.userid, username: review.username } }}>
                                                 {review.username}
                                             </Link>
                                             <div className={`row`}>

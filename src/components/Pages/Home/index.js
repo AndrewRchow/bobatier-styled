@@ -303,7 +303,7 @@ class MyReviewsBase extends React.Component {
             {myReviews.map(review => (
               <li key={review.bobaShop} className={`${classes.well}`}>
                 <div>
-                  <Link to={{ pathname: process.env.PUBLIC_URL + ROUTES.SHOPS, state: { shop: review.bobaShop } }}>
+                  <Link to={{ pathname: ROUTES.SHOPS, state: { shop: review.bobaShop } }}>
                     {review.bobaShop}
                   </Link>
                   <div className={`row`}>

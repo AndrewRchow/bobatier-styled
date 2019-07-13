@@ -8,30 +8,30 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
 
 const authAdminMenuItems = [
-  ['Tier List', process.env.PUBLIC_URL + ROUTES.LANDING],
-  ['Shops', process.env.PUBLIC_URL + ROUTES.SHOPS],
-  ['Users', process.env.PUBLIC_URL + ROUTES.USERS],
-  ['Recent Reviews', process.env.PUBLIC_URL + ROUTES.REVIEWS],
-  ['My Reviews', process.env.PUBLIC_URL + ROUTES.HOME],
-  ['Account', process.env.PUBLIC_URL + ROUTES.ACCOUNT],
-  ['Admin', process.env.PUBLIC_URL + ROUTES.ADMIN],
+  ['Tier List', ROUTES.LANDING],
+  ['Shops', ROUTES.SHOPS],
+  ['Users', ROUTES.USERS],
+  ['Recent Reviews', ROUTES.REVIEWS],
+  ['My Reviews', ROUTES.HOME],
+  ['Account', ROUTES.ACCOUNT],
+  ['Admin', ROUTES.ADMIN],
 ];
 
 const authMenuItems = [
-  ['Tier List', process.env.PUBLIC_URL + ROUTES.LANDING],
-  ['Shops', process.env.PUBLIC_URL + ROUTES.SHOPS],
-  ['Users', process.env.PUBLIC_URL + ROUTES.USERS],
-  ['Recent Reviews', process.env.PUBLIC_URL + ROUTES.REVIEWS],
-  ['My Reviews', process.env.PUBLIC_URL + ROUTES.HOME],
-  ['Account', process.env.PUBLIC_URL + ROUTES.ACCOUNT],
+  ['Tier List', ROUTES.LANDING],
+  ['Shops', ROUTES.SHOPS],
+  ['Users', ROUTES.USERS],
+  ['Recent Reviews', ROUTES.REVIEWS],
+  ['My Reviews', ROUTES.HOME],
+  ['Account', ROUTES.ACCOUNT],
 ];
 
 const nonAuthMenuItems = [
-  ['Tier List', process.env.PUBLIC_URL + ROUTES.LANDING],
-  ['Shops', process.env.PUBLIC_URL + ROUTES.SHOPS],
-  ['Users', process.env.PUBLIC_URL + ROUTES.USERS],
-  ['Recent Reviews', process.env.PUBLIC_URL + ROUTES.REVIEWS],
-  ['Sign In', process.env.PUBLIC_URL + ROUTES.SIGN_IN],
+  ['Tier List', ROUTES.LANDING],
+  ['Shops', ROUTES.SHOPS],
+  ['Users', ROUTES.USERS],
+  ['Recent Reviews', ROUTES.REVIEWS],
+  ['Sign In', ROUTES.SIGN_IN],
 ];
 
 
