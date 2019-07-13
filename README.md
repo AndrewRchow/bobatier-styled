@@ -14,4 +14,4 @@ To deploy
 ```shell
 npm run reploy
 ```
-"Custom Domain" field in settings needs to be changes to bobatier.com after every npm run deploy
+
