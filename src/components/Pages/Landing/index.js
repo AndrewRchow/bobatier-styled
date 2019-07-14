@@ -15,13 +15,7 @@ class Landing extends React.Component {
     this.state = {
       reviews: {},
       grades: {},
-      tierList: {
-        S: [],
-        A: [],
-        B: [],
-        C: [],
-        D: [],
-      }
+      tierList: {}
     }
 
   }
@@ -88,13 +82,13 @@ class Landing extends React.Component {
     console.log(grades);
 
     let tierList = {
-      SS: [],
       S: [],
       A: [],
       B: [],
       C: [],
       D: [],
       E: [],
+      F: [],
     }
 
     for (let shop in grades) {
@@ -102,19 +96,19 @@ class Landing extends React.Component {
       const name = grades[shop].shopName;
 
       if (finalScore >= 5) {
-        tierList.SS.push(name)
-      } else if (4.75 <= finalScore && finalScore < 5) {
         tierList.S.push(name)
-      } else if (4.25 <= finalScore && finalScore < 4.75) {
+      } else if (4.75 <= finalScore && finalScore < 5) {
         tierList.A.push(name)
-      } else if (3.5 <= finalScore && finalScore < 4.25) {
+      } else if (4.25 <= finalScore && finalScore < 4.75) {
         tierList.B.push(name)
-      } else if (2.75 <= finalScore && finalScore < 3.5) {
+      } else if (3.5 <= finalScore && finalScore < 4.25) {
         tierList.C.push(name)
-      } else if (2 <= finalScore && finalScore < 2.75) {
+      } else if (2.75 <= finalScore && finalScore < 3.5) {
         tierList.D.push(name)
-      } else if (finalScore < 2) {
+      } else if (2 <= finalScore && finalScore < 2.75) {
         tierList.E.push(name)
+      } else if (finalScore < 2) {
+        tierList.F.push(name)
       }
     }
 
@@ -149,26 +143,26 @@ class Landing extends React.Component {
     return (
       <div className={`container`}>
         <div className={`row`}>
-          <div className={`col-sm-12`}>
+          <div className={`col-12`}>
             <h5>Tier List</h5>
           </div>
         </div>
-        <div>
+        <div className={`${classes.tierList}`}>
           {Object.entries(tierList).map(([tier, list]) => (
-            <div key={tier} style={tiersStyle} className={`row`}>
-              <div className={`col-1 col-xs-2`}>
+            <div key={tier} style={tiersStyle} className={`row ${classes.row}`}>
+              <div className={`col-2 col-md-1`}>
                 <button className={`btn btn-default ${classes.tierLabel}`} style={buttonStyle}>{tier}</button>
               </div>
-              <div className={`col-11 col-xs-10`}>
+              <div className={`col-10 col-md-11`}>
               {
                 list.map((shop, index) => (
                   <div key={index} style={divStyle}>
 
-                    <Link to={{ pathname: ROUTES.SHOPS, state: { shop: shop } }}>
+                    <Link className={`${classes.tierItem}`} to={{ pathname: ROUTES.SHOPS, state: { shop: shop } }}>
                       {shop}
                     </Link>
 
-                    , {' '}
+                    , &nbsp;
                   </div>
                 ))
               }

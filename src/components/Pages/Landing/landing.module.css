@@ -1,10 +1,47 @@
+.tierList  {
+    box-shadow: 0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1);
+    padding: 19px; 
+    /* margin:15px;  */
+    border-radius: .25rem;
+    background-color:white;
+  
+}
+
 .tierLabel {
   width: 48px;
   margin-right: 16px;
-  color: black;
-  border: 1px solid #ccc;
+  color: white;
+  /* border: 1px solid #ccc; */
+  font-weight:bold;
+}
+
+.tierList > .row:nth-child(1) .tierLabel{
+  background-color:#f87e7f;
+}
+.tierList > .row:nth-child(2) .tierLabel{
+  background-color:#fbbf7f;
+}
+.tierList > .row:nth-child(3) .tierLabel{
+  background-color:#fffe7f;
+}
+.tierList > .row:nth-child(4) .tierLabel{
+  background-color:#7efe7f;
+}
+.tierList > .row:nth-child(5) .tierLabel{
+  background-color:#7ebfed;
+}
+.tierList > .row:nth-child(6) .tierLabel{
+  background-color:#7e7fff;
+}
+.tierList > .row:nth-child(7) .tierLabel{
+  background-color:#f87eff;
+}
+
+.tierItem {
+  font-weight: bold;
 }
 
 ul{
   padding-left:0px;
 }
+

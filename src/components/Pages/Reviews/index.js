@@ -7,6 +7,7 @@ import * as ROUTES from '../../../constants/routes';
 
 import StarRatings from 'react-star-ratings';
 import Modal from './reviewModal';
+import ReviewCard from '../../Partials/ReviewCard'
 
 const dateOptions = { weekday: 'long', hour: 'numeric', minute: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
 
@@ -141,7 +142,7 @@ class Reviews extends React.Component {
 
 
         const inlineStyle = {
-            // display: 'inline',
+            fontSize: '0.9rem'
         };
 
         return (
@@ -156,132 +157,13 @@ class Reviews extends React.Component {
                             {sortedReviews.map((review, index) => (
                                 <div key={index}>
                                     <div className={`${classes.review} ${classes.reviewWell}`}>
-
-                                        <Link to={{ pathname: ROUTES.SHOPS, state: { shop: review.shop } }}>
-                                            {review.shop}
-                                        </Link>
-                                        <br />
-                                        <Link to={{ pathname: ROUTES.USERS, state: { userid: review.uid, username: review.username } }}>
-                                            {review.username}
-                                        </Link>
-                                        <div className={`row`}>
-
-
-                                            <div className={`col-6 col-lg-3 ${classes.scoreLine}`}>
-                                                <p style={inlineStyle}>Drink quality</p>
-                                                <StarRatings
-                                                    rating={parseFloat(review.score1)}
-                                                    starRatedColor="#0099ff"
-                                                    starHoverColor="#66ccff"
-                                                    numberOfStars={5}
-                                                    name="score1"
-                                                    starDimension="10px"
-                                                    starSpacing="2px"
-                                                    isSelectable="false"
-                                                />
-                                            </div>
-                                            <div className={`col-6 col-lg-3 ${classes.scoreLine}`}>
-                                                <p style={inlineStyle}>Boba sweetness</p>
-                                                <StarRatings
-                                                    rating={parseFloat(review.score2)}
-                                                    starRatedColor="#0099ff"
-                                                    starHoverColor="#66ccff"
-                                                    numberOfStars={5}
-                                                    name="score2"
-                                                    starDimension="10px"
-                                                    starSpacing="2px"
-                                                    isSelectable="false"
-                                                />
-                                            </div>
-                                            <div className={`col-6 col-lg-3 ${classes.scoreLine}`}>
-                                                <p style={inlineStyle}>Boba chewiness</p>
-                                                <StarRatings
-                                                    rating={parseFloat(review.score3)}
-                                                    starRatedColor="#0099ff"
-                                                    starHoverColor="#66ccff"
-                                                    numberOfStars={5}
-                                                    name="score3"
-                                                    starDimension="12px"
-                                                    starSpacing="2px"
-                                                    isSelectable="false"
-                                                />
-                                            </div>
-                                            <div className={`col-6 col-lg-3 ${classes.scoreLine}`}>
-                                                <p style={inlineStyle}>Customization</p>
-                                                <StarRatings
-                                                    rating={parseFloat(review.score4)}
-                                                    starRatedColor="#0099ff"
-                                                    starHoverColor="#66ccff"
-                                                    numberOfStars={5}
-                                                    name="score4"
-                                                    starDimension="12px"
-                                                    starSpacing="2px"
-                                                    isSelectable="false"
-                                                />
-                                            </div>
-                                            <div className={`col-6 col-lg-3`}>
-                                                <p style={inlineStyle}>Drink variety</p>
-                                                <StarRatings
-                                                    rating={parseFloat(review.score5)}
-                                                    starRatedColor="#0099ff"
-                                                    starHoverColor="#66ccff"
-                                                    numberOfStars={5}
-                                                    name="score5"
-                                                    starDimension="12px"
-                                                    starSpacing="2px"
-                                                    isSelectable="false"
-                                                />
-                                            </div>
-                                            <div className={`col-6 col-lg-3`}>
-                                                <p style={inlineStyle}>Consistency</p>
-                                                <StarRatings
-                                                    rating={parseFloat(review.score6)}
-                                                    starRatedColor="#0099ff"
-                                                    starHoverColor="#66ccff"
-                                                    numberOfStars={5}
-                                                    name="score6"
-                                                    starDimension="12px"
-                                                    starSpacing="2px"
-                                                    isSelectable="false"
-                                                />
-                                            </div>
-                                            <div className={`col-6 col-lg-3`}>
-                                                <p style={inlineStyle}>Price</p>
-                                                <StarRatings
-                                                    rating={parseFloat(review.score7)}
-                                                    starRatedColor="#0099ff"
-                                                    starHoverColor="#66ccff"
-                                                    numberOfStars={5}
-                                                    name="score7"
-                                                    starDimension="12px"
-                                                    starSpacing="2px"
-                                                    isSelectable="false"
-                                                />
-                                            </div>
-                                            <div className={`col-6 col-lg-3`}>
-                                                <p style={inlineStyle}>Overall</p>
-                                                <StarRatings
-                                                    rating={parseFloat(review.score8)}
-                                                    starRatedColor="#0099ff"
-                                                    starHoverColor="#66ccff"
-                                                    numberOfStars={5}
-                                                    name="score8"
-                                                    starDimension="12px"
-                                                    starSpacing="2px"
-                                                    isSelectable="false"
-                                                />
-                                            </div>
-
-
-                                        </div>
-                                        <div className={`row`}>
-                                            <div className={`col-sm-12`}>
-                                                <p>{review.note}</p>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <i> {new Date(review.dateTime).toLocaleDateString("en-US", dateOptions)}</i>
-                                        </div>
+                                        <ReviewCard isReviewsCard="true" dateTime={review.dateTime}
+                                            userid={review.userid} username={review.username}
+                                            shop={review.shop} note={review.note}
+                                            score1={review.score1} score2={review.score2}
+                                            score3={review.score3} score4={review.score4}
+                                            score5={review.score5} score6={review.score6}
+                                            score7={review.score7} score8={review.score8} />
                                     </div>
                                     {
                                         review.comments ?
@@ -290,8 +172,8 @@ class Reviews extends React.Component {
                                                     {review.comments.map((comment, index) => (
                                                         <div key={index} className={`${classes.commentWell}`}>
                                                             <div className={(comment.dateTime > currentTime.toLocaleString() ? classes.recentComment : "")}>
-                                                                <p>{comment.comment}</p>
-                                                                <p><i>{comment.username} - {new Date(comment.dateTime).toLocaleDateString("en-US", dateOptions)}</i></p>
+                                                                <p>{comment.username} <span className={`${classes.commentText}`}>{comment.comment}</span></p>
+                                                                <p className={`${classes.dateTime}`}><i> {new Date(comment.dateTime).toLocaleDateString("en-US", dateOptions)}</i></p>
                                                             </div>
                                                         </div>
                                                     ))}

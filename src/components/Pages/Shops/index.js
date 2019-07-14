@@ -6,6 +6,7 @@ import * as ROUTES from '../../../constants/routes';
 
 import AutoSuggestShops from '../../ThirdParty/AutoSuggestShops/index';
 import StarRatings from 'react-star-ratings';
+import ReviewCard from '../../Partials/ReviewCard'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
@@ -57,7 +58,7 @@ class Shops extends React.Component {
                 this.setState({
                     shopReviews: shopReviewsList,
                     numberOfReviews: shopReviewsList.length
-                }, () =>{
+                }, () => {
                     this.gradeReviews();
                 });
 
@@ -104,14 +105,20 @@ class Shops extends React.Component {
     render() {
         const { shop, shopReviews, shopAverageScore, numberOfReviews } = this.state;
         return (
-            <div>
-                <h5>Shop</h5>
-                <AutoSuggestShops
-                    getInputData={this.getAutosuggestInput}
-                    getSelectedData={this.getAutoSuggestSelected}
-                    bobaShop={shop} />
-
-
+            <div className={`container`}>
+                <div className={`row`}>
+                    <div className={`col-lg-12`}>
+                        <h5>Shops</h5>
+                    </div>
+                </div>
+                <div className={`row`}>
+                    <div className={`col-lg-12`}>
+                        <AutoSuggestShops
+                            getInputData={this.getAutosuggestInput}
+                            getSelectedData={this.getAutoSuggestSelected}
+                            bobaShop={shop} />
+                    </div>
+                </div>
                 <div>
 
                     {shopReviews === undefined || shopReviews.length == 0 ?
@@ -119,133 +126,20 @@ class Shops extends React.Component {
                         </div>
                         :
                         <div>
-                            <h5>
+                            <h5 className={`${classes.info}`}>
                                 {shop} - {' '}
-                            <FontAwesomeIcon icon={faUsers} size="1x" />{numberOfReviews} {' '}
+                                <FontAwesomeIcon icon={faUsers} size="1x" />{numberOfReviews} {' '}
                                 <FontAwesomeIcon icon={faStar} size="1x" /> {shopAverageScore}
 
                             </h5>
                             <ul>
                                 {shopReviews.map(review => (
                                     <li key={review.userid} className={`${classes.well}`}>
-                                        <div>
-                                            <Link to={{ pathname: ROUTES.USERS, state: { userid: review.userid, username: review.username } }}>
-                                                {review.username}
-                                            </Link>
-                                            <div className={`row`}>
-                                                <div className={`col-sm-3`}>
-                                                    <p>Score 1</p>
-                                                    <StarRatings
-                                                        rating={review.score1}
-                                                        starRatedColor="#0099ff"
-                                                        starHoverColor="#66ccff"
-                                                        numberOfStars={5}
-                                                        name="score1"
-                                                        starDimension="12px"
-                                                        starSpacing="2px"
-                                                        isSelectable="false"
-                                                    />
-                                                </div>
-                                                <div className={`col-sm-3`}>
-                                                    <p>Score 2</p>
-                                                    <StarRatings
-                                                        rating={review.score2}
-                                                        starRatedColor="#0099ff"
-                                                        starHoverColor="#66ccff"
-                                                        numberOfStars={5}
-                                                        name="score1"
-                                                        starDimension="12px"
-                                                        starSpacing="2px"
-                                                        isSelectable="false"
-                                                    />
-                                                </div>
-                                                <div className={`col-sm-3`}>
-                                                    <p>Score 3</p>
-                                                    <StarRatings
-                                                        rating={review.score3}
-                                                        starRatedColor="#0099ff"
-                                                        starHoverColor="#66ccff"
-                                                        numberOfStars={5}
-                                                        name="score1"
-                                                        starDimension="12px"
-                                                        starSpacing="2px"
-                                                        isSelectable="false"
-                                                    />
-                                                </div>
-                                                <div className={`col-sm-3`}>
-                                                    <p>Score 4</p>
-                                                    <StarRatings
-                                                        rating={review.score4}
-                                                        starRatedColor="#0099ff"
-                                                        starHoverColor="#66ccff"
-                                                        numberOfStars={5}
-                                                        name="score1"
-                                                        starDimension="12px"
-                                                        starSpacing="2px"
-                                                        isSelectable="false"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className={`row`}>
-                                                <div className={`col-sm-3`}>
-                                                    <p>Score 5</p>
-                                                    <StarRatings
-                                                        rating={review.score5}
-                                                        starRatedColor="#0099ff"
-                                                        starHoverColor="#66ccff"
-                                                        numberOfStars={5}
-                                                        name="score1"
-                                                        starDimension="12px"
-                                                        starSpacing="2px"
-                                                        isSelectable="false"
-                                                    />
-                                                </div>
-                                                <div className={`col-sm-3`}>
-                                                    <p>Score 6</p>
-                                                    <StarRatings
-                                                        rating={review.score6}
-                                                        starRatedColor="#0099ff"
-                                                        starHoverColor="#66ccff"
-                                                        numberOfStars={5}
-                                                        name="score1"
-                                                        starDimension="12px"
-                                                        starSpacing="2px"
-                                                        isSelectable="false"
-                                                    />
-                                                </div>
-                                                <div className={`col-sm-3`}>
-                                                    <p>Score 7</p>
-                                                    <StarRatings
-                                                        rating={review.score7}
-                                                        starRatedColor="#0099ff"
-                                                        starHoverColor="#66ccff"
-                                                        numberOfStars={5}
-                                                        name="score1"
-                                                        starDimension="12px"
-                                                        starSpacing="2px"
-                                                        isSelectable="false"
-                                                    />
-                                                </div>
-                                                <div className={`col-sm-3`}>
-                                                    <p>Score 8</p>
-                                                    <StarRatings
-                                                        rating={review.score8}
-                                                        starRatedColor="#0099ff"
-                                                        starHoverColor="#66ccff"
-                                                        numberOfStars={5}
-                                                        name="score1"
-                                                        starDimension="12px"
-                                                        starSpacing="2px"
-                                                        isSelectable="false"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className={`row`}>
-                                                <div className={`col-sm-12`}>
-                                                    <p>{review.note}</p>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <ReviewCard userid={review.userid} username={review.username} note={review.note}
+                                            score1={review.score1} score2={review.score2}
+                                            score3={review.score3} score4={review.score4}
+                                            score5={review.score5} score6={review.score6}
+                                            score7={review.score7} score8={review.score8} />
                                     </li>
                                 ))}
                             </ul>

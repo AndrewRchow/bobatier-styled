@@ -98,7 +98,7 @@ class AutoSuggestUsers extends React.Component {
 
     // Autosuggest will pass through all these props to the input.
     const inputProps = {
-      placeholder: 'Enter user name',
+      placeholder: 'Enter member name',
       value,
       onChange: this.onChange
     };

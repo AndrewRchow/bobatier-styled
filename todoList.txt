@@ -2,10 +2,10 @@
 
 SCORES
 score1: drink quality
-score2: boba sweetness
-score3: boba chewiness
-score4: customization
-score5: drink variety
-score6: consistency
+score2: Sweetboba
+score3: Chewy boba
+score4: Customize
+score5: consistent
+score6: variety
 score7: price 
-score8: overall ratingaaa
+score8: overall 
