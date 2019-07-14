@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
-import classes from './reviewCard.module.css';
+import classes from './reviewCommentsCard.module.css';
 import StarRatings from 'react-star-ratings';
 import { Link } from 'react-router-dom';
 import * as ROUTES from '../../../constants/routes';
 
 const dateOptions = { weekday: 'long', hour: 'numeric', minute: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
 
-class ReviewCard extends Component {
+class ReviewCommentsCard extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
-        const inlineStyle={
-            display:"inline",
-            paddingLeft:"4px",
-            paddingRight:"4px"
+        const normal = {
+            fontWeight:"normal"
+        }
+
+        const inlineStyle = {
+            display: "inline",
+            paddingLeft: "4px",
+            paddingRight: "4px"
         }
 
         return (
@@ -140,24 +144,47 @@ class ReviewCard extends Component {
                         <p>{this.props.note}</p>
                     </div>
                 </div>
+                <div className={`col-sm-12 ${classes.comments}`}>
+                    {
+                        this.props.comments ?
+                            <div className={`${classes.commentsWell}`}>
+                                <div>
+                                    {this.props.comments.map((comment, index) => (
+                                        <div key={index} className={`${classes.commentWell}`}>
+                                            <div className={`${classes.commentText}`}>
+                                                <p>{comment.username} <span style={normal}>{comment.comment}</span></p>
+                                                <p className={`${classes.dateTime}`}><i> {new Date(comment.dateTime).toLocaleDateString("en-US", dateOptions)}</i></p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div>
+                                    {
+                                        this.props.authUser ?
+                                            <button className={`btn btn-info ${classes.addCommentButton}`} onClick={() => this.props.toggleModal(this.props.shop, this.props.uid)}>
+                                                Comment
+                                                            </button>
+                                            : <div></div>
+                                    }
 
-                {this.props.isHomeCard ?
-                    <div>
-                        <button className={`btn btn-info ${classes.updateButton}`} onClick={() => this.props.editReview(this.props.review)}>Edit</button>
-                        <button className={`btn btn-danger ${classes.updateButton}`} onClick={() => this.props.deleteReview(this.props.shop)}>Delete</button>
-                    </div>
-                    : <div></div>}
-
-                {this.props.isReviewsCard ?
-                    <div className={`${classes.dateTime}`}>
-                        <i> {new Date(this.props.dateTime).toLocaleDateString("en-US", dateOptions)}</i>
-                    </div>
-                    : <div></div>}
+                                </div>
+                            </div>
+                            :
+                            this.props.authUser ?
+                                <div className={`${classes.commentsWell}`}>
+                                    <button className={`btn btn-info ${classes.addCommentButton}`} onClick={() => this.props.toggleModal(this.props.shop, this.props.uid)}>
+                                        Comment
+                                                            </button>
+                                </div>
+                                :
+                                <div></div>
+                    }
+                </div>
             </div>
         );
     }
 }
 
 
-export default ReviewCard;
+export default ReviewCommentsCard;
 

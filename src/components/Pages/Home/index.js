@@ -212,7 +212,7 @@ class NewReviewBase extends React.Component {
         <ToastContainer />
         <form onSubmit={this.onSubmit} className={classes.submitForm}>
           <div className={`row`}>
-            <div className={`col-xs-12`}>
+            <div className={`col-xs-12 ${classes.inputTop}`}>
               <h5>New Review</h5>
               <AutoSuggestShops
                 getInputData={this.getAutosuggestInput}
@@ -255,6 +255,8 @@ class MyReviewsBase extends React.Component {
     this.state = {
       myReviews: [],
     };
+
+    this.deleteReview = this.deleteReview.bind(this);
   }
 
   componentDidMount() {
@@ -262,6 +264,7 @@ class MyReviewsBase extends React.Component {
   }
 
   deleteReview(key) {
+    console.log('hello', key)
     var result = window.confirm("Are you sure you want to delete?");
     if (result) {
       this.props.firebase.userReviews(this.context.authUser.uid).child(key).remove();
@@ -313,7 +316,7 @@ class MyReviewsBase extends React.Component {
           <ul>
             {myReviews.map(review => (
               <li key={review.bobaShop} className={``}>
-                <ReviewCard isHomeCard= "true" review={review} editReview={this.props.editReview}
+                <ReviewCard isHomeCard= "true" review={review} editReview={this.props.editReview} deleteReview={this.deleteReview}
                   shop={review.bobaShop} note={review.note}
                   score1={review.score1} score2={review.score2}
                   score3={review.score3} score4={review.score4}

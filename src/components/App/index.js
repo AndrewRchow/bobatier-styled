@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, HashRouter } from 'react-router-dom';
 import classes from './app.module.css';
 
 import Navigation from '../Navigation';
@@ -31,7 +31,7 @@ const App = () => (
         <Route exact path={ ROUTES.HOME} component={HomePage} />
         <Route exact path={ ROUTES.REVIEWS} component={ReviewsPage} />
         <Route exact path={ ROUTES.SHOPS} component={ShopsPage} />
-        <Route exact path={ ROUTES.USERS} component={UsersPage} />
+        <Route exact path={ ROUTES.MEMBERS} component={UsersPage} />
         <Route exact path={ ROUTES.ACCOUNT} component={AccountPage} />
         <Route exact path={ ROUTES.ADMIN} component={AdminPage} />
         <Route

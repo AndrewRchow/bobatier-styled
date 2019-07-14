@@ -11,6 +11,10 @@
 }
  */
 
- .info {
-  margin:10px;
+ .header{
+  margin-left:15px;
+}
+
+.info {
+  margin:15px;
 }

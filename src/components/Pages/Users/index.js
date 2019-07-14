@@ -70,12 +70,12 @@ class Users extends React.Component {
         return (
             <div className={`container`}>
                 <div className={`row`}>
-                    <div className={`col-lg-12`}>
+                    <div className={`col-lg-12 ${classes.header}`}>
                         <h5>Members</h5>
                     </div>
                 </div>
                 <div className={`row`}>
-                    <div className={`col-lg-12`}>
+                    <div className={`col-lg-12 ${classes.header}`}>
                         <AutoSuggestUsers
                             getInputData={this.getAutosuggestInput}
                             getSelectedData={this.getAutoSuggestSelected}

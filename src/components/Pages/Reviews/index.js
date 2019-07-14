@@ -7,7 +7,7 @@ import * as ROUTES from '../../../constants/routes';
 
 import StarRatings from 'react-star-ratings';
 import Modal from './reviewModal';
-import ReviewCard from '../../Partials/ReviewCard'
+import ReviewCommentsCard from '../../Partials/ReviewCommentsCard'
 
 const dateOptions = { weekday: 'long', hour: 'numeric', minute: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
 
@@ -32,11 +32,13 @@ class Reviews extends React.Component {
 
         this.submitComment = this.submitComment.bind(this);
         this.changeComment = this.changeComment.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
+
     }
 
     componentDidMount() {
         this.getAllReviewList();
-        this.interval = setInterval(() => this.setState({ currentTime: new Date() }), 1000);
+        // this.interval = setInterval(() => this.setState({ currentTime: new Date() }), 1000);
     }
 
     getAllReviewList() {
@@ -83,12 +85,12 @@ class Reviews extends React.Component {
         sortedReviews.sort(function (a, b) {
             return new Date(b.dateTime) - new Date(a.dateTime);
         });
-        console.log(sortedReviews);
         sortedReviews = sortedReviews.splice(0, 50); //show top 50 reviews
         this.setState({ sortedReviews: sortedReviews });
     }
 
     toggleModal = (shop, uid) => {
+        console.log(shop, uid)
         const commentModal = { ...this.state.commentModal };
         commentModal.shop = shop;
         commentModal.uid = uid;
@@ -138,8 +140,6 @@ class Reviews extends React.Component {
     render() {
         const { sortedReviews, currentTime } = this.state;
         const authUser = this.context.username;
-        console.log(sortedReviews);
-
 
         const inlineStyle = {
             fontSize: '0.9rem'
@@ -156,49 +156,20 @@ class Reviews extends React.Component {
                         <div>
                             {sortedReviews.map((review, index) => (
                                 <div key={index}>
-                                    <div className={`${classes.review} ${classes.reviewWell}`}>
-                                        <ReviewCard isReviewsCard="true" dateTime={review.dateTime}
-                                            userid={review.userid} username={review.username}
+                                    <div className={`${classes.reviewWell}`}>
+                                        <ReviewCommentsCard toggleModal={this.toggleModal} 
+                                        currentTime={currentTime} dateTime={review.dateTime} authUser={authUser}
+                                        uid={review.uid} username={review.username}
                                             shop={review.shop} note={review.note}
                                             score1={review.score1} score2={review.score2}
                                             score3={review.score3} score4={review.score4}
                                             score5={review.score5} score6={review.score6}
-                                            score7={review.score7} score8={review.score8} />
-                                    </div>
-                                    {
-                                        review.comments ?
-                                            <div className={`${classes.commentsWell}`}>
-                                                <div>
-                                                    {review.comments.map((comment, index) => (
-                                                        <div key={index} className={`${classes.commentWell}`}>
-                                                            <div className={(comment.dateTime > currentTime.toLocaleString() ? classes.recentComment : "")}>
-                                                                <p>{comment.username} <span className={`${classes.commentText}`}>{comment.comment}</span></p>
-                                                                <p className={`${classes.dateTime}`}><i> {new Date(comment.dateTime).toLocaleDateString("en-US", dateOptions)}</i></p>
-                                                            </div>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                                <div>
-                                                    {
-                                                        authUser ?
-                                                            <button className={`btn btn-info ${classes.addCommentButton}`} onClick={() => this.toggleModal(review.shop, review.uid)}>
-                                                                Comment
-                                                            </button>
-                                                            : <div></div>
-                                                    }
+                                            score7={review.score7} score8={review.score8}
+                                            comments={review.comments} />
 
-                                                </div>
-                                            </div>
-                                            :
-                                            authUser ?
-                                                <div className={`${classes.commentsWell}`}>
-                                                    <button className={`btn btn-info ${classes.addCommentButton}`} onClick={() => this.toggleModal(review.shop, review.uid)}>
-                                                        Comment
-                                                            </button>
-                                                </div>
-                                                :
-                                                <div></div>
-                                    }
+                                    </div>
+
+
                                 </div>
                             ))}
                         </div>

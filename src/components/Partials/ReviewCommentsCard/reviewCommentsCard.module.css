@@ -1,3 +1,7 @@
+p{
+    line-height:1;
+}
+
 .headerLink{
     font-weight:bold;
 }
@@ -37,8 +41,30 @@
     margin-top:4px;
 }
 
-.updateButton {
-    margin:4px 4px 4px 0px;
+.comments {
+    border-top:1px solid #e1e5eb;
+}
+
+.addCommentButton {
+    margin-top:10px;
+}
+
+/* .recentComment {
+    background-color:grey;
+    color:white;
+} */
+
+.commentText{
+    padding-top:10px;
+    font-size:1.1rem;
+    font-weight:normal;
+}
+
+.dateTime {
+    padding-top:6px;
+    font-weight:normal;
+    font-style:italic;
+    font-size:0.8rem;
 }
 
 
@@ -46,6 +72,16 @@
     .scoreHeader{
         font-size:0.8rem;
       }
+
+      /* .commentText{
+        font-size:0.8rem;
+    }
+    
+    .dateTime {
+        font-size:0.7rem;
+
+    }
+     */
   }
 
 /* .well{

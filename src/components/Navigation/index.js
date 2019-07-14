@@ -10,7 +10,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons'
 const authAdminMenuItems = [
   ['Tier List', ROUTES.LANDING],
   ['Shops', ROUTES.SHOPS],
-  ['Users', ROUTES.USERS],
+  ['Members', ROUTES.MEMBERS],
   ['Recent Reviews', ROUTES.REVIEWS],
   ['My Reviews', ROUTES.HOME],
   ['Account', ROUTES.ACCOUNT],
@@ -20,7 +20,7 @@ const authAdminMenuItems = [
 const authMenuItems = [
   ['Tier List', ROUTES.LANDING],
   ['Shops', ROUTES.SHOPS],
-  ['Users', ROUTES.USERS],
+  ['Members', ROUTES.MEMBERS],
   ['Recent Reviews', ROUTES.REVIEWS],
   ['My Reviews', ROUTES.HOME],
   ['Account', ROUTES.ACCOUNT],
@@ -29,7 +29,7 @@ const authMenuItems = [
 const nonAuthMenuItems = [
   ['Tier List', ROUTES.LANDING],
   ['Shops', ROUTES.SHOPS],
-  ['Users', ROUTES.USERS],
+  ['Members', ROUTES.MEMBERS],
   ['Recent Reviews', ROUTES.REVIEWS],
   ['Sign In', ROUTES.SIGN_IN],
 ];

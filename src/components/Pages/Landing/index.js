@@ -95,19 +95,19 @@ class Landing extends React.Component {
       const finalScore = grades[shop].finalScore;
       const name = grades[shop].shopName;
 
-      if (finalScore >= 5) {
+      if (finalScore >= 4.75) {
         tierList.S.push(name)
-      } else if (4.75 <= finalScore && finalScore < 5) {
-        tierList.A.push(name)
       } else if (4.25 <= finalScore && finalScore < 4.75) {
-        tierList.B.push(name)
+        tierList.A.push(name)
       } else if (3.5 <= finalScore && finalScore < 4.25) {
-        tierList.C.push(name)
+        tierList.B.push(name)
       } else if (2.75 <= finalScore && finalScore < 3.5) {
-        tierList.D.push(name)
+        tierList.C.push(name)
       } else if (2 <= finalScore && finalScore < 2.75) {
+        tierList.D.push(name)
+      } else if (1 <= finalScore && finalScore < 2) {
         tierList.E.push(name)
-      } else if (finalScore < 2) {
+      } else if (finalScore < 1) {
         tierList.F.push(name)
       }
     }
@@ -143,7 +143,7 @@ class Landing extends React.Component {
     return (
       <div className={`container`}>
         <div className={`row`}>
-          <div className={`col-12`}>
+          <div className={`col-12 ${classes.header}`}>
             <h5>Tier List</h5>
           </div>
         </div>
