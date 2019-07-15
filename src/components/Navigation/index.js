@@ -67,6 +67,8 @@ class NavigationAuth extends React.Component {
   }
 
   render() {
+   const relPath = window.location.href.split('#')[1];
+
     let barsOpen = this.state.barsOpen;
     let signoutButton = null;
     if (this.props.signedIn) {
@@ -77,7 +79,7 @@ class NavigationAuth extends React.Component {
       <div className={`${(barsOpen ? classes.responsive : "")} ${classes.navbar}`}>
         {this.props.menuItems.map(([menuItem, route]) =>
           <Link key={menuItem} to={route} onClick={this.linkClick}
-            className={window.location.pathname === route ? classes.active : ""}>
+            className={relPath===  route ? classes.active : ""}>
             {menuItem}
           </Link>
         )}

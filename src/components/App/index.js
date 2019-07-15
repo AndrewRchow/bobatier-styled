@@ -18,7 +18,7 @@ import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
 
 const App = () => (
-  <Router>
+  <HashRouter>
     <div>
       <div>
         <Navigation />
@@ -41,7 +41,7 @@ const App = () => (
         />
       </div>
     </div>
-  </Router>
+  </HashRouter>
 );
 
 export default withAuthentication(App);
