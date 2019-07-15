@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const INITIAL_STATE = {
   bobaShop: '',
+  location: '',
   score1: 1,
   score2: 1,
   score3: 1,
@@ -72,6 +73,7 @@ class NewReviewBase extends React.Component {
     super(props);
     this.state = props.formValues;
     this.getAutosuggestInput = this.getAutosuggestInput.bind(this);
+    this.getAutoSuggestSelected = this.getAutoSuggestSelected.bind(this);
   }
 
   componentWillReceiveProps(props) {
@@ -81,14 +83,16 @@ class NewReviewBase extends React.Component {
   onSubmit = event => {
     event.preventDefault();
 
-    const { bobaShop, score1, score2, score3, score4, score5, score6, score7, score8, note } = this.state;
+    const { bobaShop, location, score1, score2, score3, score4, score5, score6, score7, score8, note } = this.state;
     const dateTime = new Date().toLocaleString();
     const userId = this.context.authUser.uid;
     const username = this.context.username;
     const comment = "";
 
+    const bobaShopAndLocation = bobaShop + ' (' + location + ')';
+
     this.props.firebase
-      .bobaShopUserReview(bobaShop, userId)
+      .bobaShopUserReview(bobaShopAndLocation, userId)
       .update({
         username,
         score1,
@@ -108,7 +112,7 @@ class NewReviewBase extends React.Component {
       });
 
     this.props.firebase
-      .userReview(userId, bobaShop)
+      .userReview(userId, bobaShopAndLocation)
       .update({
         username,
         score1,
@@ -127,9 +131,9 @@ class NewReviewBase extends React.Component {
       });
 
     this.props.firebase
-      .bobaShop(bobaShop)
+      .bobaShop(bobaShopAndLocation)
       .update({
-        bobaShop,
+        bobaShop: bobaShopAndLocation,
       })
       .then(() => {
         this.setState({ ...INITIAL_STATE });
@@ -153,6 +157,15 @@ class NewReviewBase extends React.Component {
     this.setState({ bobaShop: value })
   }
   getAutoSuggestSelected(value) {
+    const shop = value.substr(0, value.indexOf('(') - 1);
+    const location = value.substring(
+      value.lastIndexOf("(") + 1,
+      value.lastIndexOf(")")
+    );
+    this.setState({
+      bobaShop: shop,
+      location: location
+    });
   }
 
   notify = () => toast("Review added");
@@ -160,6 +173,7 @@ class NewReviewBase extends React.Component {
   render() {
     const {
       bobaShop,
+      location,
       score1,
       score2,
       score3,
@@ -198,6 +212,9 @@ class NewReviewBase extends React.Component {
 
     const isInvalid =
       bobaShop === '' ||
+      bobaShop.indexOf('(') > -1 ||
+      bobaShop.indexOf(')') > -1 ||
+      location === '' ||
       score1 === '' ||
       score2 === '' ||
       score3 === '' ||
@@ -218,6 +235,12 @@ class NewReviewBase extends React.Component {
                 getInputData={this.getAutosuggestInput}
                 getSelectedData={this.getAutoSuggestSelected}
                 bobaShop={bobaShop} />
+              <input name="location"
+                value={location}
+                onChange={this.onChange}
+                type="text"
+                className={`${classes.locationInput}`}
+                placeholder="Enter location" />
             </div>
           </div>
 
@@ -316,7 +339,7 @@ class MyReviewsBase extends React.Component {
           <ul>
             {myReviews.map(review => (
               <li key={review.bobaShop} className={``}>
-                <ReviewCard isHomeCard= "true" review={review} editReview={this.props.editReview} deleteReview={this.deleteReview}
+                <ReviewCard isHomeCard="true" review={review} editReview={this.props.editReview} deleteReview={this.deleteReview}
                   shop={review.bobaShop} note={review.note}
                   score1={review.score1} score2={review.score2}
                   score3={review.score3} score4={review.score4}
