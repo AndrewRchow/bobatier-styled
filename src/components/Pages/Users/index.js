@@ -27,7 +27,6 @@ class Users extends React.Component {
 
     componentDidMount() {
         if (this.props.location.state) {
-            console.log(userid, username);
             const userid = this.props.location.state.userid;
             const username = this.props.location.state.username;
             this.getUserReviews(userid, username);

@@ -30,7 +30,7 @@ class ReviewCommentsCard extends Component {
                 {this.props.shop != undefined && this.props.username != undefined ?
                     <div style={inlineStyle}>-</div>
                     : <div></div>}
-                <Link className={`${classes.headerLink}`} to={{ pathname: ROUTES.MEMBERS, state: { userid: this.props.userid, username: this.props.username } }}>
+                <Link className={`${classes.headerLink}`} to={{ pathname: ROUTES.MEMBERS, state: { userid: this.props.uid, username: this.props.username } }}>
                     {this.props.username}
                 </Link>
                 <div className={`row ${classes.borderTop}`}>

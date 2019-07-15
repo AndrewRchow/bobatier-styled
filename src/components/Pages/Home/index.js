@@ -78,17 +78,30 @@ class NewReviewBase extends React.Component {
 
   componentWillReceiveProps(props) {
     this.setState(props.formValues);
+    
+    const bobaShopAndLocation = props.formValues.bobaShop;
+    const shop = bobaShopAndLocation.substr(0, bobaShopAndLocation.indexOf('(') - 1);
+    const location = bobaShopAndLocation.substring(
+      bobaShopAndLocation.lastIndexOf("(") + 1,
+      bobaShopAndLocation.lastIndexOf(")")
+    );
+    this.setState({
+      bobaShop: shop,
+      location: location
+    });
   }
 
   onSubmit = event => {
     event.preventDefault();
 
-    const { bobaShop, location, score1, score2, score3, score4, score5, score6, score7, score8, note } = this.state;
+    const { score1, score2, score3, score4, score5, score6, score7, score8, note } = this.state;
     const dateTime = new Date().toLocaleString();
     const userId = this.context.authUser.uid;
     const username = this.context.username;
     const comment = "";
 
+    const bobaShop = this.state.bobaShop.trim();
+    const location = this.state.location.trim();
     const bobaShopAndLocation = bobaShop + ' (' + location + ')';
 
     this.props.firebase
