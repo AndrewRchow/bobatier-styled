@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://bobatier.com",
   "dependencies": {
+    "@emotion/core": "^10.0.14",
     "@fortawesome/fontawesome-svg-core": "^1.2.19",
     "@fortawesome/free-solid-svg-icons": "^5.9.0",
     "@fortawesome/react-fontawesome": "^0.1.4",
@@ -19,6 +20,7 @@
     "react-password-mask": "^3.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
+    "react-spinners": "^0.5.12",
     "react-star-ratings": "^2.3.0",
     "react-themeable": "^1.1.0",
     "react-toastify": "^5.3.1",

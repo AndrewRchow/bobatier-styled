@@ -11,6 +11,10 @@ import AutoSuggestShops from '../../ThirdParty/AutoSuggestShops/index';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { ClipLoader } from 'react-spinners';
+import { css } from '@emotion/core';
+
+
 const INITIAL_STATE = {
   bobaShop: '',
   location: '',
@@ -290,6 +294,7 @@ class MyReviewsBase extends React.Component {
 
     this.state = {
       myReviews: [],
+      loading: true
     };
 
     this.deleteReview = this.deleteReview.bind(this);
@@ -328,6 +333,9 @@ class MyReviewsBase extends React.Component {
           myReviews: [],
         });
       }
+      this.setState({
+        loading: false,
+      });
     });
   }
 
@@ -336,15 +344,27 @@ class MyReviewsBase extends React.Component {
   }
 
   render() {
-    const { myReviews } = this.state;
-    console.log(myReviews);
+    const { myReviews, loading } = this.state;
+    const override = css`
+    display: block;
+    margin: 150px auto;
+    `;
 
     return (
       <div>
         <h5 className={`${classes.rightHeader}`}>
           My Reviews
         </h5>
-        {myReviews === undefined || myReviews.length == 0 ?
+        <div className='sweet-loading'>
+                    <ClipLoader
+                        sizeUnit={"px"}
+                        css={override}
+                        size={70}
+                        color={'#61aceb'}
+                        loading={this.state.loading}
+                    />
+                </div>
+        {!loading && (myReviews === undefined || myReviews.length == 0) ?
           <div className={`${classes.noReviewsWell}`}>
             No Reviews Added.
             </div>

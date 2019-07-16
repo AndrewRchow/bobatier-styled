@@ -9,6 +9,10 @@ import StarRatings from 'react-star-ratings';
 import Modal from './reviewModal';
 import ReviewCommentsCard from '../../Partials/ReviewCommentsCard'
 
+import { css } from '@emotion/core';
+// First way to import
+import { ClipLoader } from 'react-spinners';
+
 const dateOptions = { weekday: 'long', hour: 'numeric', minute: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
 
 class Reviews extends React.Component {
@@ -28,6 +32,7 @@ class Reviews extends React.Component {
             },
             modalIsOpen: false,
             currentTime: new Date(),
+            loading: true
         }
 
         this.submitComment = this.submitComment.bind(this);
@@ -51,12 +56,15 @@ class Reviews extends React.Component {
                     this.sortReviews();
                 });
             }
+            this.setState({
+                loading: false
+            });
         });
     }
 
     componentWillUnmount() {
         this.props.firebase.bobaShopReviews().off();
-        clearInterval(this.interval);
+        // clearInterval(this.interval);
     }
 
 
@@ -138,17 +146,28 @@ class Reviews extends React.Component {
     }
 
     render() {
-        const { sortedReviews, currentTime } = this.state;
+        const { sortedReviews, currentTime, loading } = this.state;
         const authUser = this.context.username;
 
-        const inlineStyle = {
-            fontSize: '0.9rem'
-        };
+
+        const override = css`
+            display: block;
+            margin: 150px auto;
+        `;
 
         return (
             <div>
+                <div className='sweet-loading'>
+                    <ClipLoader
+                        sizeUnit={"px"}
+                        css={override}
+                        size={70}
+                        color={'#61aceb'}
+                        loading={this.state.loading}
+                    />
+                </div>
                 <div className={`container ${classes.recentReviews}`}>
-                    {sortedReviews === undefined || sortedReviews.length == 0 ?
+                    {!loading && (sortedReviews === undefined || sortedReviews.length == 0) ?
                         <div className={`${classes.reviewWell}`}>
                             No Recent Reviews.
             </div>
@@ -157,9 +176,9 @@ class Reviews extends React.Component {
                             {sortedReviews.map((review, index) => (
                                 <div key={index}>
                                     <div className={`${classes.reviewWell}`}>
-                                        <ReviewCommentsCard toggleModal={this.toggleModal} 
-                                        currentTime={currentTime} dateTime={review.dateTime} authUser={authUser}
-                                        uid={review.uid} username={review.username}
+                                        <ReviewCommentsCard toggleModal={this.toggleModal}
+                                            currentTime={currentTime} dateTime={review.dateTime} authUser={authUser}
+                                            uid={review.uid} username={review.username}
                                             shop={review.shop} note={review.note}
                                             score1={review.score1} score2={review.score2}
                                             score3={review.score3} score4={review.score4}
