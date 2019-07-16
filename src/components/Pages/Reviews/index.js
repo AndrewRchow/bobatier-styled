@@ -9,9 +9,8 @@ import StarRatings from 'react-star-ratings';
 import Modal from './reviewModal';
 import ReviewCommentsCard from '../../Partials/ReviewCommentsCard'
 
-import { css } from '@emotion/core';
-// First way to import
 import { ClipLoader } from 'react-spinners';
+import { css } from '@emotion/core';
 
 const dateOptions = { weekday: 'long', hour: 'numeric', minute: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
 
@@ -120,17 +119,19 @@ class Reviews extends React.Component {
 
     submitComment(shop, uid) {
         const comment = this.state.commentModal.comment;
-        const username = this.context.username;
+        const commenterName = this.context.username;
+        const commenterUid = this.context.authUser.uid;
         let dateTime = new Date();
-        dateTime.setSeconds(dateTime.getSeconds() + 3);
+        // dateTime.setSeconds(dateTime.getSeconds() + 3);
         dateTime = dateTime.toLocaleString();
 
+        console.log(uid, commenterName, commenterUid);
         this.props.firebase
             .bobaShopUserComment(shop, uid)
             .push({
                 comment,
-                username,
-                uid,
+                username: commenterName,
+                uid: commenterUid,
                 dateTime
             })
             .then(() => {

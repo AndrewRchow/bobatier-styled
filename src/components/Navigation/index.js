@@ -11,16 +11,19 @@ const authAdminMenuItems = [
   ['Tier List', ROUTES.LANDING],
   ['Shops', ROUTES.SHOPS],
   ['Members', ROUTES.MEMBERS],
+  ['Photos', ROUTES.PHOTOS],
   ['Recent Reviews', ROUTES.REVIEWS],
   ['My Reviews', ROUTES.HOME],
   ['Account', ROUTES.ACCOUNT],
   ['Admin', ROUTES.ADMIN],
+  ['Test', ROUTES.TEST],
 ];
 
 const authMenuItems = [
   ['Tier List', ROUTES.LANDING],
   ['Shops', ROUTES.SHOPS],
   ['Members', ROUTES.MEMBERS],
+  // ['Photos', ROUTES.PHOTOS],
   ['Recent Reviews', ROUTES.REVIEWS],
   ['My Reviews', ROUTES.HOME],
   ['Account', ROUTES.ACCOUNT],
@@ -30,6 +33,7 @@ const nonAuthMenuItems = [
   ['Tier List', ROUTES.LANDING],
   ['Shops', ROUTES.SHOPS],
   ['Members', ROUTES.MEMBERS],
+  // ['Photos', ROUTES.PHOTOS],
   ['Recent Reviews', ROUTES.REVIEWS],
   ['Sign In', ROUTES.SIGN_IN],
 ];

@@ -1,0 +1,26 @@
+.uploadBtn{
+    background-color: steelblue;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    display:inline;
+}
+
+.uploadBtn:hover {
+    cursor: pointer;
+}
+
+
+
+.header{
+    margin-left:15px;
+}
+
+.info {
+    margin:15px;
+}
+
+.info h5 {
+    display:inline;
+    padding-right:15px;
+}

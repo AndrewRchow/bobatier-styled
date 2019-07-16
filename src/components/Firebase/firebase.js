@@ -1,6 +1,7 @@
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
+import 'firebase/storage';
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -17,6 +18,7 @@ class Firebase {
 
     this.auth = app.auth();
     this.db = app.database();
+    this.storage = app.storage();
   }
 
   // *** Auth API ***
@@ -38,7 +40,7 @@ class Firebase {
     this.auth.currentUser.updatePassword(password);
 
   // *** User API ***
-
+  //Database
   user = userid => this.db.ref(`users/${userid}`);
   bobaShopUserReview = (shopName, userId) => this.db.ref(`bobaShopUserReviews/${shopName}/${userId}`);
   bobaShopUserComment = (shopName, userId) => this.db.ref(`bobaShopUserReviews/${shopName}/${userId}/comments`);
@@ -50,6 +52,13 @@ class Firebase {
   userReviews = (userId) => this.db.ref(`users/${userId}/reviews`);
   users = () => this.db.ref('users');
   bobaShops = () => this.db.ref('bobaShops');
+  bobaShopImages = (shopName) => this.db.ref(`bobaShops/${shopName}/images`)
+
+  //Storage
+  storageBobaShopImages = (bobaShop) => this.storage.ref(`bobaShops/${bobaShop}/images`);
+  storageBobaShopImage = (bobaShop, imageName) => this.storage.ref(`bobaShops/${bobaShop}/images/${imageName}`);
+
+
 }
 
 export default Firebase;
