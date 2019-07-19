@@ -129,8 +129,10 @@ class Shops extends React.Component {
                             <h5 className={`${classes.info}`}>
                                 {shop} - {' '}
                                 <FontAwesomeIcon icon={faUsers} size="1x" />{numberOfReviews} {' '}
-                                <FontAwesomeIcon icon={faStar} size="1x" /> {shopAverageScore}
-
+                                <FontAwesomeIcon icon={faStar} size="1x" /> {shopAverageScore} {' - '}
+                                <Link to={{ pathname: ROUTES.PHOTOS, state: { shop: shop } }}>
+                                    Photos
+                                </Link>
                             </h5>
                             <ul>
                                 {shopReviews.map(review => (

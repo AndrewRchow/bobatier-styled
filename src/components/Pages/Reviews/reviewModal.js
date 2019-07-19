@@ -4,25 +4,24 @@ import PropTypes from 'prop-types';
 class Modal extends React.Component {
     constructor(props) {
         super(props);
+        this.node = React.createRef()
 
         this.state = {
             comment: ""
         }
 
     }
-    // componentWillMount() {
-    //     document.addEventListener('mousedown', this.handleClick, false);
-    // }
-    // componentWillUnmount() {
-    //     document.removeEventListener('mousedown', this.handleClick,false);
-    // }
-    // handleClick = (e) =>{
-    //     console.log(e);
-    //     if(this.node.contains(e.target)){
-    //         return;
-    //     }
-    //   this.props.onClose();
-    // }
+
+    handleContainerClick = (e) => {
+        if (this.node.contains(e.target)) {
+            return;
+        }
+        this.props.onClose();
+    }
+
+    onChange = event => {
+        this.setState({ [event.target.name]: event.target.value });
+    };
 
     render() {
         // Render nothing if the "show" prop is false
@@ -67,22 +66,24 @@ class Modal extends React.Component {
 
         const shop = this.props.commentModal.shop;
         const uid = this.props.commentModal.uid;
+        const {comment} = this.state;
+        const isInvalid = comment === ''
         
         return (
-            <div style={backdropStyle}>
-                <div style={modalStyle}
-                // ref={node => this.node = node}
-                >
+            <div style={backdropStyle} onClick={this.handleContainerClick}>
+                <div style={modalStyle} ref={node => this.node = node}>
                     <div style={parentContentStyle}>
                         {this.props.children}
                     </div>
                     <div className="footer">
-                        <textarea autoFocus={true} onChange={this.props.changeComment} name="comment" className='form-control' rows='3'></textarea>
+                        <textarea autoFocus={true} onChange={this.onChange} name="comment" className='form-control' rows='3'></textarea>
                         <div style={buttonsStyle}>
                             <button style={buttonStyle} className='btn btn-info' onClick={this.props.onClose}>
                                 Cancel
                             </button>
-                            <button className='btn btn-success' onClick={() => this.props.submitComment(shop, uid)}>
+                            <button className='btn btn-success' 
+                            disabled={isInvalid}
+                            onClick={() => this.props.submitComment(shop, uid, comment)}>
                                 Submit
                             </button>
                         </div>

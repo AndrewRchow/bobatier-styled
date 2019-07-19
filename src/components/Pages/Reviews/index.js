@@ -25,22 +25,29 @@ class Reviews extends React.Component {
             sortedReviews: [],
             sortedReviewsCopy: [],
             commentModal: {
-                comment: "",
                 shop: "",
                 uid: ""
             },
             modalIsOpen: false,
             currentTime: new Date(),
-            loading: true
+            loading: true,
+            contextUid:"",
+            contextUsername:""
+          
         }
 
         this.submitComment = this.submitComment.bind(this);
-        this.changeComment = this.changeComment.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
 
     }
 
     componentDidMount() {
+        if(this.context.authUser != null){
+            this.setState({
+                contextUid:this.context.authUser.uid,
+                contextUsername:this.context.username
+            });
+        }
         this.getAllReviewList();
         // this.interval = setInterval(() => this.setState({ currentTime: new Date() }), 1000);
     }
@@ -108,30 +115,20 @@ class Reviews extends React.Component {
         });
     }
 
-    changeComment = event => {
-        const commentModal = { ...this.state.commentModal };
-        commentModal.comment = event.target.value;
+    submitComment(shop, uid, comment) {
+        const {contextUid, contextUsername} = this.state;
 
-        this.setState({
-            commentModal: commentModal
-        });
-    };
-
-    submitComment(shop, uid) {
-        const comment = this.state.commentModal.comment;
-        const commenterName = this.context.username;
-        const commenterUid = this.context.authUser.uid;
         let dateTime = new Date();
         // dateTime.setSeconds(dateTime.getSeconds() + 3);
         dateTime = dateTime.toLocaleString();
 
-        console.log(uid, commenterName, commenterUid);
+        console.log(uid, contextUsername, contextUid);
         this.props.firebase
             .bobaShopUserComment(shop, uid)
             .push({
                 comment,
-                username: commenterName,
-                uid: commenterUid,
+                username: contextUsername,
+                uid: contextUid,
                 dateTime
             })
             .then(() => {
@@ -147,10 +144,7 @@ class Reviews extends React.Component {
     }
 
     render() {
-        const { sortedReviews, currentTime, loading } = this.state;
-        const authUser = this.context.username;
-
-
+        const { sortedReviews, currentTime, loading, contextUsername } = this.state;
         const override = css`
             display: block;
             margin: 150px auto;
@@ -178,7 +172,7 @@ class Reviews extends React.Component {
                                 <div key={index}>
                                     <div className={`${classes.reviewWell}`}>
                                         <ReviewCommentsCard toggleModal={this.toggleModal}
-                                            currentTime={currentTime} dateTime={review.dateTime} authUser={authUser}
+                                            currentTime={currentTime} dateTime={review.dateTime} authUser={contextUsername}
                                             uid={review.uid} username={review.username}
                                             shop={review.shop} note={review.note}
                                             score1={review.score1} score2={review.score2}
@@ -198,7 +192,6 @@ class Reviews extends React.Component {
                 <Modal show={this.state.modalIsOpen}
                     onClose={this.toggleModal}
                     commentModal={this.state.commentModal}
-                    changeComment={this.changeComment}
                     submitComment={this.submitComment}>
                     Add a comment
                 </Modal>
@@ -210,43 +203,3 @@ class Reviews extends React.Component {
 // const condition = authUser => !!authUser;
 // export default withFirebase(withAuthorization(condition)(Reviews));
 export default withFirebase(Reviews);
-
-
-
-// {
-//     element.comments ?
-//         <div>
-//             <button onClick={() => this.viewComments(index)}>v</button>
-//         </div>
-//         :
-//         <div>
-//             <button onClick={() => this.addComment(index)}>a</button>
-//         </div>
-// }
-// {
-//     element.displayAddComment ?
-//         <div>
-//             <input name="comment" type="text" onChange={this.onChange} placeholder="Add comment" />
-//             <button onClick={() => this.submitComment(element.shop, element.uid)}>a</button>
-//         </div>
-//         :
-//         <div></div>
-// }
-// {
-//     element.displayAllComments ?
-//         <div>
-//             <div>
-//                 {element.comments.map((element, index) => (
-//                     <div key={index}>
-//                         {element.comment} - {element.username}
-//                     </div>
-//                 ))}
-//             </div>
-//             <div>
-//                 <input name="comment" type="text" onChange={this.onChange} placeholder="Add comment" />
-//                 <button onClick={() => this.submitComment(element.shop, element.uid)}>a</button>
-//             </div>
-//         </div>
-//         :
-//         <div></div>
-// }

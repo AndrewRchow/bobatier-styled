@@ -19,33 +19,44 @@ import TestPage from '../Pages/Test';
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
 
-const App = () => (
-  <HashRouter>
-    <div>
-      <div>
-        <Navigation />
-        <hr />
-      </div>
-      <div className={classes.main}>
-        <Route exact path={ ROUTES.LANDING} component={LandingPage} />
-        <Route exact path={ ROUTES.SIGN_UP} component={SignUpPage} />
-        <Route exact path={ ROUTES.SIGN_IN} component={SignInPage} />
-        <Route exact path={ ROUTES.HOME} component={HomePage} />
-        <Route exact path={ ROUTES.REVIEWS} component={ReviewsPage} />
-        <Route exact path={ ROUTES.SHOPS} component={ShopsPage} />
-        <Route exact path={ ROUTES.MEMBERS} component={UsersPage} />
-        <Route exact path={ ROUTES.PHOTOS} component={PhotosPage} />
-        <Route exact path={ ROUTES.ACCOUNT} component={AccountPage} />
-        <Route exact path={ ROUTES.ADMIN} component={AdminPage} />
-        <Route exact path={ ROUTES.TEST} component={TestPage} />
-        <Route
-          exact
-          path={ ROUTES.PASSWORD_FORGET}
-          component={PasswordForgetPage}
-        />
-      </div>
-    </div>
-  </HashRouter>
-);
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {}
+  }
+
+  render() {
+    return (
+      <HashRouter>
+        <div>
+          <div>
+            <Navigation />
+            <hr />
+          </div>
+          <div className={classes.main}>
+            <Route exact path={ROUTES.LANDING} component={LandingPage} />
+            <Route exact path={ROUTES.SIGN_UP} component={SignUpPage} />
+            <Route exact path={ROUTES.SIGN_IN} component={SignInPage} />
+            <Route exact path={ROUTES.HOME} component={HomePage} />
+            <Route exact path={ROUTES.REVIEWS} component={ReviewsPage} />
+            <Route exact path={ROUTES.SHOPS} component={ShopsPage} />
+            <Route exact path={ROUTES.MEMBERS} component={UsersPage} />
+            <Route exact path={ROUTES.PHOTOS} component={PhotosPage} />
+            <Route exact path={ROUTES.ACCOUNT} component={AccountPage} />
+            <Route exact path={ROUTES.ADMIN} component={AdminPage} />
+            <Route exact path={ROUTES.TEST} component={TestPage} />
+            <Route
+              exact
+              path={ROUTES.PASSWORD_FORGET}
+              component={PasswordForgetPage}
+            />
+          </div>
+        </div>
+      </HashRouter>
+    );
+  }
+}
+
 
 export default withAuthentication(App);

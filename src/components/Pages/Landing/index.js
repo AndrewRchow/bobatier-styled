@@ -8,6 +8,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import { faUsers } from '@fortawesome/free-solid-svg-icons'
 
+import { ClipLoader } from 'react-spinners';
+import { css } from '@emotion/core';
+
 class Landing extends React.Component {
   constructor(props) {
     super(props);
@@ -15,7 +18,8 @@ class Landing extends React.Component {
     this.state = {
       reviews: {},
       grades: {},
-      tierList: {}
+      tierList: {},
+      loading: true
     }
 
   }
@@ -113,7 +117,8 @@ class Landing extends React.Component {
     }
 
     this.setState({
-      tierList: tierList
+      tierList: tierList,
+      loading: false
     });
     console.log(tierList);
     console.log(grades);
@@ -137,8 +142,12 @@ class Landing extends React.Component {
     const buttonStyle = {
       color: 'black',
       border: '1px solid #ccc',
-
     }
+
+    const override = css`
+    display: block;
+    margin: 120px auto;
+    `;
 
     return (
       <div className={`container`}>
@@ -154,22 +163,31 @@ class Landing extends React.Component {
                 <button className={`btn btn-default ${classes.tierLabel}`} style={buttonStyle}>{tier}</button>
               </div>
               <div className={`col-10 col-md-11`}>
-              {
-                list.map((shop, index) => (
-                  <div key={index} style={divStyle}>
+                {
+                  list.map((shop, index) => (
+                    <div key={index} style={divStyle}>
 
-                    <Link className={`${classes.tierItem}`} to={{ pathname: ROUTES.SHOPS, state: { shop: shop } }}>
-                      {shop}
-                    </Link>
+                      <Link className={`${classes.tierItem}`} to={{ pathname: ROUTES.SHOPS, state: { shop: shop } }}>
+                        {shop}
+                      </Link>
 
-                    , &nbsp;
+                      , &nbsp;
                   </div>
-                ))
-              }
+                  ))
+                }
               </div>
-            
+
             </div>
           ))}
+          <div className='sweet-loading'>
+            <ClipLoader
+              sizeUnit={"px"}
+              css={override}
+              size={70}
+              color={'#61aceb'}
+              loading={this.state.loading}
+            />
+          </div>
         </div>
 
       </div >

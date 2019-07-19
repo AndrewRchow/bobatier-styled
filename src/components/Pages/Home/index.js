@@ -82,7 +82,7 @@ class NewReviewBase extends React.Component {
 
   componentWillReceiveProps(props) {
     this.setState(props.formValues);
-    
+
     const bobaShopAndLocation = props.formValues.bobaShop;
     const shop = bobaShopAndLocation.substr(0, bobaShopAndLocation.indexOf('(') - 1);
     const location = bobaShopAndLocation.substring(
@@ -320,6 +320,7 @@ class MyReviewsBase extends React.Component {
     this.props.firebase.userReviews(userId).on('value', snapshot => {
       const myReviewsObject = snapshot.val();
       if (myReviewsObject) {
+        console.log('hh', myReviewsObject);
         const myReviewsList = Object.keys(myReviewsObject).map(key => ({
           bobaShop: key,
           ...myReviewsObject[key],
@@ -356,14 +357,14 @@ class MyReviewsBase extends React.Component {
           My Reviews
         </h5>
         <div className='sweet-loading'>
-                    <ClipLoader
-                        sizeUnit={"px"}
-                        css={override}
-                        size={70}
-                        color={'#61aceb'}
-                        loading={this.state.loading}
-                    />
-                </div>
+          <ClipLoader
+            sizeUnit={"px"}
+            css={override}
+            size={70}
+            color={'#61aceb'}
+            loading={this.state.loading}
+          />
+        </div>
         {!loading && (myReviews === undefined || myReviews.length == 0) ?
           <div className={`${classes.noReviewsWell}`}>
             No Reviews Added.
