@@ -37,7 +37,7 @@
 }
 
 .image {
-    max-width:250px;
+    max-width:180px;
     max-height:250px;
     display:inline-block;
     border:1px solid #ddd;
@@ -83,21 +83,26 @@
     box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
   }
 
-@media (max-width: 1000px){
+@media (max-width: 1200px){
     .image {
-        max-width:200px;
-        max-height:200px;
+        max-width:150px;
+        max-height:180px;
+    }
+
+    .largeImage{
+        max-width:600px;
+        max-height:800px;
+    }
+  }
+
+@media (max-width: 600px){
+    .image {
+        max-width:120px;
+        max-height:150px;
     }
 
     .largeImage{
         max-width:400px;
         max-height:600px;
-    }
-  }
-
-@media (max-width: 800px){
-    .image {
-        max-width:120px;
-        max-height:120px;
     }
   }
