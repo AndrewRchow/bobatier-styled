@@ -6,7 +6,6 @@ import { withFirebase } from '../../Firebase';
 class ImageModal extends React.Component {
     constructor(props) {
         super(props);
-
         this.node = React.createRef()
 
         this.state = {
@@ -19,7 +18,6 @@ class ImageModal extends React.Component {
             return;
         }
         this.props.toggleImage();
-
     }
 
     render() {

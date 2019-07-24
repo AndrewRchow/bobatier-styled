@@ -19,6 +19,7 @@ import TestPage from '../Pages/Test';
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
 
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -31,10 +32,10 @@ class App extends React.Component {
       <HashRouter>
         <div>
           <div>
-            <Navigation />
+            <Navigation forwardRef={node => this.node = node} />
             <hr />
           </div>
-          <div className={classes.main}>
+          <div className={classes.main} onClick={this.handleContainerClick}>
             <Route exact path={ROUTES.LANDING} component={LandingPage} />
             <Route exact path={ROUTES.SIGN_UP} component={SignUpPage} />
             <Route exact path={ROUTES.SIGN_IN} component={SignInPage} />

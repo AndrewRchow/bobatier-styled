@@ -8,6 +8,7 @@ import ReviewCard from '../../Partials/ReviewCard'
 
 import StarRatings from 'react-star-ratings';
 import AutoSuggestShops from '../../ThirdParty/AutoSuggestShops/index';
+import AutoSuggestLocations from '../../ThirdParty/AutoSuggestLocations/index';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -16,18 +17,10 @@ import { css } from '@emotion/core';
 
 
 const INITIAL_STATE = {
-  bobaShop: '',
-  location: '',
-  score1: 1,
-  score2: 1,
-  score3: 1,
-  score4: 1,
-  score5: 1,
-  score6: 1,
-  score7: 1,
-  score8: 1,
-  note: "",
-  error: null,
+  bobaShop: '', location: '',
+  score1: 1, score2: 1, score3: 1, score4: 1,
+  score5: 1, score6: 1, score7: 1, score8: 1,
+  note: "", error: null,
 };
 
 class HomePage extends React.Component {
@@ -51,8 +44,6 @@ class HomePage extends React.Component {
   }
 
   render() {
-
-    // <div className={`col-sm-6" ${classes.scroll}`}></div>
     return (
       <div className={classes.Content}>
         <div className={`row" ${classes.Wrapper}`}>
@@ -66,9 +57,7 @@ class HomePage extends React.Component {
       </div>
     );
   }
-
 }
-
 
 class NewReviewBase extends React.Component {
   static contextType = AuthUserContext;
@@ -76,8 +65,10 @@ class NewReviewBase extends React.Component {
   constructor(props) {
     super(props);
     this.state = props.formValues;
-    this.getAutosuggestInput = this.getAutosuggestInput.bind(this);
-    this.getAutoSuggestSelected = this.getAutoSuggestSelected.bind(this);
+    this.getAutosuggestShopInput = this.getAutosuggestShopInput.bind(this);
+    this.getAutoSuggestShopSelected = this.getAutoSuggestShopSelected.bind(this);
+    this.getAutosuggestLocationInput = this.getAutosuggestLocationInput.bind(this);
+    this.getAutoSuggestLocationSelected = this.getAutoSuggestLocationSelected.bind(this);
   }
 
   componentWillReceiveProps(props) {
@@ -112,17 +103,9 @@ class NewReviewBase extends React.Component {
       .bobaShopUserReview(bobaShopAndLocation, userId)
       .update({
         username,
-        score1,
-        score2,
-        score3,
-        score4,
-        score5,
-        score6,
-        score7,
-        score8,
-        note,
-        dateTime,
-        comment
+        score1, score2, score3, score4,
+        score5, score6, score7, score8,
+        note, dateTime, comment
       })
       .catch(error => {
         this.setState({ error });
@@ -132,16 +115,9 @@ class NewReviewBase extends React.Component {
       .userReview(userId, bobaShopAndLocation)
       .update({
         username,
-        score1,
-        score2,
-        score3,
-        score4,
-        score5,
-        score6,
-        score7,
-        score8,
-        note,
-        dateTime,
+        score1, score2, score3, score4,
+        score5, score6, score7, score8,
+        note, dateTime,
       })
       .catch(error => {
         this.setState({ error });
@@ -152,6 +128,15 @@ class NewReviewBase extends React.Component {
       .update({
         bobaShop: bobaShopAndLocation,
       })
+      .catch(error => {
+        this.setState({ error });
+      });
+
+    this.props.firebase
+      .location(location)
+      .update({
+        location
+      })
       .then(() => {
         this.setState({ ...INITIAL_STATE });
         this.notify();
@@ -159,7 +144,6 @@ class NewReviewBase extends React.Component {
       .catch(error => {
         this.setState({ error });
       });
-
   };
 
   onChange = event => {
@@ -170,10 +154,10 @@ class NewReviewBase extends React.Component {
     this.setState({ [name]: rating });
   };
 
-  getAutosuggestInput(value) {
+  getAutosuggestShopInput(value) {
     this.setState({ bobaShop: value })
   }
-  getAutoSuggestSelected(value) {
+  getAutoSuggestShopSelected(value) {
     const shop = value.substr(0, value.indexOf('(') - 1);
     const location = value.substring(
       value.lastIndexOf("(") + 1,
@@ -185,22 +169,23 @@ class NewReviewBase extends React.Component {
     });
   }
 
+  getAutosuggestLocationInput(value) {
+    this.setState({ location: value })
+  }
+  getAutoSuggestLocationSelected(value) {
+    this.setState({
+      location: value
+    });
+  }
+
   notify = () => toast("Review added");
 
   render() {
     const {
-      bobaShop,
-      location,
-      score1,
-      score2,
-      score3,
-      score4,
-      score5,
-      score6,
-      score7,
-      score8,
-      note,
-      error,
+      bobaShop, location,
+      score1, score2, score3, score4,
+      score5, score6, score7, score8,
+      note, error,
     } = this.state;
 
     const scores = [score1, score2, score3, score4, score5, score6, score7, score8];
@@ -249,15 +234,19 @@ class NewReviewBase extends React.Component {
             <div className={`col-xs-12 ${classes.inputTop}`}>
               <h5>New Review</h5>
               <AutoSuggestShops
-                getInputData={this.getAutosuggestInput}
-                getSelectedData={this.getAutoSuggestSelected}
+                getInputData={this.getAutosuggestShopInput}
+                getSelectedData={this.getAutoSuggestShopSelected}
                 bobaShop={bobaShop} />
-              <input name="location"
+              <AutoSuggestLocations
+                getInputData={this.getAutosuggestLocationInput}
+                getSelectedData={this.getAutoSuggestLocationSelected}
+                location={location} />
+              {/* <input name="location"
                 value={location}
                 onChange={this.onChange}
                 type="text"
                 className={`${classes.locationInput}`}
-                placeholder="Enter location" />
+                placeholder="Enter location" /> */}
             </div>
           </div>
 
@@ -274,14 +263,13 @@ class NewReviewBase extends React.Component {
           </div>
           <div className={`row`}>
             <button className={`btn btn-primary ${classes.submitButton}`} disabled={isInvalid} type="submit">
-              Submit
+              Add review
             </button>
           </div>
 
           {error && <p>{error.message}</p>}
         </form>
       </div>
-
     )
   }
 }
@@ -305,7 +293,6 @@ class MyReviewsBase extends React.Component {
   }
 
   deleteReview(key) {
-    console.log('hello', key)
     var result = window.confirm("Are you sure you want to delete?");
     if (result) {
       this.props.firebase.userReviews(this.context.authUser.uid).child(key).remove();

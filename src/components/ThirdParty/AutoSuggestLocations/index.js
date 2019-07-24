@@ -4,7 +4,7 @@ import { withFirebase } from '../../Firebase';
 import theme from './theme.css';
 // import classes from '*.module.css';
 
-let bobaShops = [
+let locations = [
 ];
 
 // Teach Autosuggest how to calculate suggestions for any given input value.
@@ -12,8 +12,8 @@ const getSuggestions = value => {
   const inputValue = value.trim().toLowerCase();
   const inputLength = inputValue.length;
 
-  return inputLength === 0 ? [] : bobaShops.filter(shop =>
-    shop.name.toLowerCase().slice(0, inputLength) === inputValue
+  return inputLength === 0 ? [] : locations.filter(location =>
+    location.name.toLowerCase().slice(0, inputLength) === inputValue
   );
 };
 
@@ -29,7 +29,7 @@ const renderSuggestion = suggestion => (
   </div>
 );
 
-class AutoSuggestShops extends React.Component {
+class AutoSuggestLocations extends React.Component {
   constructor(props) {
     super(props);
 
@@ -39,25 +39,25 @@ class AutoSuggestShops extends React.Component {
     // Suggestions also need to be provided to the Autosuggest,
     // and they are initially empty because the Autosuggest is closed.
     this.state = {
-      value: this.props.bobaShop,
+      value: this.props.location,
       suggestions: []
     };
   }
 
   componentDidMount() {
-    this.props.firebase.bobaShops().on('value', snapshot => {
-      const bobaShopsObject = snapshot.val();
-      if (bobaShopsObject) {
-        const bobaShopsList = Object.keys(bobaShopsObject).map(key => ({
+    this.props.firebase.locations().on('value', snapshot => {
+      const locationsObject = snapshot.val();
+      if (locationsObject) {
+        const locationsList = Object.keys(locationsObject).map(key => ({
           name: key,
         }))
-        bobaShops = bobaShopsList;
+        locations = locationsList;
       }
     });
   }
 
   componentWillReceiveProps(props) {
-    this.setState({ value: props.bobaShop });
+    this.setState({ value: props.location });
   }
 
   onChange = (event, { newValue }) => {
@@ -89,7 +89,7 @@ class AutoSuggestShops extends React.Component {
   };
 
   componentWillUnmount() {
-    this.props.firebase.bobaShops().off();
+    this.props.firebase.locations().off();
   }
 
 
@@ -98,7 +98,7 @@ class AutoSuggestShops extends React.Component {
 
     // Autosuggest will pass through all these props to the input.
     const inputProps = {
-      placeholder: 'Shop name',
+      placeholder: 'Location name',
       value,
       onChange: this.onChange
     };
@@ -120,4 +120,4 @@ class AutoSuggestShops extends React.Component {
   }
 }
 
-export default withFirebase(AutoSuggestShops);
+export default withFirebase(AutoSuggestLocations);
