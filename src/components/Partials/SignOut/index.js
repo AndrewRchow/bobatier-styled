@@ -12,7 +12,7 @@ const buttonStyle= {
 
 const SignOutButton = ({ firebase }) => (
   <button type="button" style={buttonStyle} className="btn btn-default" onClick={firebase.doSignOut}>
-    Sign Out
+    Depreciated
   </button>
 );
 

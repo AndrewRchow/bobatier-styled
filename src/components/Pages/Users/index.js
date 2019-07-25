@@ -20,9 +20,6 @@ class Users extends React.Component {
             userReviews: [],
             numberOfReviews: 0
         }
-
-        this.getAutosuggestInput = this.getAutosuggestInput.bind(this);
-        this.getAutoSuggestSelected = this.getAutoSuggestSelected.bind(this);
     }
 
     componentDidMount() {
@@ -32,14 +29,17 @@ class Users extends React.Component {
             this.getUserReviews(userid, username);
         }
     }
-
-    getAutosuggestInput(value) {
+    componentWillUnmount() {
+        this.props.firebase.userReviews().off();
     }
-    getAutoSuggestSelected(value) {
+
+    getAutosuggestInput = (value) => {
+    }
+    getAutoSuggestSelected = (value) =>  {
         this.getUserReviews(value.userid, value.username);
     }
 
-    getUserReviews(userid, username) {
+    getUserReviews = (userid, username) => {
         this.setState({ user: username });
 
         this.props.firebase.userReviews(userid).on('value', snapshot => {
@@ -67,7 +67,7 @@ class Users extends React.Component {
         console.log(user);
 
         return (
-            <div className={`container`}>
+            <div>
                 <div className={`row`}>
                     <div className={`col-lg-12 ${classes.header}`}>
                         <h5>Members</h5>

@@ -35,7 +35,7 @@ class AddImageModal extends React.Component {
         this.setState({ isUploading: false, error: error });
     };
     onUploadSuccess = (filename, description) => {
-        this.setState({ isUploading: false });
+        this.setState({ isUploading: false, description:'' });
         this.props.handleUploadSuccess(filename, description);
     }
 
@@ -59,7 +59,7 @@ class AddImageModal extends React.Component {
         const modalStyle = {
             backgroundColor: 'white',
             borderRadius: 5,
-            maxWidth: 500,
+            maxWidth: 540,
             minHeight: 300,
             margin: '10% auto',
             padding: 30,
@@ -71,13 +71,13 @@ class AddImageModal extends React.Component {
         return (
             <div style={backdropStyle} onClick={this.handleContainerClick}>
                 <div style={modalStyle} ref={node => this.node = node}>
+                    <button type="button" className="close" onClick={this.props.toggleModal} aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                     <div style={{ marginTop: "40px" }}>
                         <input autoFocus={true} onChange={this.onChange} name="description" className='form-control'
                             placeholder="Enter description"></input>
                         <div className={`${classes.uploadBtns}`}>
-                            <button className={`btn btn-default ${classes.cancelBtn}`} onClick={this.props.toggleModal}>
-                                Cancel
-                            </button>
                             <CustomUploadButton
                                 accept="image/*"
                                 randomizeFilename
@@ -96,7 +96,7 @@ class AddImageModal extends React.Component {
                             : <div></div>}
                     </div>
                     <div style={{ display: "block" }}>
-                    {error ?
+                        {error ?
                             <div>{error}</div>
                             : <div></div>}
                     </div>

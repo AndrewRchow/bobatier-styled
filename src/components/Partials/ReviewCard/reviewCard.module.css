@@ -44,9 +44,16 @@
 
 @media (max-width: 600px){
     .scoreHeader{
-        font-size:0.8rem;
+        font-size:0.9rem;
       }
-  }
+}
+
+@media (max-width: 340px){
+    .scoreHeader{
+        font-size:0.75rem;
+      }
+}
+
 
 /* .well{
     min-height: 20px;

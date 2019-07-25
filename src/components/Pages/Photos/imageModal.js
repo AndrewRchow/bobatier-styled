@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './photos.module.css';
 import { withFirebase } from '../../Firebase';
+import AutoSuggestLocations from '../../ThirdParty/AutoSuggestLocations';
 
 
 class ImageModal extends React.Component {
@@ -34,7 +35,8 @@ class ImageModal extends React.Component {
             right: 0,
             backgroundColor: 'rgba(0,0,0,0.7)',
             padding: 50,
-            zIndex: 1
+            zIndex: 1,
+            overflow:'auto'
         };
 
         // The modal "window"
@@ -43,7 +45,7 @@ class ImageModal extends React.Component {
             // borderRadius: 5,
             // maxWidth: 500,
             // minHeight: 300,
-            margin: '10% auto',
+            // margin: '10% auto',
             padding: 30,
             zIndex: 100
         };

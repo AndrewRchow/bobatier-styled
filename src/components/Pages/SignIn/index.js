@@ -9,15 +9,16 @@ import { PasswordForgetLink } from '../../Partials/PasswordForget';
 import { withFirebase } from '../../Firebase';
 import * as ROUTES from '../../../constants/routes';
 
+import { ClipLoader } from 'react-spinners';
+import { css } from '@emotion/core';
+
 const signInPageStyle = {
-  margin:"20px"
+  margin: "20px"
 }
 const SignInPage = () => (
   <div style={signInPageStyle}>
     <h5>Sign In</h5>
     <SignInForm />
-    <PasswordForgetLink />
-    <SignUpLink />
   </div>
 );
 
@@ -25,6 +26,7 @@ const INITIAL_STATE = {
   email: '',
   password: '',
   error: null,
+  loading: false
 };
 
 class SignInFormBase extends Component {
@@ -36,18 +38,19 @@ class SignInFormBase extends Component {
 
   onSubmit = event => {
     const { email, password } = this.state;
-
-    this.props.firebase
-      .doSignInWithEmailAndPassword(email, password)
-      .then(() => {
-        this.setState({ ...INITIAL_STATE });
-        this.props.history.push(ROUTES.HOME);
-      })
-      .catch(error => {
-        this.setState({ error });
-      });
-
+    this.setState({ loading: true }, () => {
+      this.props.firebase
+        .doSignInWithEmailAndPassword(email, password)
+        .then(() => {
+          this.setState({ ...INITIAL_STATE });
+          this.props.history.push(ROUTES.HOME);
+        })
+        .catch(error => {
+          this.setState({ error, loading: false });
+        });
+    })
     event.preventDefault();
+
   };
 
   onChange = event => {
@@ -60,8 +63,12 @@ class SignInFormBase extends Component {
     const isInvalid = password === '' || email === '';
 
     const signInButtonStyle = {
-      marginTop:"8px",
+      marginTop: "8px",
     }
+
+    const override = css`
+    display: block;
+    margin: 10px auto;`;
 
     return (
       <form onSubmit={this.onSubmit}>
@@ -81,11 +88,23 @@ class SignInFormBase extends Component {
           buttonClassName={classes.maskButton}
           inputClassName={classes.inputStyle}
         />
-        <button className={`btn btn-primary`}  style={signInButtonStyle} disabled={isInvalid} type="submit">
+        <button className={`btn btn-primary`} style={signInButtonStyle} disabled={isInvalid} type="submit">
           Sign In
         </button>
-
+        <div style={{marginTop:'10px'}}>
+          <PasswordForgetLink />
+          <SignUpLink />
+        </div>
         {error && <p className={classes.error}>{error.message}</p>}
+        <div className='sweet-loading'>
+          <ClipLoader
+            sizeUnit={"px"}
+            css={override}
+            size={30}
+            color={'#61aceb'}
+            loading={this.state.loading}
+          />
+        </div>
       </form>
     );
   }

@@ -1,5 +1,10 @@
-.cancelBtn{
-    border:1px solid #bbb;
+.addIcon {
+    display:inline;
+    padding:10px 0px 0px 10px;
+}
+
+.addIcon:hover {
+    cursor: pointer;
 }
 
 .uploadBtn{
@@ -7,7 +12,7 @@
     color: white;
     margin:10px 0 10px 10px;
     border-radius: 4px;
-    display:inline;
+    display:inline-block;
 }
 
 .uploadBtn:hover {
@@ -25,6 +30,7 @@
 
 .info {
     margin:15px;
+    display:block;
 }
 
 .info h5 {
@@ -50,7 +56,7 @@
 
 .largeImage{
     max-width:800px;
-    max-height:1200px;
+    max-height:600px;
 }
 
 .outer { 
@@ -90,10 +96,23 @@
     }
 
     .largeImage{
-        max-width:600px;
+        max-width:800px;
         max-height:800px;
     }
   }
+
+  @media (max-width: 760px){
+    .image {
+        max-width:130px;
+        max-height:180px;
+    }
+
+    .largeImage{
+        max-width:600px;
+        max-height:600px;
+    }
+  }
+
 
 @media (max-width: 600px){
     .image {
@@ -102,7 +121,33 @@
     }
 
     .largeImage{
+        max-width:500px;
+        max-height:500px;
+    }
+  }
+
+  @media (max-width: 570px){
+    .image {
+        max-width:100px;
+        max-height:140px;
+    }
+
+    .largeImage{
         max-width:400px;
-        max-height:600px;
+        max-height:400px;
+    }
+  }
+
+  @media (max-width: 400px){
+    .largeImage{
+        max-width:340px;
+        max-height:400px;
+    }
+  }
+
+  @media (max-width: 350px){
+    .largeImage{
+        max-width:300px;
+        max-height:350px;
     }
   }

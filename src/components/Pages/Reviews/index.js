@@ -31,28 +31,29 @@ class Reviews extends React.Component {
             modalIsOpen: false,
             currentTime: new Date(),
             loading: true,
-            contextUid:"",
-            contextUsername:""
-          
+            contextUid: "",
+            contextUsername: ""
+
         }
-
-        this.submitComment = this.submitComment.bind(this);
-        this.toggleModal = this.toggleModal.bind(this);
-
     }
 
     componentDidMount() {
-        if(this.context.authUser != null){
+        if (this.context.authUser != null) {
             this.setState({
-                contextUid:this.context.authUser.uid,
-                contextUsername:this.context.username
+                contextUid: this.context.authUser.uid,
+                contextUsername: this.context.username
             });
         }
         this.getAllReviewList();
         // this.interval = setInterval(() => this.setState({ currentTime: new Date() }), 1000);
     }
 
-    getAllReviewList() {
+    componentWillUnmount() {
+        this.props.firebase.bobaShopReviews().off();
+        // clearInterval(this.interval);
+    }
+
+    getAllReviewList = () => {
         this.props.firebase.bobaShopReviews().on('value', snapshot => {
             const reviewsObject = snapshot.val();
             if (reviewsObject) {
@@ -68,13 +69,7 @@ class Reviews extends React.Component {
         });
     }
 
-    componentWillUnmount() {
-        this.props.firebase.bobaShopReviews().off();
-        // clearInterval(this.interval);
-    }
-
-
-    sortReviews() {
+    sortReviews = () => {
         let sortedReviews = [];
         for (let shop in this.state.reviews) {
             for (let uid in this.state.reviews[shop]) {
@@ -115,8 +110,8 @@ class Reviews extends React.Component {
         });
     }
 
-    submitComment(shop, uid, comment) {
-        const {contextUid, contextUsername} = this.state;
+    submitComment = (shop, uid, comment) => {
+        const { contextUid, contextUsername } = this.state;
 
         let dateTime = new Date();
         // dateTime.setSeconds(dateTime.getSeconds() + 3);
@@ -161,7 +156,7 @@ class Reviews extends React.Component {
                         loading={this.state.loading}
                     />
                 </div>
-                <div className={`container ${classes.recentReviews}`}>
+                <div className={`${classes.recentReviews}`}>
                     {!loading && (sortedReviews === undefined || sortedReviews.length == 0) ?
                         <div className={`${classes.reviewWell}`}>
                             No Recent Reviews.
@@ -182,15 +177,13 @@ class Reviews extends React.Component {
                                             comments={review.comments} />
 
                                     </div>
-
-
                                 </div>
                             ))}
                         </div>
                     }
                 </div>
                 <Modal show={this.state.modalIsOpen}
-                    onClose={this.toggleModal}
+                    toggleModal={this.toggleModal}
                     commentModal={this.state.commentModal}
                     submitComment={this.submitComment}>
                     Add a comment

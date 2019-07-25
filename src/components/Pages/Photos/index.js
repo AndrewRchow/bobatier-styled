@@ -9,11 +9,12 @@ import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadBut
 import { Link } from 'react-router-dom';
 import * as ROUTES from '../../../constants/routes';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import { ClipLoader } from 'react-spinners';
 import { css } from '@emotion/core';
 
 import AutoSuggestShops from '../../ThirdParty/AutoSuggestShops/index';
-
 
 class Photos extends React.Component {
     static contextType = AuthUserContext;
@@ -33,11 +34,6 @@ class Photos extends React.Component {
             imageInfo: {},
             imageIsOpen: false
         }
-
-        this.getAutosuggestInput = this.getAutosuggestInput.bind(this);
-        this.getAutoSuggestSelected = this.getAutoSuggestSelected.bind(this);
-        this.toggleModal = this.toggleModal.bind(this);
-        this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
     }
 
     componentDidMount() {
@@ -69,13 +65,13 @@ class Photos extends React.Component {
         });
     }
 
-    getAutosuggestInput(value) {
+    getAutosuggestInput = (value) => {
     }
-    getAutoSuggestSelected(value) {
+    getAutoSuggestSelected = (value) => {
         this.getShopImages(value);
     }
 
-    getShopImages(shop) {
+    getShopImages = (shop) => {
         this.setState({
             shop: shop,
             loading: true
@@ -182,7 +178,7 @@ class Photos extends React.Component {
         `;
 
         return (
-            <div className={`container`}>
+            <div className='container'>
                 <div className={`row`}>
                     <div className={`col-lg-12 ${classes.header}`}>
                         <h5></h5>
@@ -204,10 +200,8 @@ class Photos extends React.Component {
                                     {shop}
                                 </h5>
                                 {contextUid ?
-                                    <button className={`btn btn-info ${classes.addCommentButton}`}
-                                        onClick={() => this.toggleModal()}>
-                                        Add Photo
-                                    </button>
+                                    <FontAwesomeIcon icon={faPlusCircle} onClick={this.toggleModal}
+                                    className={`${classes.addIcon}`} size="2x" />
                                     : <div></div>}
                             </div>
                             <div>

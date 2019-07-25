@@ -1,3 +1,8 @@
+auto margin every page
+lazy loading pictures
+create wells for each header
+svg icons
+svg pictures
 
 
 SCORES

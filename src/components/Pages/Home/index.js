@@ -1,5 +1,6 @@
 import React from 'react';
 import classes from './home.module.css';
+import AddReviewModal from './addReviewModal';
 import { withAuthorization, AuthUserContext } from '../../Session';
 import { withFirebase } from '../../Firebase';
 import { Link } from 'react-router-dom';
@@ -7,13 +8,12 @@ import * as ROUTES from '../../../constants/routes';
 import ReviewCard from '../../Partials/ReviewCard'
 
 import StarRatings from 'react-star-ratings';
-import AutoSuggestShops from '../../ThirdParty/AutoSuggestShops/index';
-import AutoSuggestLocations from '../../ThirdParty/AutoSuggestLocations/index';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
 import { ClipLoader } from 'react-spinners';
 import { css } from '@emotion/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const INITIAL_STATE = {
@@ -24,13 +24,38 @@ const INITIAL_STATE = {
 };
 
 class HomePage extends React.Component {
+  static contextType = AuthUserContext;
+
   constructor(props) {
     super(props);
-    this.state = { formValues: INITIAL_STATE };
-    this.editFormValues = this.editFormValues.bind(this);
+
+    this.state = {
+      myReviews: [],
+      modalIsOpen: false,
+      loading: true,
+      formValues: INITIAL_STATE
+    };
   }
 
-  editFormValues(params) {
+  componentDidMount() {
+    this.getReviewList();
+  }
+  componentWillUnmount() {
+    this.props.firebase.userReviews().off();
+  }
+
+  toggleModal = () => {
+    this.setState({ modalIsOpen: !this.state.modalIsOpen });
+  }
+
+  newReview = () => {
+    this.setState({ formValues:INITIAL_STATE }
+      , () => {
+        this.toggleModal();
+      });
+  }
+
+  editReview = (params) => {
     params.score1 = parseInt(params.score1);
     params.score2 = parseInt(params.score2);
     params.score3 = parseInt(params.score3);
@@ -40,64 +65,26 @@ class HomePage extends React.Component {
     params.score7 = parseInt(params.score7);
     params.score8 = parseInt(params.score8);
     this.setState({ formValues: params });
-    window.scrollTo(0, 0);
+    this.toggleModal();
   }
 
-  render() {
-    return (
-      <div className={classes.Content}>
-        <div className={`row" ${classes.Wrapper}`}>
-          <div className={`col-12 col-sm-6" ${classes.left}`}>
-            <NewReview formValues={this.state.formValues} />
-          </div>
-          <div className={`col-12 col-sm-6" ${classes.right}`}>
-            <MyReviews editReview={this.editFormValues} />
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
-
-class NewReviewBase extends React.Component {
-  static contextType = AuthUserContext;
-
-  constructor(props) {
-    super(props);
-    this.state = props.formValues;
-    this.getAutosuggestShopInput = this.getAutosuggestShopInput.bind(this);
-    this.getAutoSuggestShopSelected = this.getAutoSuggestShopSelected.bind(this);
-    this.getAutosuggestLocationInput = this.getAutosuggestLocationInput.bind(this);
-    this.getAutoSuggestLocationSelected = this.getAutoSuggestLocationSelected.bind(this);
+  deleteReview = (key) => {
+    var result = window.confirm("Are you sure you want to delete?");
+    if (result) {
+      this.props.firebase.userReviews(this.context.authUser.uid).child(key).remove();
+      this.props.firebase.bobaShopUserReviews(key).child(this.context.authUser.uid).remove();
+    }
   }
 
-  componentWillReceiveProps(props) {
-    this.setState(props.formValues);
+  submitReview = formValues => {
+    const { score1, score2, score3, score4, score5, score6, score7, score8, note } = formValues;
+    const bobaShop = formValues.bobaShop.trim();
+    const location = formValues.location.trim();
+    const bobaShopAndLocation = bobaShop + ' (' + location + ')';
 
-    const bobaShopAndLocation = props.formValues.bobaShop;
-    const shop = bobaShopAndLocation.substr(0, bobaShopAndLocation.indexOf('(') - 1);
-    const location = bobaShopAndLocation.substring(
-      bobaShopAndLocation.lastIndexOf("(") + 1,
-      bobaShopAndLocation.lastIndexOf(")")
-    );
-    this.setState({
-      bobaShop: shop,
-      location: location
-    });
-  }
-
-  onSubmit = event => {
-    event.preventDefault();
-
-    const { score1, score2, score3, score4, score5, score6, score7, score8, note } = this.state;
     const dateTime = new Date().toLocaleString();
     const userId = this.context.authUser.uid;
     const username = this.context.username;
-    const comment = "";
-
-    const bobaShop = this.state.bobaShop.trim();
-    const location = this.state.location.trim();
-    const bobaShopAndLocation = bobaShop + ' (' + location + ')';
 
     this.props.firebase
       .bobaShopUserReview(bobaShopAndLocation, userId)
@@ -105,11 +92,9 @@ class NewReviewBase extends React.Component {
         username,
         score1, score2, score3, score4,
         score5, score6, score7, score8,
-        note, dateTime, comment
+        note, dateTime
       })
-      .catch(error => {
-        this.setState({ error });
-      });
+      .catch(error => { this.setState({ error }); });
 
     this.props.firebase
       .userReview(userId, bobaShopAndLocation)
@@ -119,187 +104,24 @@ class NewReviewBase extends React.Component {
         score5, score6, score7, score8,
         note, dateTime,
       })
-      .catch(error => {
-        this.setState({ error });
-      });
+      .catch(error => { this.setState({ error }); });
 
     this.props.firebase
       .bobaShop(bobaShopAndLocation)
-      .update({
-        bobaShop: bobaShopAndLocation,
-      })
-      .catch(error => {
-        this.setState({ error });
-      });
+      .update({ bobaShop: bobaShopAndLocation })
+      .catch(error => { this.setState({ error }); });
 
     this.props.firebase
       .location(location)
-      .update({
-        location
-      })
+      .update({ location })
       .then(() => {
-        this.setState({ ...INITIAL_STATE });
+        this.setState({ formValues: INITIAL_STATE });
         this.notify();
       })
-      .catch(error => {
-        this.setState({ error });
-      });
+      .catch(error => { this.setState({ error }); });
+
+    this.toggleModal();
   };
-
-  onChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
-
-  onChangeScore = (rating, name) => {
-    this.setState({ [name]: rating });
-  };
-
-  getAutosuggestShopInput(value) {
-    this.setState({ bobaShop: value })
-  }
-  getAutoSuggestShopSelected(value) {
-    const shop = value.substr(0, value.indexOf('(') - 1);
-    const location = value.substring(
-      value.lastIndexOf("(") + 1,
-      value.lastIndexOf(")")
-    );
-    this.setState({
-      bobaShop: shop,
-      location: location
-    });
-  }
-
-  getAutosuggestLocationInput(value) {
-    this.setState({ location: value })
-  }
-  getAutoSuggestLocationSelected(value) {
-    this.setState({
-      location: value
-    });
-  }
-
-  notify = () => toast("Review added");
-
-  render() {
-    const {
-      bobaShop, location,
-      score1, score2, score3, score4,
-      score5, score6, score7, score8,
-      note, error,
-    } = this.state;
-
-    const scores = [score1, score2, score3, score4, score5, score6, score7, score8];
-    const scoreNames = ["Drink Quality:", "Sweet Boba:", "Chewy Boba:", "Customize:", "Consistent:", "Variety:", "Price:", "Overall:"];
-
-    const ratingInputs = []
-    for (const [index, value] of scores.entries()) {
-      ratingInputs.push(
-        <div key={index} className={`row`}>
-          <p className={`${classes.scoreReviewHeader}`}>
-            {scoreNames[index]}
-          </p>
-          <div className={`${classes.starRating}`}>
-            <StarRatings
-              rating={value}
-              starRatedColor="#0099ff"
-              starHoverColor="#66ccff"
-              changeRating={this.onChangeScore}
-              numberOfStars={5}
-              name={"score" + (index + 1)}
-              starDimension="20px"
-            /></div>
-        </div>
-      )
-    }
-
-    const isInvalid =
-      bobaShop === '' ||
-      bobaShop.indexOf('(') > -1 ||
-      bobaShop.indexOf(')') > -1 ||
-      location === '' ||
-      score1 === '' ||
-      score2 === '' ||
-      score3 === '' ||
-      score4 === '' ||
-      score5 === '' ||
-      score6 === '' ||
-      score7 === '' ||
-      score8 === '';
-
-    return (
-      <div className={`container ${classes.well}`}>
-        <ToastContainer />
-        <form onSubmit={this.onSubmit} className={classes.submitForm}>
-          <div className={`row`}>
-            <div className={`col-xs-12 ${classes.inputTop}`}>
-              <h5>New Review</h5>
-              <AutoSuggestShops
-                getInputData={this.getAutosuggestShopInput}
-                getSelectedData={this.getAutoSuggestShopSelected}
-                bobaShop={bobaShop} />
-              <AutoSuggestLocations
-                getInputData={this.getAutosuggestLocationInput}
-                getSelectedData={this.getAutoSuggestLocationSelected}
-                location={location} />
-              {/* <input name="location"
-                value={location}
-                onChange={this.onChange}
-                type="text"
-                className={`${classes.locationInput}`}
-                placeholder="Enter location" /> */}
-            </div>
-          </div>
-
-          {ratingInputs}
-
-          <div className={`row`}>
-            <textarea name="note"
-              value={note}
-              onChange={this.onChange}
-              type="text"
-              placeholder="Note"
-              className={`${classes.textarea}`}
-            />
-          </div>
-          <div className={`row`}>
-            <button className={`btn btn-primary ${classes.submitButton}`} disabled={isInvalid} type="submit">
-              Add review
-            </button>
-          </div>
-
-          {error && <p>{error.message}</p>}
-        </form>
-      </div>
-    )
-  }
-}
-
-class MyReviewsBase extends React.Component {
-  static contextType = AuthUserContext;
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      myReviews: [],
-      loading: true
-    };
-
-    this.deleteReview = this.deleteReview.bind(this);
-  }
-
-  componentDidMount() {
-    this.getReviewList();
-  }
-
-  deleteReview(key) {
-    var result = window.confirm("Are you sure you want to delete?");
-    if (result) {
-      this.props.firebase.userReviews(this.context.authUser.uid).child(key).remove();
-      this.props.firebase.bobaShopUserReviews(key).child(this.context.authUser.uid).remove();
-      this.props.firebase.bobaShops().child(key).remove();
-    }
-  }
 
   getReviewList() {
     const userId = this.context.authUser.uid
@@ -307,42 +129,38 @@ class MyReviewsBase extends React.Component {
     this.props.firebase.userReviews(userId).on('value', snapshot => {
       const myReviewsObject = snapshot.val();
       if (myReviewsObject) {
-        console.log('hh', myReviewsObject);
         const myReviewsList = Object.keys(myReviewsObject).map(key => ({
           bobaShop: key,
           ...myReviewsObject[key],
         }))
 
-        this.setState({
-          myReviews: myReviewsList,
-        });
+        this.setState({ myReviews: myReviewsList });
       } else {
-        this.setState({
-          myReviews: [],
-        });
+        this.setState({ myReviews: [] });
       }
-      this.setState({
-        loading: false,
-      });
+      this.setState({ loading: false });
     });
   }
 
-  componentWillUnmount() {
-    this.props.firebase.userReviews().off();
-  }
+  notify = () => toast("Review added");
 
   render() {
     const { myReviews, loading } = this.state;
     const override = css`
     display: block;
-    margin: 150px auto;
-    `;
+    margin: 150px auto;`;
 
     return (
       <div>
-        <h5 className={`${classes.rightHeader}`}>
-          My Reviews
-        </h5>
+        <div className={classes.inlineParent}>
+          <h5 style={{marginLeft:'15px'}}>
+            My Reviews
+          </h5>
+          <FontAwesomeIcon icon={faPlusCircle} onClick={this.newReview}
+            className={`${classes.addIcon}`} size="2x" />
+        </div>
+        <ToastContainer />
+
         <div className='sweet-loading'>
           <ClipLoader
             sizeUnit={"px"}
@@ -352,32 +170,52 @@ class MyReviewsBase extends React.Component {
             loading={this.state.loading}
           />
         </div>
-        {!loading && (myReviews === undefined || myReviews.length == 0) ?
-          <div className={`${classes.noReviewsWell}`}>
-            No Reviews Added.
+        <div className={classes.reviewsList}>
+          {!loading && (myReviews === undefined || myReviews.length == 0) ?
+            <div className={`${classes.noReviewsWell}`}>
+              No Reviews Added.
             </div>
-          :
-          <ul>
-            {myReviews.map(review => (
-              <li key={review.bobaShop} className={``}>
-                <ReviewCard isHomeCard="true" review={review} editReview={this.props.editReview} deleteReview={this.deleteReview}
-                  shop={review.bobaShop} note={review.note}
-                  score1={review.score1} score2={review.score2}
-                  score3={review.score3} score4={review.score4}
-                  score5={review.score5} score6={review.score6}
-                  score7={review.score7} score8={review.score8} />
-              </li>
-            ))}
-          </ul>
-        }
+            : <ul>
+              {myReviews.map(review => (
+                <li key={review.bobaShop} className={``}>
+                  <ReviewCard isHomeCard="true" review={review} editReview={this.editReview} deleteReview={this.deleteReview}
+                    shop={review.bobaShop} note={review.note}
+                    score1={review.score1} score2={review.score2}
+                    score3={review.score3} score4={review.score4}
+                    score5={review.score5} score6={review.score6}
+                    score7={review.score7} score8={review.score8} />
+                </li>
+              ))}
+            </ul>
+          }
+        </div>
+
+        <AddReviewModal show={this.state.modalIsOpen}
+          formValues={this.state.formValues}
+          toggleModal={this.toggleModal}
+          submitReview={this.submitReview}>
+        </AddReviewModal>
       </div>
     )
   }
+
+  // render() {
+  //   return (
+  //     <div>
+
+  //         <div className={`col-12 col-sm-6" ${classes.left}`}>
+  //           <NewReview formValues={this.state.formValues} />
+  //         </div>
+  //         <div className={`col-12 col-sm-6" ${classes.right}`}>
+  //           <MyReviews editReview={this.editFormValues} />
+  //         </div>
+
+  //     </div>
+  //   );
+  // }
 }
+
 
 const condition = authUser => !!authUser;
 
-const NewReview = withFirebase(withAuthorization(condition)(NewReviewBase));
-const MyReviews = withFirebase(withAuthorization(condition)(MyReviewsBase));
-
-export default HomePage;
+export default withFirebase(withAuthorization(condition)(HomePage));

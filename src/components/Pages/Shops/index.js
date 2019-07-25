@@ -25,9 +25,6 @@ class Shops extends React.Component {
             shopAverageScore: 1,
             numberOfReviews: 0
         }
-
-        this.getAutosuggestInput = this.getAutosuggestInput.bind(this);
-        this.getAutoSuggestSelected = this.getAutoSuggestSelected.bind(this);
     }
 
     componentDidMount() {
@@ -36,14 +33,17 @@ class Shops extends React.Component {
             this.getShopReviews(shop);
         }
     }
-
-    getAutosuggestInput(value) {
+    componentWillUnmount() {
+        this.props.firebase.bobaShopUserReviews().off();
     }
-    getAutoSuggestSelected(value) {
+
+    getAutosuggestInput = (value) => {
+    }
+    getAutoSuggestSelected = (value) => {
         this.getShopReviews(value);
     }
 
-    getShopReviews(shop) {
+    getShopReviews = (shop) => {
         this.setState({ shop: shop });
 
         this.props.firebase.bobaShopUserReviews(shop).on('value', snapshot => {
@@ -72,7 +72,7 @@ class Shops extends React.Component {
         })
     }
 
-    gradeReviews() {
+    gradeReviews = () => {
         let count = 0;
         let finalScore = 0;
         let score1Total = 0; let score2Total = 0; let score3Total = 0; let score4Total = 0;
@@ -98,14 +98,10 @@ class Shops extends React.Component {
         })
     }
 
-    componentWillUnmount() {
-        this.props.firebase.bobaShopUserReviews().off();
-    }
-
     render() {
         const { shop, shopReviews, shopAverageScore, numberOfReviews } = this.state;
         return (
-            <div className={`container`}>
+            <div>
                 <div className={`row`}>
                     <div className={`col-lg-12 ${classes.header}`}>
                         <h5>Shops</h5>

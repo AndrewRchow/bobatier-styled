@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './navigation.module.css';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import { AuthUserContext } from '../Session';
@@ -57,34 +57,30 @@ class NavigationAuthBase extends React.Component {
     super(props);
 
     this.state = {
-      navExpanded:false
+      navExpanded: false
     }
-
-    this.setNavExpanded = this.setNavExpanded.bind(this);
-    this.closeNav = this.closeNav.bind(this);
-    this.handleDocumentClick = this.handleDocumentClick.bind(this);
-    this.signOut = this.signOut.bind(this);
   }
 
-  setNavExpanded(expanded) {
+  setNavExpanded = (expanded) => {
     this.setState({ navExpanded: expanded });
     document.addEventListener('click', this.handleDocumentClick, true);
   };
 
-  closeNav() {
+  closeNav = () => {
     this.setState({ navExpanded: false });
     document.removeEventListener('click', this.handleDocumentClick, true);
   };
 
-  handleDocumentClick(e) {
+  handleDocumentClick = (e) => {
     const container = this._element;
     if (e.target !== container && !container.contains(e.target)) {
       this.closeNav();
     }
   }
 
-  signOut(){
+  signOut = () => {
     this.props.firebase.doSignOut();
+    this.props.history.push(ROUTES.SIGN_IN);
     this.closeNav();
   }
 
@@ -97,9 +93,9 @@ class NavigationAuthBase extends React.Component {
     }
 
     return (
-      <div ref={(c) =>(this._element = c)} className={classes.navBar}>
+      <div ref={(c) => (this._element = c)} className={classes.navBar}>
         <Navbar collapseOnSelect expand="md" bg="dark" variant="dark" fixed="top"
-              onToggle={this.setNavExpanded} expanded={this.state.navExpanded}>
+          onToggle={this.setNavExpanded} expanded={this.state.navExpanded}>
           <Navbar.Brand onClick={this.closeNav} href="#/">aaaaa</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
@@ -134,6 +130,6 @@ class NavigationAuthBase extends React.Component {
   }
 }
 
-const NavigationAuth = withFirebase(NavigationAuthBase);
+const NavigationAuth = withRouter(withFirebase(NavigationAuthBase));
 
 export default Navigation;

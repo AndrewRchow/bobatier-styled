@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ClassNames } from '@emotion/core';
+import classes from './review.module.css';
 
 class Modal extends React.Component {
     constructor(props) {
@@ -16,7 +18,7 @@ class Modal extends React.Component {
         if (this.node.contains(e.target)) {
             return;
         }
-        this.props.onClose();
+        this.props.toggleModal();
     }
 
     onChange = event => {
@@ -37,26 +39,11 @@ class Modal extends React.Component {
             left: 0,
             right: 0,
             backgroundColor: 'rgba(0,0,0,0.1)',
-            padding: 50
-        };
-
-        // The modal "window"
-        const modalStyle = {
-            backgroundColor: 'white',
-            borderRadius: 5,
-            maxWidth: 500,
-            minHeight: 300,
-            margin: '10% auto',
-            padding: 30,
+            padding: '40px 20px'
         };
 
         const parentContentStyle = {
             marginBottom: '10px'
-        }
-
-        const buttonStyle = {
-            display: 'inline',
-            marginRight: '6px'
         }
 
         const buttonsStyle = {
@@ -66,24 +53,24 @@ class Modal extends React.Component {
 
         const shop = this.props.commentModal.shop;
         const uid = this.props.commentModal.uid;
-        const {comment} = this.state;
+        const { comment } = this.state;
         const isInvalid = comment === ''
-        
+
         return (
             <div style={backdropStyle} onClick={this.handleContainerClick}>
-                <div style={modalStyle} ref={node => this.node = node}>
+                <div className={classes.commentModal} ref={node => this.node = node}>
+                    <button type="button" className="close" onClick={this.props.toggleModal} aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                     <div style={parentContentStyle}>
                         {this.props.children}
                     </div>
                     <div className="footer">
                         <textarea autoFocus={true} onChange={this.onChange} name="comment" className='form-control' rows='3'></textarea>
                         <div style={buttonsStyle}>
-                            <button style={buttonStyle} className='btn btn-info' onClick={this.props.onClose}>
-                                Cancel
-                            </button>
-                            <button className='btn btn-success' 
-                            disabled={isInvalid}
-                            onClick={() => this.props.submitComment(shop, uid, comment)}>
+                            <button className='btn btn-success'
+                                disabled={isInvalid}
+                                onClick={() => this.props.submitComment(shop, uid, comment)}>
                                 Submit
                             </button>
                         </div>
