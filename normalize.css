@@ -42,6 +42,10 @@ h1 {
   margin: 0.67em 0;
 }
 
+h4 {
+  font-size:22px !important;
+}
+
 /* Grouping content
    ========================================================================== */
 
@@ -75,6 +79,7 @@ pre {
 
 a {
   background-color: transparent;
+  color:#0063cc !important;
 }
 
 /**
