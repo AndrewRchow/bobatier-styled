@@ -109,9 +109,9 @@ class Landing extends React.Component {
         tierList.C.push(name)
       } else if (2 <= finalScore && finalScore < 2.75) {
         tierList.D.push(name)
-      } else if (1 <= finalScore && finalScore < 2) {
+      } else if (1.5 <= finalScore && finalScore < 2) {
         tierList.E.push(name)
-      } else if (finalScore < 1) {
+      } else if (finalScore < 1.5) {
         tierList.F.push(name)
       }
     }

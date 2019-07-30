@@ -26,7 +26,8 @@
 .reviewCard {
     box-shadow: 0 2px 0 rgba(90,97,105,.11), 0 4px 8px rgba(90,97,105,.12), 0 10px 10px rgba(90,97,105,.06), 0 7px 70px rgba(90,97,105,.1);
     padding: 19px;
-    margin:15px;
+    /* margin:15px; */
+    margin-bottom:15px;
     border-radius: .25rem;
     background-color:white;
 }

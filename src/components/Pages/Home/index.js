@@ -11,7 +11,7 @@ import StarRatings from 'react-star-ratings';
 import { ClipLoader } from 'react-spinners';
 import { css } from '@emotion/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -49,7 +49,7 @@ class HomePage extends React.Component {
   }
 
   newReview = () => {
-    this.setState({ formValues:INITIAL_STATE }
+    this.setState({ formValues: INITIAL_STATE }
       , () => {
         this.toggleModal();
       });
@@ -151,13 +151,16 @@ class HomePage extends React.Component {
     margin: 150px auto;`;
 
     return (
-      <div>
+      <div className='container'>
         <div className={classes.inlineParent}>
-          <h5 style={{marginLeft:'15px'}}>
+          <h5 style={{ marginLeft: '15px' }}>
             My Reviews
           </h5>
-          <FontAwesomeIcon icon={faPlusCircle} onClick={this.newReview}
-            className={`${classes.addIcon}`} size="2x" />
+          <button onClick={this.newReview}
+            className={`btn btn-primary`} style={{ marginLeft: '20px' }}>
+            <FontAwesomeIcon icon={faPlus}
+              className={`${classes.addIcon}`} size="1x" />
+          </button>
         </div>
         <ToastContainer />
 

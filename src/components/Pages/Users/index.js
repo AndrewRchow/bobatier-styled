@@ -11,6 +11,8 @@ import StarRatings from 'react-star-ratings';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 
+import { ReactComponent as Logo } from '../../../media/images/people.svg';
+
 class Users extends React.Component {
     constructor(props) {
         super(props);
@@ -35,7 +37,7 @@ class Users extends React.Component {
 
     getAutosuggestInput = (value) => {
     }
-    getAutoSuggestSelected = (value) =>  {
+    getAutoSuggestSelected = (value) => {
         this.getUserReviews(value.userid, value.username);
     }
 
@@ -67,10 +69,10 @@ class Users extends React.Component {
         console.log(user);
 
         return (
-            <div>
+            <div className='container'>
                 <div className={`row`}>
                     <div className={`col-lg-12 ${classes.header}`}>
-                        <h5>Members</h5>
+                        <h4>Members</h4>
                     </div>
                 </div>
                 <div className={`row`}>
@@ -85,13 +87,17 @@ class Users extends React.Component {
                 <div>
 
                     {userReviews === undefined || userReviews.length == 0 ?
+                   
                         <div>
+                             {ROUTES.DEVELOP == false ?
+                             <Logo className={classes.svg} />
+                             : <div></div>}
                         </div>
                         :
                         <div>
-                            <h5 className={`${classes.info}`}>
-                                {user} -  <FontAwesomeIcon icon={faCoffee} size="1x" />{numberOfReviews}
-                            </h5>
+                            <h4 className={`${classes.info}`}>
+                                {user}  <FontAwesomeIcon icon={faCoffee} size="1x" /> {numberOfReviews}
+                            </h4>
                             <ul>
                                 {userReviews.map(review => (
                                     <li key={review.shop} className={`${classes.well}`}>

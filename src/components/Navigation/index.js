@@ -96,7 +96,7 @@ class NavigationAuthBase extends React.Component {
       <div ref={(c) => (this._element = c)} className={classes.navBar}>
         <Navbar collapseOnSelect expand="md" bg="dark" variant="dark" fixed="top"
           onToggle={this.setNavExpanded} expanded={this.state.navExpanded}>
-          <Navbar.Brand onClick={this.closeNav} href="#/">aaaaa</Navbar.Brand>
+          <Navbar.Brand onClick={this.closeNav} href="#/">Boba Tier</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">

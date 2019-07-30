@@ -10,9 +10,10 @@ import { Link } from 'react-router-dom';
 import * as ROUTES from '../../../constants/routes';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import { faCameraRetro } from '@fortawesome/free-solid-svg-icons'
 import { ClipLoader } from 'react-spinners';
 import { css } from '@emotion/core';
+import { ReactComponent as Logo } from '../../../media/images/photo.svg';
 
 import AutoSuggestShops from '../../ThirdParty/AutoSuggestShops/index';
 
@@ -181,7 +182,7 @@ class Photos extends React.Component {
             <div className='container'>
                 <div className={`row`}>
                     <div className={`col-lg-12 ${classes.header}`}>
-                        <h5></h5>
+                        <h4>Photos</h4>
                     </div>
                 </div>
                 <div className={`row`}>
@@ -200,8 +201,9 @@ class Photos extends React.Component {
                                     {shop}
                                 </h5>
                                 {contextUid ?
-                                    <FontAwesomeIcon icon={faPlusCircle} onClick={this.toggleModal}
-                                    className={`${classes.addIcon}`} size="2x" />
+                                    <button className={`btn btn-primary ${classes.addCommentButton}`} >
+                                        <FontAwesomeIcon icon={faCameraRetro} onClick={this.toggleModal} size="2x" />
+                                    </button>
                                     : <div></div>}
                             </div>
                             <div>
@@ -222,7 +224,11 @@ class Photos extends React.Component {
                             </div>
                         </div>
                         :
-                        <div></div>
+                        <div>
+                            {ROUTES.DEVELOP == false ?
+                                <Logo className={classes.svg} />
+                                : <div></div>}
+                        </div>
                     }
 
                 </div>

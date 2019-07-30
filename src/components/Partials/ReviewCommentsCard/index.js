@@ -4,6 +4,9 @@ import StarRatings from 'react-star-ratings';
 import { Link } from 'react-router-dom';
 import * as ROUTES from '../../../constants/routes';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCommentDots } from '@fortawesome/free-solid-svg-icons'
+
 const dateOptions = { weekday: 'long', hour: 'numeric', minute: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
 
 class ReviewCommentsCard extends Component {
@@ -13,7 +16,7 @@ class ReviewCommentsCard extends Component {
 
     render() {
         const normal = {
-            fontWeight:"normal"
+            fontWeight: "normal"
         }
 
         const inlineStyle = {
@@ -24,6 +27,7 @@ class ReviewCommentsCard extends Component {
 
         return (
             <div className={`${classes.reviewCard}`}>
+                <h4>
                 <Link className={`${classes.headerLink}`} to={{ pathname: ROUTES.SHOPS, state: { shop: this.props.shop } }}>
                     {this.props.shop}
                 </Link>
@@ -31,8 +35,9 @@ class ReviewCommentsCard extends Component {
                     <div style={inlineStyle}>-</div>
                     : <div></div>}
                 <Link className={`${classes.headerLink}`} to={{ pathname: ROUTES.MEMBERS, state: { userid: this.props.uid, username: this.props.username } }}>
-                    {this.props.username}
+                {this.props.username}
                 </Link>
+                </h4>
                 <div className={`row ${classes.borderTop}`}>
                     <div className={`col-4 col-lg-3 ${classes.scoreLine}`}>
                         <p className={classes.scoreHeader}>Drink Quality</p>
@@ -141,10 +146,10 @@ class ReviewCommentsCard extends Component {
                 </div>
                 <div className={`row`}>
                     <div className={`col-sm-12 ${classes.note}`}>
-                        <p>{this.props.note}</p>
+                        <p>{this.props.note}  <span style={{fontStyle:'italic'}}>{new Date(this.props.dateTime).toLocaleDateString("en-US", dateOptions)}</span></p>
                     </div>
                 </div>
-                <div className={`col-sm-12 ${classes.comments}`}>
+                <div className={`${classes.comments}`}>
                     {
                         this.props.comments ?
                             <div className={`${classes.commentsWell}`}>
@@ -161,9 +166,10 @@ class ReviewCommentsCard extends Component {
                                 <div>
                                     {
                                         this.props.authUser ?
-                                            <button className={`btn btn-info ${classes.addCommentButton}`} onClick={() => this.props.toggleModal(this.props.shop, this.props.uid)}>
-                                                Comment
-                                                            </button>
+                                            <button className={`btn btn-primary ${classes.addCommentButton}`} onClick={() => this.props.toggleModal(this.props.shop, this.props.uid)}>
+                                                <FontAwesomeIcon icon={faCommentDots}
+                                                    className={`${classes.addIcon}`} size="2x" />
+                                            </button>
                                             : <div></div>
                                     }
 
@@ -172,9 +178,10 @@ class ReviewCommentsCard extends Component {
                             :
                             this.props.authUser ?
                                 <div className={`${classes.commentsWell}`}>
-                                    <button className={`btn btn-info ${classes.addCommentButton}`} onClick={() => this.props.toggleModal(this.props.shop, this.props.uid)}>
-                                        Comment
-                                                            </button>
+                                    <button className={`btn btn-primary ${classes.addCommentButton}`} onClick={() => this.props.toggleModal(this.props.shop, this.props.uid)}>
+                                        <FontAwesomeIcon icon={faCommentDots}
+                                            className={`${classes.addIcon}`} size="2x" />
+                                    </button>
                                 </div>
                                 :
                                 <div></div>

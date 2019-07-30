@@ -12,22 +12,26 @@ class ReviewCard extends Component {
     }
 
     render() {
-        const inlineStyle={
-            display:"inline",
-            paddingLeft:"4px",
-            paddingRight:"4px"
+        const inlineStyle = {
+            display: "inline",
+            paddingLeft: "4px",
+            paddingRight: "4px"
         }
 
         return (
             <div className={`${classes.reviewCard}`}>
-                <Link className={`${classes.headerLink}`} to={{ pathname: ROUTES.SHOPS, state: { shop: this.props.shop } }}>
-                    {this.props.shop}
-                </Link>
+                {this.props.shop == undefined ?
+                    <div></div>
+                    : <Link className={`${classes.headerLink}`} to={{ pathname: ROUTES.SHOPS, state: { shop: this.props.shop } }}>
+                        <h4>{this.props.shop}</h4>
+                    </Link>}
                 {this.props.shop != undefined && this.props.username != undefined ?
                     <div style={inlineStyle}>-</div>
                     : <div></div>}
                 <Link className={`${classes.headerLink}`} to={{ pathname: ROUTES.MEMBERS, state: { userid: this.props.userid, username: this.props.username } }}>
-                    {this.props.username}
+                    <h4>
+                        {this.props.username}
+                    </h4>
                 </Link>
                 <div className={`row ${classes.borderTop}`}>
                     <div className={`col-4 col-lg-3 ${classes.scoreLine}`}>

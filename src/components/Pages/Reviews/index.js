@@ -146,7 +146,12 @@ class Reviews extends React.Component {
         `;
 
         return (
-            <div>
+            <div className='container'>
+                <div className={`row`}>
+                    <div className={`col-lg-12`} style={{ marginLeft: '12px' }}>
+                        <h4>Recent Reviews</h4>
+                    </div>
+                </div>
                 <div className='sweet-loading'>
                     <ClipLoader
                         sizeUnit={"px"}

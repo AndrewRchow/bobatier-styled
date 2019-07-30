@@ -18,3 +18,24 @@
 .info {
   margin:15px;
 }
+
+.svg {
+  max-width: 400px;
+  max-height: 500px;
+  display: block;
+  margin: auto;
+}
+
+@media (max-width: 960px){
+  .svg {
+    max-width: 300px;
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 400px){
+  .svg {
+    max-width: 250px;
+    max-height: 350px;
+  }
+}

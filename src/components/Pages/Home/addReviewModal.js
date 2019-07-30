@@ -76,6 +76,8 @@ class AddReviewModal extends React.Component {
             top: 0,
             left: 0,
             right: 0,
+            bottom: 0,
+            minHeight:'800px',
             backgroundColor: 'rgba(0,0,0,0.1)',
             padding: '40px 20px'
         };

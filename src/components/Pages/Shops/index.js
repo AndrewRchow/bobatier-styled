@@ -9,11 +9,10 @@ import StarRatings from 'react-star-ratings';
 import ReviewCard from '../../Partials/ReviewCard'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
-import { faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faUsers, faImage } from '@fortawesome/free-solid-svg-icons'
+import { faImages } from '@fortawesome/free-solid-svg-icons'
 
-
-
+import { ReactComponent as Logo } from '../../../media/images/coffee.svg';
 
 class Shops extends React.Component {
     constructor(props) {
@@ -101,10 +100,10 @@ class Shops extends React.Component {
     render() {
         const { shop, shopReviews, shopAverageScore, numberOfReviews } = this.state;
         return (
-            <div>
+            <div className='container'>
                 <div className={`row`}>
                     <div className={`col-lg-12 ${classes.header}`}>
-                        <h5>Shops</h5>
+                        <h4>Shops</h4>
                     </div>
                 </div>
                 <div className={`row`}>
@@ -119,17 +118,23 @@ class Shops extends React.Component {
 
                     {shopReviews === undefined || shopReviews.length == 0 ?
                         <div>
+                            {ROUTES.DEVELOP == false ?
+                                <Logo className={classes.svg} />
+                                : <div></div>}
                         </div>
                         :
-                        <div>
-                            <h5 className={`${classes.info}`}>
-                                {shop} - {' '}
-                                <FontAwesomeIcon icon={faUsers} size="1x" />{numberOfReviews} {' '}
-                                <FontAwesomeIcon icon={faStar} size="1x" /> {shopAverageScore} {' - '}
-                                <Link to={{ pathname: ROUTES.PHOTOS, state: { shop: shop } }}>
-                                    Photos
+                        <div style={{ marginTop: '10px' }}>
+                            <h4 className={`${classes.info}`} style={{ display: 'inline' }}>
+                                {shop}
+                            </h4>
+                            <h4 className={`${classes.info}`} style={{ display: 'inline-block' }}>
+                                <FontAwesomeIcon icon={faUsers} size="1x" style={{ verticalAlign: 'middle' }} />{numberOfReviews} {' '}
+                                <Link to={{ pathname: ROUTES.PHOTOS, state: { shop: shop } }} style={{ paddingLeft: '20px' }}>
+                                    <button className={`btn btn-primary ${classes.imageIcon}`}>
+                                        <FontAwesomeIcon icon={faImage} size="2x" />
+                                    </button>
                                 </Link>
-                            </h5>
+                            </h4>
                             <ul>
                                 {shopReviews.map(review => (
                                     <li key={review.userid} className={`${classes.well}`}>
