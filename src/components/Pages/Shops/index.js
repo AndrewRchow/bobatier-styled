@@ -7,6 +7,7 @@ import * as ROUTES from '../../../constants/routes';
 import AutoSuggestShops from '../../ThirdParty/AutoSuggestShops/index';
 import StarRatings from 'react-star-ratings';
 import ReviewCard from '../../Partials/ReviewCard'
+import AddCommentModal from '../../Partials/AddCommentModel';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUsers, faImage } from '@fortawesome/free-solid-svg-icons'
@@ -22,7 +23,16 @@ class Shops extends React.Component {
             shop: '',
             shopReviews: [],
             shopAverageScore: 1,
-            numberOfReviews: 0
+            numberOfReviews: 0,
+            
+            contextUid: "",
+            contextUsername: "",
+            commentModal: {
+              bobaShop: "",
+              uid: "",
+              username: "",
+              isOpen: false
+            }
         }
     }
 
@@ -98,7 +108,7 @@ class Shops extends React.Component {
     }
 
     render() {
-        const { shop, shopReviews, shopAverageScore, numberOfReviews } = this.state;
+        const { shop, shopReviews, numberOfReviews } = this.state;
         return (
             <div className='container'>
                 <div className={`row`}>

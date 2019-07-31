@@ -99,7 +99,6 @@ class Reviews extends React.Component {
     }
 
     toggleModal = (shop, uid) => {
-        console.log(shop, uid)
         const commentModal = { ...this.state.commentModal };
         commentModal.shop = shop;
         commentModal.uid = uid;
@@ -117,7 +116,6 @@ class Reviews extends React.Component {
         // dateTime.setSeconds(dateTime.getSeconds() + 3);
         dateTime = dateTime.toLocaleString();
 
-        console.log(uid, contextUsername, contextUid);
         this.props.firebase
             .bobaShopUserComment(shop, uid)
             .push({

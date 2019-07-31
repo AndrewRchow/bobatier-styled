@@ -4,7 +4,10 @@ import StarRatings from 'react-star-ratings';
 import { Link } from 'react-router-dom';
 import * as ROUTES from '../../../constants/routes';
 
-const dateOptions = { weekday: 'long', hour: 'numeric', minute: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCommentDots } from '@fortawesome/free-solid-svg-icons'
+
+// const dateOptions = { weekday: 'long', hour: 'numeric', minute: 'numeric', year: 'numeric', month: 'short', day: 'numeric' };
 
 class ReviewCard extends Component {
     constructor(props) {
@@ -12,32 +15,34 @@ class ReviewCard extends Component {
     }
 
     render() {
+        const normal = {
+            fontWeight: "normal"
+        }
+
         const inlineStyle = {
             display: "inline",
             paddingLeft: "4px",
             paddingRight: "4px"
         }
 
+        let review = this.props.review;
+
         return (
             <div className={`${classes.reviewCard}`}>
-                {this.props.shop == undefined ?
-                    <div></div>
-                    : <Link className={`${classes.headerLink}`} to={{ pathname: ROUTES.SHOPS, state: { shop: this.props.shop } }}>
-                        <h4>{this.props.shop}</h4>
-                    </Link>}
-                {this.props.shop != undefined && this.props.username != undefined ?
-                    <div style={inlineStyle}>-</div>
-                    : <div></div>}
-                <Link className={`${classes.headerLink}`} to={{ pathname: ROUTES.MEMBERS, state: { userid: this.props.userid, username: this.props.username } }}>
-                    <h4>
-                        {this.props.username}
-                    </h4>
-                </Link>
+                <h4>
+                    <Link className={`${classes.headerLink}`} to={{ pathname: ROUTES.SHOPS, state: { shop: review.bobaShop } }}>
+                        {review.bobaShop}
+                    </Link>
+                    {' '} - {' '}
+                <Link className={`${classes.headerLink}`} to={{ pathname: ROUTES.MEMBERS, state: { userid: review.userid, username: review.username } }}>
+                        {review.username}
+                    </Link>
+                </h4>
                 <div className={`row ${classes.borderTop}`}>
                     <div className={`col-4 col-lg-3 ${classes.scoreLine}`}>
                         <p className={classes.scoreHeader}>Drink Quality</p>
                         <StarRatings
-                            rating={this.props.score1}
+                            rating={review.score1}
                             starRatedColor="#0099ff"
                             starHoverColor="#66ccff"
                             numberOfStars={5}
@@ -50,7 +55,7 @@ class ReviewCard extends Component {
                     <div className={`col-4 col-lg-3 ${classes.scoreLine}`}>
                         <p className={classes.scoreHeader}>Sweet Boba</p>
                         <StarRatings
-                            rating={this.props.score2}
+                            rating={review.score2}
                             starRatedColor="#0099ff"
                             starHoverColor="#66ccff"
                             numberOfStars={5}
@@ -63,7 +68,7 @@ class ReviewCard extends Component {
                     <div className={`col-4 col-lg-3 ${classes.scoreLine}`}>
                         <p className={classes.scoreHeader}>Chewy Boba</p>
                         <StarRatings
-                            rating={this.props.score3}
+                            rating={review.score3}
                             starRatedColor="#0099ff"
                             starHoverColor="#66ccff"
                             numberOfStars={5}
@@ -76,7 +81,7 @@ class ReviewCard extends Component {
                     <div className={`col-4 col-lg-3 ${classes.scoreLine}`}>
                         <p className={classes.scoreHeader}>Customize</p>
                         <StarRatings
-                            rating={this.props.score4}
+                            rating={review.score4}
                             starRatedColor="#0099ff"
                             starHoverColor="#66ccff"
                             numberOfStars={5}
@@ -89,7 +94,7 @@ class ReviewCard extends Component {
                     <div className={`col-4 col-lg-3 ${classes.scoreLine}`}>
                         <p className={classes.scoreHeader}>Consistent</p>
                         <StarRatings
-                            rating={this.props.score5}
+                            rating={review.score5}
                             starRatedColor="#0099ff"
                             starHoverColor="#66ccff"
                             numberOfStars={5}
@@ -102,7 +107,7 @@ class ReviewCard extends Component {
                     <div className={`col-4 col-lg-3 ${classes.scoreLine}`}>
                         <p className={classes.scoreHeader}>Variety</p>
                         <StarRatings
-                            rating={this.props.score6}
+                            rating={review.score6}
                             starRatedColor="#0099ff"
                             starHoverColor="#66ccff"
                             numberOfStars={5}
@@ -115,7 +120,7 @@ class ReviewCard extends Component {
                     <div className={`col-4 col-lg-3 ${classes.scoreLine}`}>
                         <p className={classes.scoreHeader}>Price</p>
                         <StarRatings
-                            rating={this.props.score7}
+                            rating={review.score7}
                             starRatedColor="#0099ff"
                             starHoverColor="#66ccff"
                             numberOfStars={5}
@@ -128,7 +133,7 @@ class ReviewCard extends Component {
                     <div className={`col-4 col-lg-3 ${classes.scoreLine}`}>
                         <p className={classes.scoreHeader}>Overall</p>
                         <StarRatings
-                            rating={this.props.score8}
+                            rating={review.score8}
                             starRatedColor="#0099ff"
                             starHoverColor="#66ccff"
                             numberOfStars={5}
@@ -141,22 +146,41 @@ class ReviewCard extends Component {
                 </div>
                 <div className={`row`}>
                     <div className={`col-sm-12 ${classes.note}`}>
-                        <p>{this.props.note}</p>
+                        <p>{review.note}</p>
                     </div>
                 </div>
 
                 {this.props.isHomeCard ?
                     <div>
-                        <button className={`btn btn-info ${classes.updateButton}`} onClick={() => this.props.editReview(this.props.review)}>Edit</button>
-                        <button className={`btn btn-danger ${classes.updateButton}`} onClick={() => this.props.deleteReview(this.props.shop)}>Delete</button>
+                        <button className={`btn btn-info ${classes.updateButton}`} onClick={() => this.props.editReview(review)}>Edit</button>
+                        <button className={`btn btn-danger ${classes.updateButton}`} onClick={() => this.props.deleteReview(review.bobaShop)}>Delete</button>
                     </div>
                     : <div></div>}
 
-                {this.props.isReviewsCard ?
-                    <div className={`${classes.dateTime}`}>
-                        <i> {new Date(this.props.dateTime).toLocaleDateString("en-US", dateOptions)}</i>
-                    </div>
-                    : <div></div>}
+                <div className={`${classes.comments}`}>
+                    {
+                        review.comments ?
+                            <div className={`${classes.commentsWell}`}>
+                                {review.comments.map((comment, index) => (
+                                    <div key={index} className={`${classes.commentWell}`}>
+                                        <div className={`${classes.commentText}`}>
+                                            <p>{comment.username} <span style={normal}>{comment.comment}</span></p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            : <div></div>
+                    }
+                    {
+                        this.props.authUsername ?
+                            <button className={`btn btn-primary ${classes.addCommentButton}`}
+                                onClick={() => this.props.toggleCommentModal(review.bobaShop, this.props.authUid, this.props.authUsername)}>
+                                <FontAwesomeIcon icon={faCommentDots}
+                                    className={`${classes.addIcon}`} size="2x" />
+                            </button>
+                            : <div></div>
+                    }
+                </div>
             </div>
         );
     }

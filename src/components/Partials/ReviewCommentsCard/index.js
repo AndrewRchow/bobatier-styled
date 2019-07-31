@@ -15,6 +15,8 @@ class ReviewCommentsCard extends Component {
     }
 
     render() {
+        console.log('comments');
+        console.log(this.props.comments);
         const normal = {
             fontWeight: "normal"
         }

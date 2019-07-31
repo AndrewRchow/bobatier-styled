@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './home.module.css';
 import AddReviewModal from './addReviewModal';
+import AddCommentModal from '../../Partials/AddCommentModel';
 import { withAuthorization, AuthUserContext } from '../../Session';
 import { withFirebase } from '../../Firebase';
 import { Link } from 'react-router-dom';
@@ -30,14 +31,29 @@ class HomePage extends React.Component {
     super(props);
 
     this.state = {
-      myReviews: [],
+      reviews: [],
       modalIsOpen: false,
       loading: true,
-      formValues: INITIAL_STATE
+      formValues: INITIAL_STATE,
+      commentModal: {
+        bobaShop: "",
+        uid: "",
+        username: "",
+        isOpen: false
+      },
+      contextUid: "",
+      contextUsername: ""
     };
   }
 
   componentDidMount() {
+    if (this.context.authUser != null) {
+      this.setState({
+        contextUid: this.context.authUser.uid,
+        contextUsername: this.context.username
+      });
+    }
+
     this.getReviewList();
   }
   componentWillUnmount() {
@@ -46,6 +62,18 @@ class HomePage extends React.Component {
 
   toggleModal = () => {
     this.setState({ modalIsOpen: !this.state.modalIsOpen });
+  }
+
+  toggleCommentModal = (bobaShop, uid, username) => {
+    const commentModal = { ...this.state.commentModal };
+    commentModal.bobaShop = bobaShop;
+    commentModal.uid = uid;
+    commentModal.username = username;
+    commentModal.isOpen = !commentModal.isOpen;
+
+    this.setState({
+      commentModal: commentModal
+    });
   }
 
   newReview = () => {
@@ -133,19 +161,43 @@ class HomePage extends React.Component {
           bobaShop: key,
           ...myReviewsObject[key],
         }))
-
-        this.setState({ myReviews: myReviewsList });
+        this.sortReviews(myReviewsList)
       } else {
-        this.setState({ myReviews: [] });
+        this.setState({ reviews: [] });
       }
       this.setState({ loading: false });
     });
   }
 
+  sortReviews = (reviews) => {
+    console.log(reviews);
+
+    let sortedReviews = [];
+    for (let shop in reviews) {
+      let review = {
+        ...reviews[shop],
+      };
+      if (review.comments) {
+        review.comments = Object.keys(review.comments).map(key => ({
+          ...review.comments[key]
+        }));
+        review.comments.sort(function (a, b) {
+          return new Date(a.dateTime) - new Date(b.dateTime);
+        });
+      }
+      sortedReviews.push(review);
+    }
+    sortedReviews.sort(function (a, b) {
+      return new Date(b.dateTime) - new Date(a.dateTime);
+    });
+    this.setState({ reviews: sortedReviews });
+  }
+
   notify = () => toast("Review added");
 
   render() {
-    const { myReviews, loading } = this.state;
+    const { reviews, loading, contextUsername, contextUid } = this.state;
+    console.log(reviews);
     const override = css`
     display: block;
     margin: 150px auto;`;
@@ -174,19 +226,26 @@ class HomePage extends React.Component {
           />
         </div>
         <div className={classes.reviewsList}>
-          {!loading && (myReviews === undefined || myReviews.length == 0) ?
+          {!loading && (reviews === undefined || reviews.length == 0) ?
             <div className={`${classes.noReviewsWell}`}>
               No Reviews Added.
             </div>
             : <ul>
-              {myReviews.map(review => (
+              {reviews.map(review => (
                 <li key={review.bobaShop} className={``}>
-                  <ReviewCard isHomeCard="true" review={review} editReview={this.editReview} deleteReview={this.deleteReview}
-                    shop={review.bobaShop} note={review.note}
+                  <ReviewCard isHomeCard="true" editReview={this.editReview} deleteReview={this.deleteReview}
+                    toggleCommentModal={this.toggleCommentModal} authUsername={contextUsername} authUid={contextUid}
+                    review={review}/>
+
+                  {/* <ReviewCommentsCard toggleCommentModal={this.toggleCommentModal}
+                    currentTime={currentTime} dateTime={review.dateTime} authUser={contextUsername}
+                    uid={review.uid} username={review.username}
+                    shop={review.shop} note={review.note}
                     score1={review.score1} score2={review.score2}
                     score3={review.score3} score4={review.score4}
                     score5={review.score5} score6={review.score6}
-                    score7={review.score7} score8={review.score8} />
+                    score7={review.score7} score8={review.score8}
+                    comments={review.comments} /> */}
                 </li>
               ))}
             </ul>
@@ -198,6 +257,11 @@ class HomePage extends React.Component {
           toggleModal={this.toggleModal}
           submitReview={this.submitReview}>
         </AddReviewModal>
+        <AddCommentModal show={this.state.commentModal.isOpen}
+          toggleCommentModal={this.toggleCommentModal}
+          commentModal={this.state.commentModal}>
+          Add a comment
+                </AddCommentModal>
       </div>
     )
   }
