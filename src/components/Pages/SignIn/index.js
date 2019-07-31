@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { compose } from 'recompose';
 import PasswordMask from 'react-password-mask';
-
 import classes from './signIn.module.css';
 import { SignUpLink } from '../../Partials/SignUp';
 import { PasswordForgetLink } from '../../Partials/PasswordForget';
 import { withFirebase } from '../../Firebase';
 import * as ROUTES from '../../../constants/routes';
-
 import { ClipLoader } from 'react-spinners';
 import { css } from '@emotion/core';
-
 import logo from '../../../media/images/shiba.jpg';
 
 const INITIAL_STATE = {

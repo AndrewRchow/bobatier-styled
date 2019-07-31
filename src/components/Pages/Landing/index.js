@@ -3,11 +3,6 @@ import { withFirebase } from '../../Firebase';
 import classes from './landing.module.css';
 import { Link } from 'react-router-dom';
 import * as ROUTES from '../../../constants/routes';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
-import { faUsers } from '@fortawesome/free-solid-svg-icons'
-
 import { ClipLoader } from 'react-spinners';
 import { css } from '@emotion/core';
 
@@ -83,7 +78,6 @@ class Landing extends React.Component {
     this.setState({
       grades: orderedGrades
     })
-    console.log(grades);
 
     let tierList = {
       S: [],
@@ -120,8 +114,6 @@ class Landing extends React.Component {
       tierList: tierList,
       loading: false
     });
-    console.log(tierList);
-    console.log(grades);
   }
 
   componentWillUnmount() {

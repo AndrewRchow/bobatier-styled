@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classes from './addCommentModal.module.css';
 import { withFirebase } from '../../Firebase';
 
@@ -27,11 +26,9 @@ class Modal extends React.Component {
     };
 
     submitComment = () => {
-        const { bobaShop, uid, username } = this.props.commentModal;
+        const { bobaShop, uid, contextUid, contextUsername } = this.props.commentModal;
         const { comment } = this.state;
-
-        console.log(bobaShop, uid, username, comment);
-
+        console.log(bobaShop, uid, contextUid, contextUsername);
         let dateTime = new Date();
         // dateTime.setSeconds(dateTime.getSeconds() + 3);
         dateTime = dateTime.toLocaleString();
@@ -40,16 +37,16 @@ class Modal extends React.Component {
             .bobaShopUserComment(bobaShop, uid)
             .push({
                 comment,
-                username,
-                uid,
+                username: contextUsername,
+                uid: contextUid,
                 dateTime
             });
         this.props.firebase
             .userReviewComment(uid, bobaShop)
             .push({
                 comment,
-                username,
-                uid,
+                username: contextUsername,
+                uid: contextUid,
                 dateTime
             })
             .then(() => {

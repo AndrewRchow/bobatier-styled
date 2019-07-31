@@ -1,12 +1,9 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import classes from './photos.module.css';
 import AddImageModal from './addImageModal';
 import ImageModal from './imageModal';
-import { withAuthorization, AuthUserContext } from '../../Session';
+import {  AuthUserContext } from '../../Session';
 import { withFirebase } from '../../Firebase';
-import FileUploader from "react-firebase-file-uploader";
-import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
-import { Link } from 'react-router-dom';
 import * as ROUTES from '../../../constants/routes';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -85,7 +82,6 @@ class Photos extends React.Component {
                     id: key,
                     ...shopImagesObject[key],
                 }))
-                console.log(shopImagesList);
 
                 this.setState({
                     images: shopImagesList,
@@ -161,10 +157,8 @@ class Photos extends React.Component {
 
     render() {
         const { shop, contextUid, images } = this.state;
-        console.log(images);
         const imagesGrid = [];
         for (const [index, value] of images.entries()) {
-            console.log(index, value);
             imagesGrid.push(
                 <div key={index} className={`col-4 col-sm-3 col-lg-2 ${classes.column}`}>
                     <img className={`${classes.image}`} src={value.url}

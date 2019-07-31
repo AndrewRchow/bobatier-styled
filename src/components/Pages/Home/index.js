@@ -4,18 +4,13 @@ import AddReviewModal from './addReviewModal';
 import AddCommentModal from '../../Partials/AddCommentModel';
 import { withAuthorization, AuthUserContext } from '../../Session';
 import { withFirebase } from '../../Firebase';
-import { Link } from 'react-router-dom';
-import * as ROUTES from '../../../constants/routes';
 import ReviewCard from '../../Partials/ReviewCard'
-
-import StarRatings from 'react-star-ratings';
 import { ClipLoader } from 'react-spinners';
 import { css } from '@emotion/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 
 const INITIAL_STATE = {
   bobaShop: '', location: '',
@@ -35,14 +30,15 @@ class HomePage extends React.Component {
       modalIsOpen: false,
       loading: true,
       formValues: INITIAL_STATE,
+      contextUid: "",
+      contextUsername: "",
       commentModal: {
         bobaShop: "",
         uid: "",
-        username: "",
+        contextUid: "",
+        contextUsername: "",
         isOpen: false
-      },
-      contextUid: "",
-      contextUsername: ""
+      }
     };
   }
 
@@ -58,17 +54,22 @@ class HomePage extends React.Component {
   }
   componentWillUnmount() {
     this.props.firebase.userReviews().off();
+    this.setState({
+      contextUid: '',
+      contextUsername: ''
+    });
   }
 
   toggleModal = () => {
     this.setState({ modalIsOpen: !this.state.modalIsOpen });
   }
 
-  toggleCommentModal = (bobaShop, uid, username) => {
+  toggleCommentModal = (bobaShop, uid, contextUid, contextUsername) => {
     const commentModal = { ...this.state.commentModal };
     commentModal.bobaShop = bobaShop;
     commentModal.uid = uid;
-    commentModal.username = username;
+    commentModal.contextUid = contextUid;
+    commentModal.contextUsername = contextUsername;
     commentModal.isOpen = !commentModal.isOpen;
 
     this.setState({
@@ -170,8 +171,6 @@ class HomePage extends React.Component {
   }
 
   sortReviews = (reviews) => {
-    console.log(reviews);
-
     let sortedReviews = [];
     for (let shop in reviews) {
       let review = {
@@ -197,7 +196,6 @@ class HomePage extends React.Component {
 
   render() {
     const { reviews, loading, contextUsername, contextUid } = this.state;
-    console.log(reviews);
     const override = css`
     display: block;
     margin: 150px auto;`;
@@ -235,17 +233,7 @@ class HomePage extends React.Component {
                 <li key={review.bobaShop} className={``}>
                   <ReviewCard isHomeCard="true" editReview={this.editReview} deleteReview={this.deleteReview}
                     toggleCommentModal={this.toggleCommentModal} authUsername={contextUsername} authUid={contextUid}
-                    review={review}/>
-
-                  {/* <ReviewCommentsCard toggleCommentModal={this.toggleCommentModal}
-                    currentTime={currentTime} dateTime={review.dateTime} authUser={contextUsername}
-                    uid={review.uid} username={review.username}
-                    shop={review.shop} note={review.note}
-                    score1={review.score1} score2={review.score2}
-                    score3={review.score3} score4={review.score4}
-                    score5={review.score5} score6={review.score6}
-                    score7={review.score7} score8={review.score8}
-                    comments={review.comments} /> */}
+                    review={review} />
                 </li>
               ))}
             </ul>
@@ -265,21 +253,6 @@ class HomePage extends React.Component {
       </div>
     )
   }
-
-  // render() {
-  //   return (
-  //     <div>
-
-  //         <div className={`col-12 col-sm-6" ${classes.left}`}>
-  //           <NewReview formValues={this.state.formValues} />
-  //         </div>
-  //         <div className={`col-12 col-sm-6" ${classes.right}`}>
-  //           <MyReviews editReview={this.editFormValues} />
-  //         </div>
-
-  //     </div>
-  //   );
-  // }
 }
 
 

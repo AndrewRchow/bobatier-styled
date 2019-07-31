@@ -1,30 +1,45 @@
 import React from 'react';
 import { withFirebase } from '../../Firebase';
+import { AuthUserContext } from '../../Session';
 import classes from './users.module.css'
-import { Link } from 'react-router-dom';
 import * as ROUTES from '../../../constants/routes';
-
 import AutoSuggestUsers from '../../ThirdParty/AutoSuggestUsers/index';
 import ReviewCard from '../../Partials/ReviewCard'
-import StarRatings from 'react-star-ratings';
-
+import AddCommentModal from '../../Partials/AddCommentModel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'
-
 import { ReactComponent as Logo } from '../../../media/images/people.svg';
 
 class Users extends React.Component {
+    static contextType = AuthUserContext;
+
     constructor(props) {
         super(props);
 
         this.state = {
             user: '',
-            userReviews: [],
-            numberOfReviews: 0
+            reviews: [],
+            numberOfReviews: 0,
+
+            contextUid: "",
+            contextUsername: "",
+            commentModal: {
+                bobaShop: "",
+                uid: "",
+                contextUid: "",
+                contextUsername: "",
+                isOpen: false
+            }
         }
     }
 
     componentDidMount() {
+        if (this.context.authUser != null) {
+            this.setState({
+                contextUid: this.context.authUser.uid,
+                contextUsername: this.context.username
+            });
+        }
         if (this.props.location.state) {
             const userid = this.props.location.state.userid;
             const username = this.props.location.state.username;
@@ -33,6 +48,23 @@ class Users extends React.Component {
     }
     componentWillUnmount() {
         this.props.firebase.userReviews().off();
+        this.setState({
+            contextUid: '',
+            contextUsername: ''
+        });
+    }
+
+    toggleCommentModal = (bobaShop, uid, contextUid, contextUsername) => {
+        const commentModal = { ...this.state.commentModal };
+        commentModal.bobaShop = bobaShop;
+        commentModal.uid = uid;
+        commentModal.contextUid = contextUid;
+        commentModal.contextUsername = contextUsername;
+        commentModal.isOpen = !commentModal.isOpen;
+
+        this.setState({
+            commentModal: commentModal
+        });
     }
 
     getAutosuggestInput = (value) => {
@@ -42,31 +74,55 @@ class Users extends React.Component {
     }
 
     getUserReviews = (userid, username) => {
-        this.setState({ user: username });
-
         this.props.firebase.userReviews(userid).on('value', snapshot => {
             const userReviewsObject = snapshot.val();
             if (userReviewsObject) {
                 const userReviewsList = Object.keys(userReviewsObject).map(key => ({
-                    shop: key,
+                    bobaShop: key,
+                    userid: userid,
                     ...userReviewsObject[key],
                 }))
                 this.setState({
-                    userReviews: userReviewsList,
-                    numberOfReviews: userReviewsList.length
+                    numberOfReviews: userReviewsList.length,
+                    user: username
+                }, () => {
+                    this.sortReviews(userReviewsList);
                 });
             } else {
                 this.setState({
-                    userReviews: [],
-                    numberOfReviews: 0
+                    numberOfReviews: 0,
+                    user: username,
+                    reviews: [],
                 })
             }
         });
     }
 
+    sortReviews = (reviews) => {
+        let sortedReviews = [];
+        for (let shop in reviews) {
+            let review = {
+                ...reviews[shop],
+            };
+            if (review.comments) {
+                review.comments = Object.keys(review.comments).map(key => ({
+                    ...review.comments[key]
+                }));
+                review.comments.sort(function (a, b) {
+                    return new Date(a.dateTime) - new Date(b.dateTime);
+                });
+            }
+            sortedReviews.push(review);
+        }
+        sortedReviews.sort(function (a, b) {
+            return new Date(b.dateTime) - new Date(a.dateTime);
+        });
+        this.setState({ reviews: sortedReviews });
+    }
+
     render() {
-        const { user, userReviews, numberOfReviews } = this.state;
-        console.log(user);
+        const { user, reviews, numberOfReviews, contextUid, contextUsername } = this.state;
+        console.log(reviews);
 
         return (
             <div className='container'>
@@ -86,12 +142,12 @@ class Users extends React.Component {
 
                 <div>
 
-                    {userReviews === undefined || userReviews.length == 0 ?
-                   
+                    {reviews === undefined || reviews.length == 0 ?
+
                         <div>
-                             {ROUTES.DEVELOP == false ?
-                             <Logo className={classes.svg} />
-                             : <div></div>}
+                            {ROUTES.DEVELOP == false ?
+                                <Logo className={classes.svg} />
+                                : <div></div>}
                         </div>
                         :
                         <div>
@@ -99,19 +155,23 @@ class Users extends React.Component {
                                 {user}  <FontAwesomeIcon icon={faCoffee} size="1x" /> {numberOfReviews}
                             </h4>
                             <ul>
-                                {userReviews.map(review => (
-                                    <li key={review.shop} className={`${classes.well}`}>
-                                        <ReviewCard shop={review.shop} note={review.note}
-                                            score1={review.score1} score2={review.score2}
-                                            score3={review.score3} score4={review.score4}
-                                            score5={review.score5} score6={review.score6}
-                                            score7={review.score7} score8={review.score8} />
+                                {reviews.map(review => (
+                                    <li key={review.bobaShop} className={`${classes.well}`}>
+                                        <ReviewCard
+                                            toggleCommentModal={this.toggleCommentModal} authUsername={contextUsername} authUid={contextUid}
+                                            review={review} />
                                     </li>
                                 ))}
                             </ul>
                         </div>
                     }
                 </div>
+
+                <AddCommentModal show={this.state.commentModal.isOpen}
+                    toggleCommentModal={this.toggleCommentModal}
+                    commentModal={this.state.commentModal}>
+                    Add a comment
+                </AddCommentModal>
             </div>
         )
     }

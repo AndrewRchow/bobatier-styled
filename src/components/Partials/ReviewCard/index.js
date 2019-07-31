@@ -3,7 +3,6 @@ import classes from './reviewCard.module.css';
 import StarRatings from 'react-star-ratings';
 import { Link } from 'react-router-dom';
 import * as ROUTES from '../../../constants/routes';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCommentDots } from '@fortawesome/free-solid-svg-icons'
 
@@ -174,7 +173,7 @@ class ReviewCard extends Component {
                     {
                         this.props.authUsername ?
                             <button className={`btn btn-primary ${classes.addCommentButton}`}
-                                onClick={() => this.props.toggleCommentModal(review.bobaShop, this.props.authUid, this.props.authUsername)}>
+                                onClick={() => this.props.toggleCommentModal(review.bobaShop, review.userid, this.props.authUid, this.props.authUsername)}>
                                 <FontAwesomeIcon icon={faCommentDots}
                                     className={`${classes.addIcon}`} size="2x" />
                             </button>

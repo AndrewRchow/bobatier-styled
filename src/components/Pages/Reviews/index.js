@@ -1,13 +1,11 @@
 import React from 'react';
 import { withFirebase } from '../../Firebase';
-import { withAuthorization, AuthUserContext } from '../../Session';
+import { AuthUserContext } from '../../Session';
 import classes from './review.module.css';
-import { Link } from 'react-router-dom';
-import * as ROUTES from '../../../constants/routes';
 
-import StarRatings from 'react-star-ratings';
-import Modal from './reviewModal';
-import ReviewCommentsCard from '../../Partials/ReviewCommentsCard'
+import ReviewCard from '../../Partials/ReviewCard'
+import AddCommentModal from '../../Partials/AddCommentModel';
+
 
 import { ClipLoader } from 'react-spinners';
 import { css } from '@emotion/core';
@@ -22,17 +20,19 @@ class Reviews extends React.Component {
 
         this.state = {
             reviews: {},
-            sortedReviews: [],
-            sortedReviewsCopy: [],
-            commentModal: {
-                shop: "",
-                uid: ""
-            },
-            modalIsOpen: false,
+            reviews: [],
             currentTime: new Date(),
             loading: true,
+
             contextUid: "",
-            contextUsername: ""
+            contextUsername: "",
+            commentModal: {
+                bobaShop: "",
+                uid: "",
+                contextUid: "",
+                contextUsername: "",
+                isOpen: false
+            }
 
         }
     }
@@ -57,11 +57,7 @@ class Reviews extends React.Component {
         this.props.firebase.bobaShopReviews().on('value', snapshot => {
             const reviewsObject = snapshot.val();
             if (reviewsObject) {
-                this.setState({
-                    reviews: reviewsObject,
-                }, () => {
-                    this.sortReviews();
-                });
+                this.sortReviews(reviewsObject);
             }
             this.setState({
                 loading: false
@@ -69,14 +65,17 @@ class Reviews extends React.Component {
         });
     }
 
-    sortReviews = () => {
+    sortReviews = (reviewsObject) => {
+        console.log(reviewsObject);
         let sortedReviews = [];
-        for (let shop in this.state.reviews) {
-            for (let uid in this.state.reviews[shop]) {
+        for (let shop in reviewsObject) {
+            console.log(shop);
+            for (let uid in reviewsObject[shop]) {
+                console.log(uid);
                 let review = {
-                    ...this.state.reviews[shop][uid],
-                    shop: shop,
-                    uid: uid,
+                    ...reviewsObject[shop][uid],
+                    bobaShop: shop,
+                    userid: uid,
                 };
                 if (review.comments) {
 
@@ -94,50 +93,27 @@ class Reviews extends React.Component {
         sortedReviews.sort(function (a, b) {
             return new Date(b.dateTime) - new Date(a.dateTime);
         });
-        sortedReviews = sortedReviews.splice(0, 50); //show top 50 reviews
-        this.setState({ sortedReviews: sortedReviews });
+        sortedReviews = sortedReviews.splice(0, 25); //show top 50 reviews
+        console.log('sort', sortedReviews);
+        this.setState({ reviews: sortedReviews });
     }
 
-    toggleModal = (shop, uid) => {
+    toggleCommentModal = (bobaShop, uid, contextUid, contextUsername) => {
         const commentModal = { ...this.state.commentModal };
-        commentModal.shop = shop;
+        commentModal.bobaShop = bobaShop;
         commentModal.uid = uid;
+        commentModal.contextUid = contextUid;
+        commentModal.contextUsername = contextUsername;
+        commentModal.isOpen = !commentModal.isOpen;
 
         this.setState({
-            modalIsOpen: !this.state.modalIsOpen,
             commentModal: commentModal
         });
     }
 
-    submitComment = (shop, uid, comment) => {
-        const { contextUid, contextUsername } = this.state;
-
-        let dateTime = new Date();
-        // dateTime.setSeconds(dateTime.getSeconds() + 3);
-        dateTime = dateTime.toLocaleString();
-
-        this.props.firebase
-            .bobaShopUserComment(shop, uid)
-            .push({
-                comment,
-                username: contextUsername,
-                uid: contextUid,
-                dateTime
-            })
-            .then(() => {
-                this.setState({
-                    modalIsOpen: !this.state.modalIsOpen,
-                    ommentModal: {
-                        comment: "",
-                        shop: "",
-                        uid: ""
-                    }
-                });
-            });
-    }
-
     render() {
-        const { sortedReviews, currentTime, loading, contextUsername } = this.state;
+        const { reviews, loading, contextUsername, contextUid } = this.state;
+        console.log(reviews);
         const override = css`
             display: block;
             margin: 150px auto;
@@ -160,37 +136,30 @@ class Reviews extends React.Component {
                     />
                 </div>
                 <div className={`${classes.recentReviews}`}>
-                    {!loading && (sortedReviews === undefined || sortedReviews.length == 0) ?
+                    {!loading && (reviews === undefined || reviews.length == 0) ?
                         <div className={`${classes.reviewWell}`}>
                             No Recent Reviews.
             </div>
                         :
                         <div>
-                            {sortedReviews.map((review, index) => (
+                            {reviews.map((review, index) => (
                                 <div key={index}>
                                     <div className={`${classes.reviewWell}`}>
-                                        <ReviewCommentsCard toggleModal={this.toggleModal}
-                                            currentTime={currentTime} dateTime={review.dateTime} authUser={contextUsername}
-                                            uid={review.uid} username={review.username}
-                                            shop={review.shop} note={review.note}
-                                            score1={review.score1} score2={review.score2}
-                                            score3={review.score3} score4={review.score4}
-                                            score5={review.score5} score6={review.score6}
-                                            score7={review.score7} score8={review.score8}
-                                            comments={review.comments} />
-
+                                        <ReviewCard
+                                            toggleCommentModal={this.toggleCommentModal} authUsername={contextUsername} authUid={contextUid}
+                                            review={review} />
                                     </div>
                                 </div>
                             ))}
                         </div>
                     }
                 </div>
-                <Modal show={this.state.modalIsOpen}
-                    toggleModal={this.toggleModal}
-                    commentModal={this.state.commentModal}
-                    submitComment={this.submitComment}>
+
+                <AddCommentModal show={this.state.commentModal.isOpen}
+                    toggleCommentModal={this.toggleCommentModal}
+                    commentModal={this.state.commentModal}>
                     Add a comment
-                </Modal>
+                </AddCommentModal>
             </div>
         );
     }
