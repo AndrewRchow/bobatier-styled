@@ -43,7 +43,13 @@ class Reviews extends React.Component {
                 contextUid: this.context.authUser.uid,
                 contextUsername: this.context.username
             });
+
+            this.props.firebase.user(this.context.authUser.uid)
+                .update({
+                    reviewsLastVisit: new Date().toLocaleString()
+                });
         }
+        // this.props.updateNewReviews(11);
         this.getAllReviewList();
         // this.interval = setInterval(() => this.setState({ currentTime: new Date() }), 1000);
     }
@@ -66,12 +72,9 @@ class Reviews extends React.Component {
     }
 
     sortReviews = (reviewsObject) => {
-        console.log(reviewsObject);
         let sortedReviews = [];
         for (let shop in reviewsObject) {
-            console.log(shop);
             for (let uid in reviewsObject[shop]) {
-                console.log(uid);
                 let review = {
                     ...reviewsObject[shop][uid],
                     bobaShop: shop,
@@ -94,7 +97,6 @@ class Reviews extends React.Component {
             return new Date(b.dateTime) - new Date(a.dateTime);
         });
         sortedReviews = sortedReviews.splice(0, 25); //show top 50 reviews
-        console.log('sort', sortedReviews);
         this.setState({ reviews: sortedReviews });
     }
 
@@ -113,7 +115,6 @@ class Reviews extends React.Component {
 
     render() {
         const { reviews, loading, contextUsername, contextUid } = this.state;
-        console.log(reviews);
         const override = css`
             display: block;
             margin: 150px auto;

@@ -122,7 +122,6 @@ class Users extends React.Component {
 
     render() {
         const { user, reviews, numberOfReviews, contextUid, contextUsername } = this.state;
-        console.log(reviews);
 
         return (
             <div className='container'>

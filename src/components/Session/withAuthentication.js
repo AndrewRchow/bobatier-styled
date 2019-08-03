@@ -11,7 +11,8 @@ const withAuthentication = Component => {
       this.state = {
         authUser: null,
         role: null,
-        username: null
+        username: null,
+        reviewsLastVisit:'',
       };
     }
 
@@ -24,6 +25,7 @@ const withAuthentication = Component => {
               this.setState({ 
                 role: snapshot.val().role, 
                 username: snapshot.val().username, 
+                reviewsLastVisit:snapshot.val().reviewsLastVisit, 
               }) 
             });
           } else{

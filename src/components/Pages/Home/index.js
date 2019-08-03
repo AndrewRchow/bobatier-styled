@@ -54,6 +54,7 @@ class HomePage extends React.Component {
   }
   componentWillUnmount() {
     this.props.firebase.userReviews().off();
+
     this.setState({
       contextUid: '',
       contextUsername: ''
@@ -116,22 +117,35 @@ class HomePage extends React.Component {
     const username = this.context.username;
 
     this.props.firebase
+    .userReview(userId, bobaShopAndLocation)
+    .once('value').then((snapshot) =>{
+      if(!snapshot.val()){
+        this.props.firebase
+        .reviewDateTimes()
+        .push({
+          dateTime
+        })
+        .catch(error => { this.setState({ error }); });
+      }
+    })
+
+    this.props.firebase
+    .userReview(userId, bobaShopAndLocation)
+    .update({
+      username,
+      score1, score2, score3, score4,
+      score5, score6, score7, score8,
+      note, dateTime,
+    })
+    .catch(error => { this.setState({ error }); });
+
+    this.props.firebase
       .bobaShopUserReview(bobaShopAndLocation, userId)
       .update({
         username,
         score1, score2, score3, score4,
         score5, score6, score7, score8,
         note, dateTime
-      })
-      .catch(error => { this.setState({ error }); });
-
-    this.props.firebase
-      .userReview(userId, bobaShopAndLocation)
-      .update({
-        username,
-        score1, score2, score3, score4,
-        score5, score6, score7, score8,
-        note, dateTime,
       })
       .catch(error => { this.setState({ error }); });
 
@@ -153,13 +167,14 @@ class HomePage extends React.Component {
   };
 
   getReviewList() {
-    const userId = this.context.authUser.uid
+    const userid = this.context.authUser.uid
 
-    this.props.firebase.userReviews(userId).on('value', snapshot => {
+    this.props.firebase.userReviews(userid).on('value', snapshot => {
       const myReviewsObject = snapshot.val();
       if (myReviewsObject) {
         const myReviewsList = Object.keys(myReviewsObject).map(key => ({
           bobaShop: key,
+          userid,
           ...myReviewsObject[key],
         }))
         this.sortReviews(myReviewsList)
@@ -196,6 +211,7 @@ class HomePage extends React.Component {
 
   render() {
     const { reviews, loading, contextUsername, contextUid } = this.state;
+    console.log(reviews);
     const override = css`
     display: block;
     margin: 150px auto;`;

@@ -52,7 +52,6 @@ class AutoSuggestUsers extends React.Component {
           userid: key,
           ...usersObject[key],
         }))
-        console.log(usersList);
         users = usersList;
       }
     });

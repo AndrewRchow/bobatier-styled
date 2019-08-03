@@ -152,7 +152,6 @@ class Shops extends React.Component {
 
     render() {
         const { shop, reviews, numberOfReviews, contextUsername, contextUid } = this.state;
-        console.log(reviews);
 
         return (
             <div className='container'>

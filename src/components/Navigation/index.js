@@ -10,47 +10,57 @@ import { Navbar, Nav, Button } from 'react-bootstrap';
 
 const authAdminMenuItems = [
   // ['Tier List', ROUTES.LANDING],
-  ['Shops', ROUTES.SHOPS],
+  ['Reviews', ROUTES.REVIEWS],
   ['Members', ROUTES.MEMBERS],
+  ['Shops', ROUTES.SHOPS],
   ['Photos', ROUTES.PHOTOS],
-  ['Recent Reviews', ROUTES.REVIEWS],
   ['My Reviews', ROUTES.HOME],
-  ['Account', ROUTES.ACCOUNT],
+  // ['Account', ROUTES.ACCOUNT],
   ['Admin', ROUTES.ADMIN],
   ['Test', ROUTES.TEST],
 ];
 
 const authMenuItems = [
   // ['Tier List', ROUTES.LANDING],
-  ['Shops', ROUTES.SHOPS],
+  ['Reviews', ROUTES.REVIEWS],
   ['Members', ROUTES.MEMBERS],
+  ['Shops', ROUTES.SHOPS],
   ['Photos', ROUTES.PHOTOS],
-  ['Recent Reviews', ROUTES.REVIEWS],
   ['My Reviews', ROUTES.HOME],
-  ['Account', ROUTES.ACCOUNT],
+  // ['Account', ROUTES.ACCOUNT],
 ];
 
 const nonAuthMenuItems = [
   // ['Tier List', ROUTES.LANDING],
-  ['Shops', ROUTES.SHOPS],
+  ['Reviews', ROUTES.REVIEWS],
   ['Members', ROUTES.MEMBERS],
+  ['Shops', ROUTES.SHOPS],
   ['Photos', ROUTES.PHOTOS],
-  ['Recent Reviews', ROUTES.REVIEWS],
   ['Sign In', ROUTES.SIGN_IN],
 ];
 
+class Navigation extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <AuthUserContext.Consumer>
+        {login =>
+          login.role === 'admin' ? <NavigationAuth menuItems={authAdminMenuItems} signedIn={true} newReviewsCount={this.props.newReviewsCount}/> :
+            (login.authUser ? <NavigationAuth menuItems={authMenuItems} signedIn={true} newReviewsCount={this.props.newReviewsCount} /> :
+              <NavigationAuth menuItems={nonAuthMenuItems} signedIn={false} newReviewsCount={this.props.newReviewsCount}/>)
+        }
+      </AuthUserContext.Consumer>
+    );
+  }
+}
 
-const Navigation = () => (
-  <div>
-    <AuthUserContext.Consumer>
-      {login =>
-        login.role === 'admin' ? <NavigationAuth menuItems={authAdminMenuItems} signedIn={true} /> :
-          (login.authUser ? <NavigationAuth menuItems={authMenuItems} signedIn={true} /> :
-            <NavigationAuth menuItems={nonAuthMenuItems} signedIn={false} />)
-      }
-    </AuthUserContext.Consumer>
-  </div>
-);
+// const Navigation = () => (
+//   <div>
+
+//   </div>
+// );
 
 class NavigationAuthBase extends React.Component {
   constructor(props) {
@@ -86,7 +96,6 @@ class NavigationAuthBase extends React.Component {
 
   render() {
     // const relPath = window.location.href.split('#')[1];
-
     let signoutButton = null;
     if (this.props.signedIn) {
       signoutButton = <Button variant="outline-info" onClick={this.signOut}>Sign Out</Button>
@@ -101,7 +110,12 @@ class NavigationAuthBase extends React.Component {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
               {this.props.menuItems.map(([menuItem, route]) =>
-                <Nav.Link href={"#" + route} key={menuItem}>{menuItem}</Nav.Link>
+                menuItem === "Reviews" 
+                ?<Nav.Link href={"#" + route} key={menuItem}>{menuItem} {' '} 
+                    {this.props.newReviewsCount !== 0 
+                    ? this.props.newReviewsCount
+                    : <span></span>}</Nav.Link>
+                :<Nav.Link href={"#" + route} key={menuItem}>{menuItem}</Nav.Link>
               )}
             </Nav>
             {signoutButton}
