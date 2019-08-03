@@ -352,3 +352,12 @@ template {
 [hidden] {
   display: none;
 }
+
+
+
+
+@media (max-width: 600px){
+  h4{
+    font-size:18px !important
+  }  
+}
