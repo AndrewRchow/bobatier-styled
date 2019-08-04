@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import * as ROUTES from '../../../constants/routes';
 import { ClipLoader } from 'react-spinners';
 import { css } from '@emotion/core';
+import logo from '../../../media/images/shiba.jpg';
+
 
 class Landing extends React.Component {
   constructor(props) {
@@ -181,6 +183,11 @@ class Landing extends React.Component {
             />
           </div>
         </div>
+        <div>
+            {ROUTES.DEVELOP == false ?
+              <img src={logo} className={classes.image} />
+              : <div></div>}
+          </div>
 
       </div >
 

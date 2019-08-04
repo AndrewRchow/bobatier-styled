@@ -61,9 +61,9 @@ class App extends React.Component {
   //   this.props.firebase.reviewDateTimes().off();
   //   this.props.firebase.userReviewLastVisit().off();
   // }
-  updateNewReviews = (newCount) => {
-    this.setState({ newReviewsCount: newCount });
-  }
+  // updateNewReviews = (newCount) => {
+  //   this.setState({ newReviewsCount: newCount });
+  // }
 
   render() {
     // const PropsReviewsPage = (props) => {
@@ -80,7 +80,9 @@ class App extends React.Component {
       <HashRouter>
         <div>
           <div>
-            <Navigation forwardRef={node => this.node = node} newReviewsCount={this.state.newReviewsCount} />
+            <Navigation forwardRef={node => this.node = node} 
+            newReviewsCount={this.state.newReviewsCount}
+             />
             <hr />
           </div>
           <div className={classes.main} onClick={this.handleContainerClick}>

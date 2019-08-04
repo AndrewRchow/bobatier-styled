@@ -49,3 +49,24 @@ ul{
   padding-left:0px;
 }
 
+.image {
+  max-width: 400px;
+  max-height: 500px;
+  display: block;
+  margin: auto;
+  margin-top:45px;
+}
+
+@media (max-width: 960px){
+  .image {
+    max-width: 300px;
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 570px){
+  .image {
+      max-width: 250px;
+      max-height: 350px;
+    }
+}

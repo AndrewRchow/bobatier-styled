@@ -22,19 +22,19 @@ const authAdminMenuItems = [
 
 const authMenuItems = [
   // ['Tier List', ROUTES.LANDING],
+  ['Home', ROUTES.HOME],
   ['Reviews', ROUTES.REVIEWS],
-  ['Members', ROUTES.MEMBERS],
   ['Shops', ROUTES.SHOPS],
+  ['Members', ROUTES.MEMBERS],
   ['Photos', ROUTES.PHOTOS],
-  ['My Reviews', ROUTES.HOME],
   // ['Account', ROUTES.ACCOUNT],
 ];
 
 const nonAuthMenuItems = [
   // ['Tier List', ROUTES.LANDING],
   ['Reviews', ROUTES.REVIEWS],
-  ['Members', ROUTES.MEMBERS],
   ['Shops', ROUTES.SHOPS],
+  ['Members', ROUTES.MEMBERS],
   ['Photos', ROUTES.PHOTOS],
   ['Sign In', ROUTES.SIGN_IN],
 ];
@@ -92,6 +92,7 @@ class NavigationAuthBase extends React.Component {
     this.props.firebase.doSignOut();
     this.props.history.push(ROUTES.SIGN_IN);
     this.closeNav();
+    window.location.reload(); 
   }
 
   render() {
@@ -105,17 +106,18 @@ class NavigationAuthBase extends React.Component {
       <div ref={(c) => (this._element = c)} className={classes.navBar}>
         <Navbar collapseOnSelect expand="md" bg="dark" variant="dark" fixed="top"
           onToggle={this.setNavExpanded} expanded={this.state.navExpanded}>
-          <Navbar.Brand onClick={this.closeNav} href="#/">AAAAAA</Navbar.Brand>
+          <Navbar.Brand onClick={this.closeNav} href="#/">Tier List</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
               {this.props.menuItems.map(([menuItem, route]) =>
-                menuItem === "Reviews" 
-                ?<Nav.Link href={"#" + route} key={menuItem}>{menuItem} {' '} 
-                    {this.props.newReviewsCount !== 0 
-                    ? this.props.newReviewsCount
-                    : <span></span>}</Nav.Link>
-                :<Nav.Link href={"#" + route} key={menuItem}>{menuItem}</Nav.Link>
+                // menuItem === "Reviews" 
+                // ?<Nav.Link href={"#" + route} key={menuItem}>{menuItem} {' '} 
+                //     {this.props.newReviewsCount !== 0 
+                //     ? this.props.newReviewsCount
+                //     : <span></span>}</Nav.Link>
+                // :
+                <Nav.Link href={"#" + route} key={menuItem}>{menuItem}</Nav.Link>
               )}
             </Nav>
             {signoutButton}

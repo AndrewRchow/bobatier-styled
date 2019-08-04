@@ -30,8 +30,10 @@ class SignInForm extends Component {
       this.props.firebase
         .doSignInWithEmailAndPassword(email, password)
         .then(() => {
-          this.setState({ ...INITIAL_STATE });
-          this.props.history.push(ROUTES.HOME);
+          setTimeout(() => {
+            this.props.history.push(ROUTES.HOME); 
+            }, 300);
+          // this.setState({ ...INITIAL_STATE });
         })
         .catch(error => {
           this.setState({ error, loading: false });
@@ -86,11 +88,11 @@ class SignInForm extends Component {
             <SignUpLink />
           </div>
           {error && <p className={classes.error}>{error.message}</p>}
-          <div>
+          {/* <div>
             {ROUTES.DEVELOP == false ?
               <img src={logo} className={classes.image} />
               : <div></div>}
-          </div>
+          </div> */}
           <div className='sweet-loading'>
             <ClipLoader
               sizeUnit={"px"}

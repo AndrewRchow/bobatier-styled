@@ -76,7 +76,7 @@ class AddImageModal extends React.Component {
                     </button>
                     <div style={{ marginTop: "40px" }}>
                         <input autoFocus={true} onChange={this.onChange} name="description" className='form-control'
-                            placeholder="Enter description"></input>
+                            placeholder="Enter description first"></input>
                         <div className={`${classes.uploadBtns}`}>
                             <CustomUploadButton
                                 accept="image/*"

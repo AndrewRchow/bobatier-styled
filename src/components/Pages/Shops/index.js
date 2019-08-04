@@ -182,7 +182,7 @@ class Shops extends React.Component {
                                 {shop}
                             </h4>
                             <h4 className={`${classes.info}`} style={{ display: 'inline-block' }}>
-                                <FontAwesomeIcon icon={faUsers} size="1x" style={{ verticalAlign: 'middle' }} />{numberOfReviews} {' '}
+                                <FontAwesomeIcon icon={faUsers} size="1x" style={{ verticalAlign: 'middle' }} /> {' '} {numberOfReviews} {' '}
                                 <Link to={{ pathname: ROUTES.PHOTOS, state: { shop: shop } }} style={{ paddingLeft: '20px' }}>
                                     <button className={`btn btn-primary ${classes.imageIcon}`}>
                                         <FontAwesomeIcon icon={faImage} size="2x" />

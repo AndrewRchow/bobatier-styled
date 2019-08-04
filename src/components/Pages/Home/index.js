@@ -13,7 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const INITIAL_STATE = {
-  bobaShop: '', location: '',
+  bobaShop: '', username: '', location: '',
   score1: 1, score2: 1, score3: 1, score4: 1,
   score5: 1, score6: 1, score7: 1, score8: 1,
   note: "", error: null,

@@ -98,7 +98,7 @@ class AutoSuggestShops extends React.Component {
 
     // Autosuggest will pass through all these props to the input.
     const inputProps = {
-      placeholder: 'Shop name',
+      placeholder: 'Enter Shop name',
       value,
       onChange: this.onChange
     };
