@@ -11,4 +11,4 @@ export const ADMIN = '/admin';
 export const PASSWORD_FORGET = '/pw-forget';
 export const TEST = '/test';
 
-export const DEVELOP = false;
+export const DEVELOP = true;

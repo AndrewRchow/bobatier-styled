@@ -18,12 +18,13 @@ const withAuthentication = Component => {
     componentDidMount() {
       this.listener = this.props.firebase.auth.onAuthStateChanged(
         authUser => {
+          console.log('bbbb', authUser);
           if (authUser){
             this.setState({ authUser })
             this.props.firebase.user(authUser.uid).on('value', snapshot => {
               this.setState({ 
-                role: snapshot.val().role, 
-                username: snapshot.val().username, 
+                // role: snapshot.val().role, 
+                // username: snapshot.val().username, 
               }) 
             });
           } else{

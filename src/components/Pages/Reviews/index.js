@@ -1,6 +1,6 @@
 import React from 'react';
 import { withFirebase } from '../../Firebase';
-import { AuthUserContext } from '../../Session';
+import { AuthUserContext, withAuthorizationNoRedirect } from '../../Session';
 import classes from './review.module.css';
 
 import ReviewCard from '../../Partials/ReviewCard'
@@ -38,6 +38,7 @@ class Reviews extends React.Component {
     }
 
     componentDidMount() {
+        console.log(11111, this.context);
         if (this.context.authUser != null) {
             this.setState({
                 contextUid: this.context.authUser.uid,
@@ -166,6 +167,6 @@ class Reviews extends React.Component {
     }
 }
 
-// const condition = authUser => !!authUser;
+const condition = authUser => !!authUser;
 // export default withFirebase(withAuthorization(condition)(Reviews));
-export default withFirebase(Reviews);
+export default withAuthorizationNoRedirect()(Reviews);

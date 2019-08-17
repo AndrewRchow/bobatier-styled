@@ -24,21 +24,58 @@ class SignInForm extends Component {
     this.state = { ...INITIAL_STATE };
   }
 
+  componentDidMount() {
+    
+    this.props.firebase.auth1.getRedirectResult().then(function(result) {
+      console.log('zzz',result);
+
+      if (result.credential) {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        // var token = result.credential.accessToken;
+        console.log('aaa',result);
+        // ...
+      }
+      // The signed-in user info.
+      var user = result.user;
+    }).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+    }).then(() =>{
+      // this.props.history.push(ROUTES.REVIEWS);
+
+    });
+  }
+
   onSubmit = event => {
-    const { email, password } = this.state;
-    this.setState({ loading: true }, () => {
-      this.props.firebase
-        .doSignInWithEmailAndPassword(email, password)
-        .then(() => {
-          setTimeout(() => {
-            this.props.history.push(ROUTES.HOME); 
-            }, 300);
-          // this.setState({ ...INITIAL_STATE });
-        })
-        .catch(error => {
-          this.setState({ error, loading: false });
-        });
-    })
+    this.props.firebase.googleLogin()
+      // .then(() => {
+      //   setTimeout(() => {
+      //     this.props.history.push(ROUTES.HOME);
+      //   }, 300)
+      // });
+
+
+
+    // const { email, password } = this.state;
+    // this.setState({ loading: true }, () => {
+    //   this.props.firebase
+    //     .doSignInWithEmailAndPassword(email, password)
+    //     .then(() => {
+    //       setTimeout(() => {
+    //         this.props.history.push(ROUTES.HOME); 
+    //         }, 300);
+    //       // this.setState({ ...INITIAL_STATE });
+    //     })
+    //     .catch(error => {
+    //       this.setState({ error, loading: false });
+    //     });
+    // })
     event.preventDefault();
 
   };

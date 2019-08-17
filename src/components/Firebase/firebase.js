@@ -1,7 +1,11 @@
+import firebase from 'firebase';
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import 'firebase/storage';
+
+import * as ROUTES from '../../constants/routes';
+
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -16,9 +20,40 @@ class Firebase {
   constructor() {
     app.initializeApp(config);
 
+    this.auth1 = firebase.auth();
     this.auth = app.auth();
     this.db = app.database();
     this.storage = app.storage();
+  }
+
+  provider = new firebase.auth.GoogleAuthProvider();
+
+  googleLogin = () => {
+    firebase.auth().signInWithRedirect(this.provider);
+  }
+
+  getRedirect = () => {
+    firebase.auth().getRedirectResult().then(function(result) {
+      console.log('zzz',result);
+      if (result.credential) {
+        this.props.history.push(ROUTES.REVIEWS);
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        var token = result.credential.accessToken;
+        console.log('aaa',result);
+        // ...
+      }
+      // The signed-in user info.
+      var user = result.user;
+    }).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+    });
   }
 
   // *** Auth API ***
@@ -30,7 +65,12 @@ class Firebase {
     this.auth.signInWithEmailAndPassword(email, password);
 
   doSignOut = () => {
-    this.auth.signOut();
+    firebase.auth().signOut().then(function() {
+      // Sign-out successful.
+    }).catch(function(error) {
+      // An error happened.
+    });
+    // this.auth.signOut();
   }
     
 
