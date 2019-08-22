@@ -3,6 +3,8 @@ import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 import 'firebase/storage';
+import { withRouter } from 'react-router-dom';
+
 
 import * as ROUTES from '../../constants/routes';
 
@@ -29,31 +31,11 @@ class Firebase {
   provider = new firebase.auth.GoogleAuthProvider();
 
   googleLogin = () => {
-    firebase.auth().signInWithRedirect(this.provider);
+    this.auth1.signInWithRedirect(this.provider);
   }
 
   getRedirect = () => {
-    firebase.auth().getRedirectResult().then(function(result) {
-      console.log('zzz',result);
-      if (result.credential) {
-        this.props.history.push(ROUTES.REVIEWS);
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        var token = result.credential.accessToken;
-        console.log('aaa',result);
-        // ...
-      }
-      // The signed-in user info.
-      var user = result.user;
-    }).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // The email of the user's account used.
-      var email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      var credential = error.credential;
-      // ...
-    });
+  
   }
 
   // *** Auth API ***
@@ -65,14 +47,14 @@ class Firebase {
     this.auth.signInWithEmailAndPassword(email, password);
 
   doSignOut = () => {
-    firebase.auth().signOut().then(function() {
+    this.auth1.signOut().then(function () {
       // Sign-out successful.
-    }).catch(function(error) {
+    }).catch(function (error) {
       // An error happened.
     });
     // this.auth.signOut();
   }
-    
+
 
   doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
 
@@ -85,7 +67,7 @@ class Firebase {
   bobaShopUserReview = (shopName, userId) => this.db.ref(`bobaShopUserReviews/${shopName}/${userId}`);
   bobaShopUserComment = (shopName, userId) => this.db.ref(`bobaShopUserReviews/${shopName}/${userId}/comments`);
   userReview = (userId, shopName) => this.db.ref(`users/${userId}/reviews/${shopName}`);
-  userReviewComment = (userId, shopName) => this.db.ref(`users/${userId}/reviews/${shopName}/comments`);  
+  userReviewComment = (userId, shopName) => this.db.ref(`users/${userId}/reviews/${shopName}/comments`);
   bobaShop = (bobaShop) => this.db.ref(`bobaShops/${bobaShop}`);
   location = (location) => this.db.ref(`locations/${location}`);
   userReviewLastVisit = (userid) => this.db.ref(`users/${userid}/reviewsLastVisit`);

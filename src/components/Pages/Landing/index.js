@@ -147,7 +147,7 @@ class Landing extends React.Component {
       <div className={`container`}>
         <div className={`row`}>
           <div className={`col-12 ${classes.header}`}>
-            <h5>Tier List</h5>
+            <h5>AAAA</h5>
           </div>
         </div>
         <div className={`${classes.tierList}`}>

@@ -1,11 +1,4 @@
-add new reviewcard to shops first
-
-auto margin every page
-lazy loading pictures
-create wells for each header
-svg icons
-svg pictures
-
+loading signin
 
 SCORES
 score1: drink quality

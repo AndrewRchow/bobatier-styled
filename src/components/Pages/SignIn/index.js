@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PasswordMask from 'react-password-mask';
 import classes from './signIn.module.css';
+import { withAuthorization, AuthUserContext } from '../../Session';
 import { SignUpLink } from '../../Partials/SignUp';
 import { PasswordForgetLink } from '../../Partials/PasswordForget';
 import { withFirebase } from '../../Firebase';
@@ -18,47 +19,45 @@ const INITIAL_STATE = {
 };
 
 class SignInForm extends Component {
+  static contextType = AuthUserContext;
+
   constructor(props) {
     super(props);
 
     this.state = { ...INITIAL_STATE };
   }
 
-  componentDidMount() {
-    
-    this.props.firebase.auth1.getRedirectResult().then(function(result) {
-      console.log('zzz',result);
+  componentWillMount() {
+    // this.props.firebase.getRedirect();
 
-      if (result.credential) {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        // var token = result.credential.accessToken;
-        console.log('aaa',result);
-        // ...
-      }
-      // The signed-in user info.
-      var user = result.user;
-    }).catch(function(error) {
-      // Handle Errors here.
+    this.props.firebase.auth1.getRedirectResult().then((result) => {
+      // if (result.additionalUserInfo.isNewUser) {
+      const user = result.user;
+      this.props.firebase
+        .user(user.uid)
+        .update({
+          username: user.displayName,
+          email: user.email,
+          photo: user.photoURL
+        })
+      // } 
+      this.props.history.push(ROUTES.HOME);
+    }).catch(function (error) {
       var errorCode = error.code;
       var errorMessage = error.message;
-      // The email of the user's account used.
       var email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
       var credential = error.credential;
-      // ...
-    }).then(() =>{
-      // this.props.history.push(ROUTES.REVIEWS);
-
     });
+
   }
 
   onSubmit = event => {
     this.props.firebase.googleLogin()
-      // .then(() => {
-      //   setTimeout(() => {
-      //     this.props.history.push(ROUTES.HOME);
-      //   }, 300)
-      // });
+    // .then(() => {
+    //   setTimeout(() => {
+    //     this.props.history.push(ROUTES.HOME);
+    //   }, 300)
+    // });
 
 
 
@@ -87,7 +86,7 @@ class SignInForm extends Component {
   render() {
     const { email, password, error } = this.state;
 
-    const isInvalid = password === '' || email === '';
+    // const isInvalid = password === '' || email === '';
 
     const signInButtonStyle = {
       marginTop: "8px",
@@ -99,9 +98,9 @@ class SignInForm extends Component {
 
     return (
       <div className={`container`}>
-        <h5>Sign In</h5>
+        {/* <h5>Sign In</h5> */}
         <form onSubmit={this.onSubmit}>
-          <input
+          {/* <input
             name="email"
             value={email}
             onChange={this.onChange}
@@ -116,13 +115,15 @@ class SignInForm extends Component {
             onChange={this.onChange}
             buttonClassName={classes.maskButton}
             inputClassName={classes.inputStyle}
-          />
-          <button className={`btn btn-primary`} style={signInButtonStyle} disabled={isInvalid} type="submit">
+          /> */}
+          <button className={`btn btn-primary`} style={signInButtonStyle} type="submit"
+          // disabled={isInvalid} 
+          >
             Sign In
         </button>
           <div style={{ marginTop: '10px' }}>
-            <PasswordForgetLink />
-            <SignUpLink />
+            {/* <PasswordForgetLink />
+            <SignUpLink /> */}
           </div>
           {error && <p className={classes.error}>{error.message}</p>}
           {/* <div>
