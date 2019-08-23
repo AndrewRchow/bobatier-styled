@@ -35,7 +35,7 @@ class Firebase {
   }
 
   getRedirect = () => {
-  
+
   }
 
   // *** Auth API ***
@@ -48,10 +48,9 @@ class Firebase {
 
   doSignOut = () => {
     this.auth1.signOut().then(function () {
-      // Sign-out successful.
     }).catch(function (error) {
-      // An error happened.
     });
+
     // this.auth.signOut();
   }
 
