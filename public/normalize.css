@@ -354,7 +354,7 @@ template {
 }
 
 
-a.nav-link.active {
+a.nav-link.activated {
   color:#17a2b8 !important;
 }
 

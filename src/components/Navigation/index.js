@@ -47,9 +47,9 @@ class Navigation extends React.Component {
     return (
       <AuthUserContext.Consumer>
         {login =>
-          login.role === 'admin' ? <NavigationAuth menuItems={authAdminMenuItems} signedIn={true} newReviewsCount={this.props.newReviewsCount}/> :
+          login.role === 'admin' ? <NavigationAuth menuItems={authAdminMenuItems} signedIn={true} newReviewsCount={this.props.newReviewsCount} /> :
             (login.authUser ? <NavigationAuth menuItems={authMenuItems} signedIn={true} newReviewsCount={this.props.newReviewsCount} /> :
-              <NavigationAuth menuItems={nonAuthMenuItems} signedIn={false} newReviewsCount={this.props.newReviewsCount}/>)
+              <NavigationAuth menuItems={nonAuthMenuItems} signedIn={false} newReviewsCount={this.props.newReviewsCount} />)
         }
       </AuthUserContext.Consumer>
     );
@@ -117,7 +117,11 @@ class NavigationAuthBase extends React.Component {
                 //     ? this.props.newReviewsCount
                 //     : <span></span>}</Nav.Link>
                 // :
-                <Nav.Link href={"#" + route} key={menuItem}>{menuItem}</Nav.Link>
+                <Nav.Link href={"#" + route} key={menuItem}
+                  className={this.props.location.pathname === route ? `activated` : ``}
+                  >
+                  {menuItem}
+                </Nav.Link>
               )}
             </Nav>
             {signoutButton}
