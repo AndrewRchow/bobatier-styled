@@ -354,6 +354,9 @@ template {
 }
 
 
+a.nav-link.active {
+  color:#17a2b8 !important;
+}
 
 
 @media (max-width: 600px){
