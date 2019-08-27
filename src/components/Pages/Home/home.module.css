@@ -32,6 +32,8 @@ p {
 
 .starRating {
     display:inline;
+    padding-top:1px;
+    /* margin-top:0px; */
 }
 
 
@@ -96,7 +98,7 @@ p {
 }
 
 .scoreReviewHeader{
-  padding-top:6px;
+  /* padding-top:6px; */
   display:inline;
   width:120px;
 }
