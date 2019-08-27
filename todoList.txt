@@ -1,3 +1,5 @@
+highlight current tab
+
 loading signin
 
 SCORES

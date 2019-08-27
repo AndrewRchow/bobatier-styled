@@ -11,6 +11,18 @@ import { ClipLoader } from 'react-spinners';
 import { css } from '@emotion/core';
 import logo from '../../../media/images/shiba.jpg';
 
+import Fab from '@material-ui/core/Fab';
+import PersonAdd from '@material-ui/icons/PersonAdd';
+
+
+const buttonStyle = {
+  width: 80,
+  height: 80,
+marginTop:30,
+  backgroundColor: 'rgb(25,118,210)',
+  color: 'white'
+};
+
 const INITIAL_STATE = {
   email: '',
   password: '',
@@ -30,26 +42,60 @@ class SignInForm extends Component {
   componentWillMount() {
     // this.props.firebase.getRedirect();
 
-    this.props.firebase.auth1.getRedirectResult().then((result) => {
-      // if (result.additionalUserInfo.isNewUser) {
-      const user = result.user;
-      this.props.firebase
-        .user(user.uid)
-        .update({
-          username: user.displayName,
-          email: user.email,
-          photo: user.photoURL
-        })
-      // } 
-      this.props.history.push(ROUTES.HOME);
-    }).catch(function (error) {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      var email = error.email;
-      var credential = error.credential;
+    this.setState({ loading: true });
+    this.listener = this.props.firebase.auth1.onAuthStateChanged((user) => {
+      if (user) {
+        console.log('1111', user);
+        this.props.firebase
+              .user(user.uid)
+              .update({
+                username: user.displayName,
+                email: user.email,
+                avatar: user.photoURL,
+                role: 'user'
+              })
+              .then(() => {
+                this.props.history.push(ROUTES.HOME);
+              })
+      } else {
+        this.setState({ loading: false });
+      }
     });
+    // this.props.firebase.auth1.getRedirectResult().then((result) => {
+    //   if (result.user) {
+    //     console.log(1, result);
+    //     this.setState({ loading: true });
+
+    //     const user = result.user;
+    //     this.props.firebase
+    //       .user(user.uid)
+    //       .update({
+    //         username: user.displayName,
+    //         email: user.email,
+    //         avatar: user.photoURL,
+    //         role: 'user'
+    //       })
+    //       .then(() => {
+    //         this.setState({ loading: false });
+    //         this.props.history.push(ROUTES.HOME);
+    //       })
+
+    //   }
+
+    // }).catch(function (error) {
+    //   var errorCode = error.code;
+    //   var errorMessage = error.message;
+    //   var email = error.email;
+    //   var credential = error.credential;
+    // });
 
   }
+
+  componentWillUnmount() {
+    this.listener();
+
+  }
+
 
   onSubmit = event => {
     this.props.firebase.googleLogin()
@@ -94,13 +140,13 @@ class SignInForm extends Component {
 
     const override = css`
     display: block;
-    margin: 10px auto;`;
+    margin: 90px auto;`;
 
     return (
       <div className={`container`}>
-        {/* <h5>Sign In</h5> */}
+        {/* <h5>Sign In</h5>
         <form onSubmit={this.onSubmit}>
-          {/* <input
+          <input
             name="email"
             value={email}
             onChange={this.onChange}
@@ -115,32 +161,50 @@ class SignInForm extends Component {
             onChange={this.onChange}
             buttonClassName={classes.maskButton}
             inputClassName={classes.inputStyle}
-          /> */}
+          />
           <button className={`btn btn-primary`} style={signInButtonStyle} type="submit"
-          // disabled={isInvalid} 
+          disabled={isInvalid} 
           >
             Sign In
         </button>
           <div style={{ marginTop: '10px' }}>
-            {/* <PasswordForgetLink />
-            <SignUpLink /> */}
+            <PasswordForgetLink />
+            <SignUpLink />
           </div>
-          {error && <p className={classes.error}>{error.message}</p>}
-          {/* <div>
+          {error && <p className={classes.error}>{error.message}</p>} */}
+
+        {/* <div>
             {ROUTES.DEVELOP == false ?
               <img src={logo} className={classes.image} />
               : <div></div>}
           </div> */}
-          <div className='sweet-loading'>
-            <ClipLoader
-              sizeUnit={"px"}
-              css={override}
-              size={30}
-              color={'#61aceb'}
-              loading={this.state.loading}
-            />
-          </div>
-        </form>
+
+        {/* </form> */}
+
+
+        {
+          this.state.loading ?
+            <div className='sweet-loading' style={{marginTop:60}}>
+              <ClipLoader
+                sizeUnit={"px"}
+                css={override}
+                size={30}
+                color={'#61aceb'}
+              // loading={this.state.loading}
+              />
+            </div>
+            :
+            <div className={classes.signInButton}>
+              <Fab
+                style={buttonStyle}
+                onClick={() => this.onSubmit()}>
+                <PersonAdd 
+                style={{width:'40px', height:'40px'}}/>
+              </Fab>
+            </div>
+
+        }
+
       </div>
     );
   }

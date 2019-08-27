@@ -12,6 +12,7 @@ const withAuthentication = Component => {
         authUser: null,
         role: null,
         username: null,
+        avatar: null
       };
     }
 
@@ -23,13 +24,14 @@ const withAuthentication = Component => {
             this.setState({ authUser })
             this.props.firebase.user(authUser.uid).on('value', snapshot => {
               this.setState({ 
-                // role: snapshot.val().role, 
-                // username: snapshot.val().username, 
+                role: snapshot.val().role, 
+                username: snapshot.val().username, 
+                avatar: snapshot.val().avatar, 
+                
               }) 
             });
           } else{
-            this.setState({ authUser: null });  
-            this.setState({ role: null });  
+            this.setState({ authUser: null, role:null });  
           }  
         },
       );

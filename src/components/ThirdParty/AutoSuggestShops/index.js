@@ -12,7 +12,7 @@ const getSuggestions = value => {
   const inputValue = value.trim().toLowerCase();
   const inputLength = inputValue.length;
 
-  return inputLength === 0 ? [] : bobaShops.filter(shop =>
+  return inputLength === 0 ? bobaShops : bobaShops.filter(shop =>
     shop.name.toLowerCase().slice(0, inputLength) === inputValue
   );
 };
@@ -98,7 +98,7 @@ class AutoSuggestShops extends React.Component {
 
     // Autosuggest will pass through all these props to the input.
     const inputProps = {
-      placeholder: 'Enter Shop name',
+      placeholder: this.props.placeholder ? this.props.placeholder : 'Enter Shop name',
       value,
       onChange: this.onChange
     };
@@ -114,6 +114,8 @@ class AutoSuggestShops extends React.Component {
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderSuggestion}
         inputProps={inputProps}
+        highlightFirstSuggestion={true}
+        alwaysRenderSuggestions={true}
       //styling from theme.css   
       />
     );

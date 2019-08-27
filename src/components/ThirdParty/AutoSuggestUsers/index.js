@@ -11,8 +11,8 @@ let users = [
 const getSuggestions = value => {
   const inputValue = value.trim().toLowerCase();
   const inputLength = inputValue.length;
-
-  return inputLength === 0 ? [] : users.filter(user =>
+console.log(value);
+  return inputLength === 0 ? users : users.filter(user =>
     user.username.toLowerCase().slice(0, inputLength) === inputValue
   );
 };
@@ -72,6 +72,7 @@ class AutoSuggestUsers extends React.Component {
   // Autosuggest will call this function every time you need to update suggestions.
   // You already implemented this logic above, so just use it.
   onSuggestionsFetchRequested = ({ value }) => {
+    console.log(value);
     this.setState({
       suggestions: getSuggestions(value)
     });
@@ -87,6 +88,11 @@ class AutoSuggestUsers extends React.Component {
       suggestions: []
     });
   };
+
+  // shouldRenderSuggestions(value) {
+  //   console.log(value);
+  //   return true;
+  // }
 
   componentWillUnmount() {
     this.props.firebase.users().off();
@@ -114,6 +120,10 @@ class AutoSuggestUsers extends React.Component {
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderSuggestion}
         inputProps={inputProps}
+        highlightFirstSuggestion={true}
+        alwaysRenderSuggestions={true}
+    focusInputOnSuggestionClick={false}
+
       //styling from theme.css   
       />
     );

@@ -31,7 +31,10 @@ class Firebase {
   provider = new firebase.auth.GoogleAuthProvider();
 
   googleLogin = () => {
-    this.auth1.signInWithRedirect(this.provider);
+    console.log('1');
+    firebase.auth().signInWithRedirect(this.provider);
+    console.log('2');
+
   }
 
   getRedirect = () => {
@@ -48,6 +51,8 @@ class Firebase {
 
   doSignOut = () => {
     this.auth1.signOut().then(function () {
+    // window.location.reload(); 
+
     }).catch(function (error) {
     });
 

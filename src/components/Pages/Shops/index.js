@@ -27,11 +27,13 @@ class Shops extends React.Component {
 
             contextUid: "",
             contextUsername: "",
+            contextAvatar:"",
             commentModal: {
                 bobaShop: "",
                 uid: "",
                 contextUid: "",
                 contextUsername: "",
+                contextAvatar:"",
                 isOpen: false
             }
         }
@@ -41,7 +43,8 @@ class Shops extends React.Component {
         if (this.context.authUser != null) {
             this.setState({
                 contextUid: this.context.authUser.uid,
-                contextUsername: this.context.username
+                contextUsername: this.context.username,
+                contextAvatar: this.context.avatar
             });
         }
         if (this.props.location.state) {
@@ -53,16 +56,18 @@ class Shops extends React.Component {
         this.props.firebase.bobaShopUserReviews().off();
         this.setState({
             contextUid: '',
-            contextUsername: ''
+            contextUsername: '',
+            contextAvatar:''
         });
     }
 
-    toggleCommentModal = (bobaShop, uid, contextUid, contextUsername) => {
+    toggleCommentModal = (bobaShop, uid, contextUid, contextUsername, contextAvatar) => {
         const commentModal = { ...this.state.commentModal };
         commentModal.bobaShop = bobaShop;
         commentModal.uid = uid;
         commentModal.contextUid = contextUid;
         commentModal.contextUsername = contextUsername;
+        commentModal.contextAvatar = contextAvatar;
         commentModal.isOpen = !commentModal.isOpen;
 
         this.setState({
@@ -151,7 +156,7 @@ class Shops extends React.Component {
     // }
 
     render() {
-        const { shop, reviews, numberOfReviews, contextUsername, contextUid } = this.state;
+        const { shop, reviews, numberOfReviews, contextUsername, contextUid, contextAvatar } = this.state;
 
         return (
             <div className='container'>
@@ -193,7 +198,7 @@ class Shops extends React.Component {
                                 {reviews.map(review => (
                                     <li key={review.userid} className={`${classes.well}`}>
                                         <ReviewCard
-                                            toggleCommentModal={this.toggleCommentModal} authUsername={contextUsername} authUid={contextUid}
+                                            toggleCommentModal={this.toggleCommentModal} authUsername={contextUsername} authUid={contextUid} authAvatar={contextAvatar}
                                             review={review} />
                                     </li>
                                 ))}

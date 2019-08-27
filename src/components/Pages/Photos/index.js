@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './photos.module.css';
 import AddImageModal from './addImageModal';
 import ImageModal from './imageModal';
-import {  AuthUserContext } from '../../Session';
+import { AuthUserContext } from '../../Session';
 import { withFirebase } from '../../Firebase';
 import * as ROUTES from '../../../constants/routes';
 
@@ -28,6 +28,7 @@ class Photos extends React.Component {
 
             contextUid: "",
             contextUsername: "",
+            contextAvatar: "",
 
             imageInfo: {},
             imageIsOpen: false
@@ -38,12 +39,24 @@ class Photos extends React.Component {
         if (this.context.authUser != null) {
             this.setState({
                 contextUid: this.context.authUser.uid,
-                contextUsername: this.context.username
+                contextUsername: this.context.username,
+                contextAvatar: this.context.avatar
             });
         }
         if (this.props.location.state) {
             const shop = this.props.location.state.shop;
             this.getShopImages(shop);
+        } else {
+            this.getAllImages().then((images) => {
+                if (images) {
+                    this.setState({
+                        images: images,
+                        loading:false
+                    });
+                }
+            });
+
+
         }
     }
 
@@ -96,9 +109,25 @@ class Photos extends React.Component {
         });
     }
 
+    getAllImages = () => {
+        return this.props.firebase.images().once('value').then(function (snapshot) {
+            let shopImagesObject = snapshot.val();
+            if (shopImagesObject) {
+                const shopImagesList = Object.keys(shopImagesObject).map(key => ({
+                    id: key,
+                    ...shopImagesObject[key],
+                }));
+                console.log(shopImagesList)
+                return shopImagesList;
+            } else {
+                return null;
+            }
+        });
+    }
+
     handleUploadSuccess = (filename, description) => {
         this.toggleModal();
-        const { shop, contextUid, contextUsername } = this.state;
+        const { shop, contextUid, contextUsername, contextAvatar } = this.state;
         const dateTime = new Date().toLocaleString();
         this.props.firebase.storageBobaShopImages(shop)
             .child(filename)
@@ -110,6 +139,7 @@ class Photos extends React.Component {
                         shop,
                         uid: contextUid,
                         username: contextUsername,
+                        avatar: contextAvatar,
                         filename,
                         url,
                         description,
@@ -124,6 +154,7 @@ class Photos extends React.Component {
                         url,
                         uid: contextUid,
                         username: contextUsername,
+                        avatar: contextAvatar,
                         description,
                         dateTime
                     });
@@ -157,6 +188,7 @@ class Photos extends React.Component {
 
     render() {
         const { shop, contextUid, images } = this.state;
+        console.log(555, images);
         const imagesGrid = [];
         for (const [index, value] of images.entries()) {
             imagesGrid.push(
@@ -165,6 +197,8 @@ class Photos extends React.Component {
                         onClick={() => this.toggleImage(value)} />
                 </div>
             )
+            console.log(value.url);
+
         }
 
         const override = css`
@@ -184,46 +218,39 @@ class Photos extends React.Component {
                         <AutoSuggestShops
                             getInputData={this.getAutosuggestInput}
                             getSelectedData={this.getAutoSuggestSelected}
-                            bobaShop={shop} />
+                            bobaShop={shop}
+                            placeholder="Select a shop to add photos" />
                     </div>
                 </div>
                 <div>
-                    {shop != "" ?
-                        <div>
-                            <div className={`${classes.info}`}>
-                                <h5>
-                                    {shop}
-                                </h5>
-                                {contextUid ?
-                                    <button className={`btn btn-primary ${classes.addCommentButton}`} >
-                                        <FontAwesomeIcon icon={faCameraRetro} onClick={this.toggleModal} size="2x" />
-                                    </button>
-                                    : <div></div>}
-                            </div>
-                            <div>
-                                {(images === undefined || images.length == 0) ?
-                                    <div className={`row ${classes.noPhotosWell}`}>No Photos Added</div>
-                                    : <div className={`row`}>{imagesGrid}</div>
-                                }
-
-                                <div className='sweet-loading'>
-                                    <ClipLoader
-                                        sizeUnit={"px"}
-                                        css={override}
-                                        size={70}
-                                        color={'#61aceb'}
-                                        loading={this.state.loading}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        :
-                        <div>
-                            {ROUTES.DEVELOP == false ?
-                                <Logo className={classes.svg} />
+                    <div>
+                        <div className={`${classes.info}`}>
+                            <h5>
+                                {shop}
+                            </h5>
+                            {contextUid && shop ?
+                                <button className={`btn btn-primary ${classes.addCommentButton}`} >
+                                    <FontAwesomeIcon icon={faCameraRetro} onClick={this.toggleModal} size="2x" />
+                                </button>
                                 : <div></div>}
                         </div>
-                    }
+                        <div>
+                            {(!this.state.loading && (images === undefined || images.length == 0)) ?
+                                <div className={`row ${classes.noPhotosWell}`}>No Photos Added</div>
+                                : <div className={`row`}>{imagesGrid}</div>
+                            }
+
+                            <div className='sweet-loading'>
+                                <ClipLoader
+                                    sizeUnit={"px"}
+                                    css={override}
+                                    size={70}
+                                    color={'#61aceb'}
+                                    loading={this.state.loading}
+                                />
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
 

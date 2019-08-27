@@ -33,7 +33,7 @@ class ReviewCard extends Component {
                         {review.bobaShop}
                     </Link>
                     {' '} - {' '}
-                <Link className={`${classes.headerLink}`} to={{ pathname: ROUTES.MEMBERS, state: { userid: review.userid, username: review.username } }}>
+                    <Link className={`${classes.headerLink}`} to={{ pathname: ROUTES.MEMBERS, state: { userid: review.userid, username: review.username } }}>
                         {review.username}
                     </Link>
                 </h4>
@@ -162,6 +162,7 @@ class ReviewCard extends Component {
                             <div className={`${classes.commentsWell}`}>
                                 {review.comments.map((comment, index) => (
                                     <div key={index} className={`${classes.commentWell}`}>
+                                        <img src={comment.avatar} className={classes.avatar}></img>
                                         <div className={`${classes.commentText}`}>
                                             <p>{comment.username} <span style={normal}>{comment.comment}</span></p>
                                         </div>
@@ -173,7 +174,7 @@ class ReviewCard extends Component {
                     {
                         this.props.authUsername ?
                             <button className={`btn btn-primary ${classes.addCommentButton}`}
-                                onClick={() => this.props.toggleCommentModal(review.bobaShop, review.userid, this.props.authUid, this.props.authUsername)}>
+                                onClick={() => this.props.toggleCommentModal(review.bobaShop, review.userid, this.props.authUid, this.props.authUsername, this.props.authAvatar)}>
                                 <FontAwesomeIcon icon={faCommentDots}
                                     className={`${classes.addIcon}`} size="2x" />
                             </button>

@@ -114,6 +114,8 @@ class AutoSuggestLocations extends React.Component {
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderSuggestion}
         inputProps={inputProps}
+        highlightFirstSuggestion={true}
+
       //styling from theme.css   
       />
     );

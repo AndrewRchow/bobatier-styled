@@ -26,9 +26,9 @@ class Modal extends React.Component {
     };
 
     submitComment = () => {
-        const { bobaShop, uid, contextUid, contextUsername } = this.props.commentModal;
+        const { bobaShop, uid, contextUid, contextUsername, contextAvatar } = this.props.commentModal;
         const { comment } = this.state;
-        console.log( bobaShop, uid, contextUid, contextUsername );
+        console.log( bobaShop, uid, contextUid, contextUsername, contextAvatar );
         let dateTime = new Date();
         // dateTime.setSeconds(dateTime.getSeconds() + 3);
         dateTime = dateTime.toLocaleString();
@@ -39,6 +39,7 @@ class Modal extends React.Component {
                 comment,
                 username: contextUsername,
                 uid: contextUid,
+                avatar:contextAvatar,
                 dateTime
             });
         this.props.firebase
@@ -47,6 +48,7 @@ class Modal extends React.Component {
                 comment,
                 username: contextUsername,
                 uid: contextUid,
+                avatar:contextAvatar,
                 dateTime
             })
             .then(() => {

@@ -32,11 +32,13 @@ class HomePage extends React.Component {
       formValues: INITIAL_STATE,
       contextUid: "",
       contextUsername: "",
+      contextAvatar:"",
       commentModal: {
         bobaShop: "",
         uid: "",
         contextUid: "",
         contextUsername: "",
+        contextAvatar: "",
         isOpen: false
       }
     };
@@ -46,7 +48,8 @@ class HomePage extends React.Component {
     if (this.context.authUser != null) {
       this.setState({
         contextUid: this.context.authUser.uid,
-        contextUsername: this.context.username
+        contextUsername: this.context.username,
+        contextAvatar: this.context.avatar
       });
     }
 
@@ -57,7 +60,8 @@ class HomePage extends React.Component {
 
     this.setState({
       contextUid: '',
-      contextUsername: ''
+      contextUsername: '',
+      contextAvatar: ''
     });
   }
 
@@ -65,12 +69,13 @@ class HomePage extends React.Component {
     this.setState({ modalIsOpen: !this.state.modalIsOpen });
   }
 
-  toggleCommentModal = (bobaShop, uid, contextUid, contextUsername) => {
+  toggleCommentModal = (bobaShop, uid, contextUid, contextUsername, contextAvatar) => {
     const commentModal = { ...this.state.commentModal };
     commentModal.bobaShop = bobaShop;
     commentModal.uid = uid;
     commentModal.contextUid = contextUid;
     commentModal.contextUsername = contextUsername;
+    commentModal.contextAvatar = contextAvatar;
     commentModal.isOpen = !commentModal.isOpen;
 
     this.setState({
@@ -115,6 +120,7 @@ class HomePage extends React.Component {
     const dateTime = new Date().toLocaleString();
     const userId = this.context.authUser.uid;
     const username = this.context.username;
+    const avatar = this.context.avatar;
 
     this.props.firebase
     .userReview(userId, bobaShopAndLocation)
@@ -132,7 +138,7 @@ class HomePage extends React.Component {
     this.props.firebase
     .userReview(userId, bobaShopAndLocation)
     .update({
-      username,
+      username, avatar,
       score1, score2, score3, score4,
       score5, score6, score7, score8,
       note, dateTime,
@@ -142,7 +148,7 @@ class HomePage extends React.Component {
     this.props.firebase
       .bobaShopUserReview(bobaShopAndLocation, userId)
       .update({
-        username,
+        username, avatar,
         score1, score2, score3, score4,
         score5, score6, score7, score8,
         note, dateTime
@@ -210,7 +216,7 @@ class HomePage extends React.Component {
   notify = () => toast("Review added");
 
   render() {
-    const { reviews, loading, contextUsername, contextUid } = this.state;
+    const { reviews, loading, contextUsername, contextUid, contextAvatar } = this.state;
     console.log(reviews);
     const override = css`
     display: block;
@@ -248,7 +254,7 @@ class HomePage extends React.Component {
               {reviews.map(review => (
                 <li key={review.bobaShop} className={``}>
                   <ReviewCard isHomeCard="true" editReview={this.editReview} deleteReview={this.deleteReview}
-                    toggleCommentModal={this.toggleCommentModal} authUsername={contextUsername} authUid={contextUid}
+                    toggleCommentModal={this.toggleCommentModal} authUsername={contextUsername} authUid={contextUid} authAvatar={contextAvatar}
                     review={review} />
                 </li>
               ))}

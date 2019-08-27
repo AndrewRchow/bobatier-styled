@@ -36,7 +36,7 @@ class ImageModal extends React.Component {
             backgroundColor: 'rgba(0,0,0,0.7)',
             padding: 50,
             zIndex: 1,
-            overflow:'auto'
+            overflow: 'auto'
         };
 
         // The modal "window"
@@ -57,13 +57,18 @@ class ImageModal extends React.Component {
                             <img src={this.props.imageInfo.url} className={`${classes.largeImage}`} />
                             <div className={`${classes.imageDescriptionArea}`}>
                                 <p>{this.props.imageInfo.description}</p>
-                                <br/>
-                                <p>{this.props.imageInfo.username} {this.props.imageInfo.dateTime}</p>
+                                <br />
+
+                                <div className={`${classes.imageInfoWell}`}>
+                                    <img src={this.props.imageInfo.avatar} className={classes.avatar}></img>
+                                    <p className={`${classes.imageInfoText}`}>{this.props.imageInfo.username} {this.props.imageInfo.dateTime}</p>
+                                </div>
+
                                 {this.props.imageInfo.uid == this.props.contextUid ?
                                     <div>
                                         <br />
-                                        <button className={`btn btn-danger`} 
-                                        onClick={() => this.props.deleteImage(this.props.imageInfo.id, this.props.imageInfo.filename)}
+                                        <button className={`btn btn-danger`}
+                                            onClick={() => this.props.deleteImage(this.props.imageInfo.id, this.props.imageInfo.filename)}
                                         >Delete</button>
                                     </div>
                                     : <div></div>}

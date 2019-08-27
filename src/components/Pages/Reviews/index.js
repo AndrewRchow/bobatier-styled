@@ -26,11 +26,13 @@ class Reviews extends React.Component {
 
             contextUid: "",
             contextUsername: "",
+            contextAvatar: "",
             commentModal: {
                 bobaShop: "",
                 uid: "",
                 contextUid: "",
                 contextUsername: "",
+                contextAvatar: "",
                 isOpen: false
             }
 
@@ -42,7 +44,8 @@ class Reviews extends React.Component {
         if (this.context.authUser != null) {
             this.setState({
                 contextUid: this.context.authUser.uid,
-                contextUsername: this.context.username
+                contextUsername: this.context.username,
+                contextAvatar: this.context.avatar
             });
 
             this.props.firebase.user(this.context.authUser.uid)
@@ -101,12 +104,13 @@ class Reviews extends React.Component {
         this.setState({ reviews: sortedReviews });
     }
 
-    toggleCommentModal = (bobaShop, uid, contextUid, contextUsername) => {
+    toggleCommentModal = (bobaShop, uid, contextUid, contextUsername, contextAvatar) => {
         const commentModal = { ...this.state.commentModal };
         commentModal.bobaShop = bobaShop;
         commentModal.uid = uid;
         commentModal.contextUid = contextUid;
         commentModal.contextUsername = contextUsername;
+        commentModal.contextAvatar = contextAvatar;
         commentModal.isOpen = !commentModal.isOpen;
 
         this.setState({
@@ -115,7 +119,7 @@ class Reviews extends React.Component {
     }
 
     render() {
-        const { reviews, loading, contextUsername, contextUid } = this.state;
+        const { reviews, loading, contextUsername, contextUid, contextAvatar } = this.state;
         const override = css`
             display: block;
             margin: 150px auto;
@@ -148,7 +152,7 @@ class Reviews extends React.Component {
                                 <div key={index}>
                                     <div className={`${classes.reviewWell}`}>
                                         <ReviewCard
-                                            toggleCommentModal={this.toggleCommentModal} authUsername={contextUsername} authUid={contextUid}
+                                            toggleCommentModal={this.toggleCommentModal} authUsername={contextUsername} authUid={contextUid} authAvatar={contextAvatar}
                                             review={review} />
                                     </div>
                                 </div>

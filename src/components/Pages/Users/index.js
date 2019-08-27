@@ -18,16 +18,19 @@ class Users extends React.Component {
 
         this.state = {
             user: '',
+            avatar:'',
             reviews: [],
             numberOfReviews: 0,
 
             contextUid: "",
             contextUsername: "",
+            contextAvatar: "",
             commentModal: {
                 bobaShop: "",
                 uid: "",
                 contextUid: "",
                 contextUsername: "",
+                contextAvatar:"",
                 isOpen: false
             }
         }
@@ -37,7 +40,8 @@ class Users extends React.Component {
         if (this.context.authUser != null) {
             this.setState({
                 contextUid: this.context.authUser.uid,
-                contextUsername: this.context.username
+                contextUsername: this.context.username,
+                contextAvatar: this.context.avatar
             });
         }
         if (this.props.location.state) {
@@ -50,16 +54,19 @@ class Users extends React.Component {
         this.props.firebase.userReviews().off();
         this.setState({
             contextUid: '',
-            contextUsername: ''
+            contextUsername: '',
+            contextAvatar:''
         });
     }
 
-    toggleCommentModal = (bobaShop, uid, contextUid, contextUsername) => {
+    toggleCommentModal = (bobaShop, uid, contextUid, contextUsername, contextAvatar) => {
+        console.log(bobaShop, uid, contextUid, contextUsername, contextAvatar);
         const commentModal = { ...this.state.commentModal };
         commentModal.bobaShop = bobaShop;
         commentModal.uid = uid;
         commentModal.contextUid = contextUid;
         commentModal.contextUsername = contextUsername;
+        commentModal.contextAvatar = contextAvatar;
         commentModal.isOpen = !commentModal.isOpen;
 
         this.setState({
@@ -121,7 +128,8 @@ class Users extends React.Component {
     }
 
     render() {
-        const { user, reviews, numberOfReviews, contextUid, contextUsername } = this.state;
+        const { user, reviews, numberOfReviews, contextUid, contextUsername, contextAvatar } = this.state;
+        console.log(contextAvatar)
 
         return (
             <div className='container'>
@@ -157,7 +165,7 @@ class Users extends React.Component {
                                 {reviews.map(review => (
                                     <li key={review.bobaShop} className={`${classes.well}`}>
                                         <ReviewCard
-                                            toggleCommentModal={this.toggleCommentModal} authUsername={contextUsername} authUid={contextUid}
+                                            toggleCommentModal={this.toggleCommentModal} authUsername={contextUsername} authUid={contextUid} authAvatar={contextAvatar}
                                             review={review} />
                                     </li>
                                 ))}
