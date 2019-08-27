@@ -45,7 +45,6 @@ class SignInForm extends Component {
     this.setState({ loading: true });
     this.listener = this.props.firebase.auth1.onAuthStateChanged((user) => {
       if (user) {
-        console.log('1111', user);
         this.props.firebase
               .user(user.uid)
               .update({
@@ -121,7 +120,7 @@ class SignInForm extends Component {
     //       this.setState({ error, loading: false });
     //     });
     // })
-    event.preventDefault();
+    // event.preventDefault();
 
   };
 

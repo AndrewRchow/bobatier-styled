@@ -40,7 +40,6 @@ class Reviews extends React.Component {
     }
 
     componentDidMount() {
-        console.log(11111, this.context);
         if (this.context.authUser != null) {
             this.setState({
                 contextUid: this.context.authUser.uid,

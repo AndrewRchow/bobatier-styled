@@ -32,7 +32,7 @@ class HomePage extends React.Component {
       formValues: INITIAL_STATE,
       contextUid: "",
       contextUsername: "",
-      contextAvatar:"",
+      contextAvatar: "",
       commentModal: {
         bobaShop: "",
         uid: "",
@@ -45,12 +45,30 @@ class HomePage extends React.Component {
   }
 
   componentDidMount() {
+    this.setState({
+      loading: true
+    });
     if (this.context.authUser != null) {
       this.setState({
         contextUid: this.context.authUser.uid,
         contextUsername: this.context.username,
         contextAvatar: this.context.avatar
       });
+    }
+
+    if (this.props.location.state) {
+      let shop = this.props.location.state.shop;
+      const newFormValues = {
+        bobaShop: shop, username: '', location: '',
+        score1: 1, score2: 1, score3: 1, score4: 1,
+        score5: 1, score6: 1, score7: 1, score8: 1,
+        note: "", error: null,
+      };
+      this.setState({
+        formValues: newFormValues
+      }, () => {
+        this.toggleModal();
+      })
     }
 
     this.getReviewList();
@@ -123,27 +141,27 @@ class HomePage extends React.Component {
     const avatar = this.context.avatar;
 
     this.props.firebase
-    .userReview(userId, bobaShopAndLocation)
-    .once('value').then((snapshot) =>{
-      if(!snapshot.val()){
-        this.props.firebase
-        .reviewDateTimes()
-        .push({
-          dateTime
-        })
-        .catch(error => { this.setState({ error }); });
-      }
-    })
+      .userReview(userId, bobaShopAndLocation)
+      .once('value').then((snapshot) => {
+        if (!snapshot.val()) {
+          this.props.firebase
+            .reviewDateTimes()
+            .push({
+              dateTime
+            })
+            .catch(error => { this.setState({ error }); });
+        }
+      })
 
     this.props.firebase
-    .userReview(userId, bobaShopAndLocation)
-    .update({
-      username, avatar,
-      score1, score2, score3, score4,
-      score5, score6, score7, score8,
-      note, dateTime,
-    })
-    .catch(error => { this.setState({ error }); });
+      .userReview(userId, bobaShopAndLocation)
+      .update({
+        username, avatar,
+        score1, score2, score3, score4,
+        score5, score6, score7, score8,
+        note, dateTime,
+      })
+      .catch(error => { this.setState({ error }); });
 
     this.props.firebase
       .bobaShopUserReview(bobaShopAndLocation, userId)
@@ -185,9 +203,8 @@ class HomePage extends React.Component {
         }))
         this.sortReviews(myReviewsList)
       } else {
-        this.setState({ reviews: [] });
+        this.setState({ reviews: [], loading: false });
       }
-      this.setState({ loading: false });
     });
   }
 
@@ -210,14 +227,13 @@ class HomePage extends React.Component {
     sortedReviews.sort(function (a, b) {
       return new Date(b.dateTime) - new Date(a.dateTime);
     });
-    this.setState({ reviews: sortedReviews });
+    this.setState({ reviews: sortedReviews, loading: false });
   }
 
   notify = () => toast("Review added");
 
   render() {
     const { reviews, loading, contextUsername, contextUid, contextAvatar } = this.state;
-    console.log(reviews);
     const override = css`
     display: block;
     margin: 150px auto;`;
@@ -225,6 +241,8 @@ class HomePage extends React.Component {
     return (
       <div className='container'>
         <div className={classes.inlineParent}>
+          <img src={contextAvatar} className={classes.avatar}></img>
+
           <h5 style={{ marginLeft: '15px' }}>
             My Reviews
           </h5>

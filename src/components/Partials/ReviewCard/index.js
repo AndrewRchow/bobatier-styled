@@ -32,7 +32,11 @@ class ReviewCard extends Component {
                     <Link className={`${classes.headerLink}`} to={{ pathname: ROUTES.SHOPS, state: { shop: review.bobaShop } }}>
                         {review.bobaShop}
                     </Link>
-                    {' '} - {' '}
+                </h4>
+                {/* {' '} - {' '} */}
+                <h4>
+                    <img src={review.avatar} className={classes.avatarHeader}></img>
+
                     <Link className={`${classes.headerLink}`} to={{ pathname: ROUTES.MEMBERS, state: { userid: review.userid, username: review.username } }}>
                         {review.username}
                     </Link>

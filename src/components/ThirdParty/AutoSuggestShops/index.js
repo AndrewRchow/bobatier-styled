@@ -115,7 +115,7 @@ class AutoSuggestShops extends React.Component {
         renderSuggestion={renderSuggestion}
         inputProps={inputProps}
         highlightFirstSuggestion={true}
-        alwaysRenderSuggestions={true}
+        // alwaysRenderSuggestions={true}
       //styling from theme.css   
       />
     );

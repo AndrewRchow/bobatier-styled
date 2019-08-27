@@ -31,10 +31,7 @@ class Firebase {
   provider = new firebase.auth.GoogleAuthProvider();
 
   googleLogin = () => {
-    console.log('1');
     firebase.auth().signInWithRedirect(this.provider);
-    console.log('2');
-
   }
 
   getRedirect = () => {

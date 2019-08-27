@@ -10,6 +10,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 import { ReactComponent as Logo } from '../../../media/images/people.svg';
 
+import { ClipLoader } from 'react-spinners';
+import { css } from '@emotion/core';
+import logo from '../../../media/images/shiba.jpg';
+
 class Users extends React.Component {
     static contextType = AuthUserContext;
 
@@ -18,9 +22,10 @@ class Users extends React.Component {
 
         this.state = {
             user: '',
-            avatar:'',
+            avatar: '',
             reviews: [],
             numberOfReviews: 0,
+            loading: false,
 
             contextUid: "",
             contextUsername: "",
@@ -30,7 +35,7 @@ class Users extends React.Component {
                 uid: "",
                 contextUid: "",
                 contextUsername: "",
-                contextAvatar:"",
+                contextAvatar: "",
                 isOpen: false
             }
         }
@@ -45,9 +50,14 @@ class Users extends React.Component {
             });
         }
         if (this.props.location.state) {
-            const userid = this.props.location.state.userid;
-            const username = this.props.location.state.username;
-            this.getUserReviews(userid, username);
+            this.setState({
+                loading: true
+            }, () => {
+                const userid = this.props.location.state.userid;
+                const username = this.props.location.state.username;
+                this.getUserReviews(userid, username);
+            });
+
         }
     }
     componentWillUnmount() {
@@ -55,12 +65,11 @@ class Users extends React.Component {
         this.setState({
             contextUid: '',
             contextUsername: '',
-            contextAvatar:''
+            contextAvatar: ''
         });
     }
 
     toggleCommentModal = (bobaShop, uid, contextUid, contextUsername, contextAvatar) => {
-        console.log(bobaShop, uid, contextUid, contextUsername, contextAvatar);
         const commentModal = { ...this.state.commentModal };
         commentModal.bobaShop = bobaShop;
         commentModal.uid = uid;
@@ -100,6 +109,7 @@ class Users extends React.Component {
                     numberOfReviews: 0,
                     user: username,
                     reviews: [],
+                    loading: false
                 })
             }
         });
@@ -124,12 +134,18 @@ class Users extends React.Component {
         sortedReviews.sort(function (a, b) {
             return new Date(b.dateTime) - new Date(a.dateTime);
         });
-        this.setState({ reviews: sortedReviews });
+        this.setState({
+            reviews: sortedReviews,
+            loading: false
+        });
     }
 
     render() {
-        const { user, reviews, numberOfReviews, contextUid, contextUsername, contextAvatar } = this.state;
-        console.log(contextAvatar)
+        const { user, reviews, numberOfReviews, contextUid, contextUsername, contextAvatar, loading } = this.state;
+        const override = css`
+        display: block;
+        margin: 120px auto;
+        `;
 
         return (
             <div className='container'>
@@ -148,7 +164,19 @@ class Users extends React.Component {
                 </div>
 
                 <div>
-
+                    {
+                        loading ?
+                            <div className='sweet-loading'>
+                                <ClipLoader
+                                    sizeUnit={"px"}
+                                    css={override}
+                                    size={70}
+                                    color={'#61aceb'}
+                                    loading={this.state.loading}
+                                />
+                            </div>
+                            : <div></div>
+                    }
                     {reviews === undefined || reviews.length == 0 ?
 
                         <div>

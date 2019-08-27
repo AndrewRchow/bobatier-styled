@@ -28,7 +28,6 @@ class Modal extends React.Component {
     submitComment = () => {
         const { bobaShop, uid, contextUid, contextUsername, contextAvatar } = this.props.commentModal;
         const { comment } = this.state;
-        console.log( bobaShop, uid, contextUid, contextUsername, contextAvatar );
         let dateTime = new Date();
         // dateTime.setSeconds(dateTime.getSeconds() + 3);
         dateTime = dateTime.toLocaleString();

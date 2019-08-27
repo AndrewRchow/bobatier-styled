@@ -63,9 +63,16 @@ class Landing extends React.Component {
 
       finalScore = (parseFloat(score1Total) + parseFloat(score2Total) + parseFloat(score3Total) + parseFloat(score4Total) +
         parseFloat(score5Total) + parseFloat(score6Total) + parseFloat(score7Total) + parseFloat(score8Total)) / (count * 8);
+      const unmodifiedFinal = finalScore;
+      if (reviewCount < 6) {
+        const decrease = 1.75 - (reviewCount * 0.25);
+        finalScore = finalScore - decrease;
+      }
+
       grades[shop] = {
         shopName: shop,
         finalScore: finalScore,
+        unmodifiedFinal: unmodifiedFinal,
         reviewCount: reviewCount
       }
 
@@ -123,7 +130,7 @@ class Landing extends React.Component {
   }
 
   render() {
-    const { tierList } = this.state;
+    const { tierList, grades } = this.state;
 
     const divStyle = {
       display: 'inline',
@@ -147,7 +154,7 @@ class Landing extends React.Component {
       <div className={`container`}>
         <div className={`row`}>
           <div className={`col-12 ${classes.header}`}>
-            <h5>AAAA</h5>
+            <h5>Tier List</h5>
           </div>
         </div>
         <div className={`${classes.tierList}`}>
@@ -184,10 +191,10 @@ class Landing extends React.Component {
           </div>
         </div>
         <div>
-            {ROUTES.DEVELOP == false ?
-              <img src={logo} className={classes.image} />
-              : <div></div>}
-          </div>
+          {ROUTES.DEVELOP == false ?
+            <img src={logo} className={classes.image} />
+            : <div></div>}
+        </div>
 
       </div >
 

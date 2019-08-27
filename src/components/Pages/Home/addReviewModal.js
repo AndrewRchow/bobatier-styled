@@ -30,6 +30,7 @@ class AddReviewModal extends React.Component {
             bobaShopAndLocation.lastIndexOf("(") + 1,
             bobaShopAndLocation.lastIndexOf(")")
         );
+
         this.setState({
             bobaShop: shop,
             location: location
@@ -88,7 +89,6 @@ class AddReviewModal extends React.Component {
             score5, score6, score7, score8,
             note, error,
         } = this.state;
-
         const scores = [score1, score2, score3, score4, score5, score6, score7, score8];
         const scoreNames = ["Drink Quality:", "Sweet Boba:", "Chewy Boba:", "Customize:", "Consistent:", "Variety:", "Price:", "Overall:"];
 

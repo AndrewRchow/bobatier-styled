@@ -117,7 +117,6 @@ class Photos extends React.Component {
                     id: key,
                     ...shopImagesObject[key],
                 }));
-                console.log(shopImagesList)
                 return shopImagesList;
             } else {
                 return null;
@@ -188,7 +187,6 @@ class Photos extends React.Component {
 
     render() {
         const { shop, contextUid, images } = this.state;
-        console.log(555, images);
         const imagesGrid = [];
         for (const [index, value] of images.entries()) {
             imagesGrid.push(
@@ -197,7 +195,6 @@ class Photos extends React.Component {
                         onClick={() => this.toggleImage(value)} />
                 </div>
             )
-            console.log(value.url);
 
         }
 

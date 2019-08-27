@@ -14,6 +14,12 @@ import { faUsers, faImage } from '@fortawesome/free-solid-svg-icons'
 
 import { ReactComponent as Logo } from '../../../media/images/coffee.svg';
 
+import { ClipLoader } from 'react-spinners';
+import { css } from '@emotion/core';
+import logo from '../../../media/images/shiba.jpg';
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+
+
 class Shops extends React.Component {
     static contextType = AuthUserContext;
 
@@ -24,16 +30,17 @@ class Shops extends React.Component {
             shop: '',
             reviews: [],
             numberOfReviews: 0,
+            loading: false,
 
             contextUid: "",
             contextUsername: "",
-            contextAvatar:"",
+            contextAvatar: "",
             commentModal: {
                 bobaShop: "",
                 uid: "",
                 contextUid: "",
                 contextUsername: "",
-                contextAvatar:"",
+                contextAvatar: "",
                 isOpen: false
             }
         }
@@ -48,8 +55,12 @@ class Shops extends React.Component {
             });
         }
         if (this.props.location.state) {
-            const shop = this.props.location.state.shop;
-            this.getShopReviews(shop);
+            this.setState({
+                loading: true
+            }, () => {
+                const shop = this.props.location.state.shop;
+                this.getShopReviews(shop);
+            });
         }
     }
     componentWillUnmount() {
@@ -57,7 +68,7 @@ class Shops extends React.Component {
         this.setState({
             contextUid: '',
             contextUsername: '',
-            contextAvatar:''
+            contextAvatar: ''
         });
     }
 
@@ -100,7 +111,8 @@ class Shops extends React.Component {
                 this.setState({
                     numberOfReviews: 0,
                     shop: shop,
-                    reviews: []
+                    reviews: [],
+                    loading: false
                 })
             }
         })
@@ -126,7 +138,10 @@ class Shops extends React.Component {
         sortedReviews.sort(function (a, b) {
             return new Date(b.dateTime) - new Date(a.dateTime);
         });
-        this.setState({ reviews: sortedReviews });
+        this.setState({
+            reviews: sortedReviews,
+            loading: false
+        });
     }
 
     // gradeReviews = () => {
@@ -156,7 +171,11 @@ class Shops extends React.Component {
     // }
 
     render() {
-        const { shop, reviews, numberOfReviews, contextUsername, contextUid, contextAvatar } = this.state;
+        const { shop, reviews, numberOfReviews, contextUsername, contextUid, contextAvatar, loading } = this.state;
+        const override = css`
+        display: block;
+        margin: 120px auto;
+        `;
 
         return (
             <div className='container'>
@@ -174,7 +193,19 @@ class Shops extends React.Component {
                     </div>
                 </div>
                 <div>
-
+                    {
+                        loading ?
+                            <div className='sweet-loading'>
+                                <ClipLoader
+                                    sizeUnit={"px"}
+                                    css={override}
+                                    size={70}
+                                    color={'#61aceb'}
+                                    loading={this.state.loading}
+                                />
+                            </div>
+                            : <div></div>
+                    }
                     {reviews === undefined || reviews.length == 0 ?
                         <div>
                             {ROUTES.DEVELOP == false ?
@@ -186,6 +217,15 @@ class Shops extends React.Component {
                             <h4 className={`${classes.info}`} style={{ display: 'inline' }}>
                                 {shop}
                             </h4>
+                            <Link to={{ pathname: ROUTES.HOME, state: { shop: shop } }}>
+                                <button 
+                                // onClick={this.newReview}
+                                    className={`btn btn-primary`} style={{ marginLeft: '20px' }}>
+                                    <FontAwesomeIcon icon={faPlus}
+                                        className={`${classes.addIcon}`} size="1x" />
+                                </button>
+                            </Link>
+
                             <h4 className={`${classes.info}`} style={{ display: 'inline-block' }}>
                                 <FontAwesomeIcon icon={faUsers} size="1x" style={{ verticalAlign: 'middle' }} /> {' '} {numberOfReviews} {' '}
                                 <Link to={{ pathname: ROUTES.PHOTOS, state: { shop: shop } }} style={{ paddingLeft: '20px' }}>
